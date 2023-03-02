@@ -25,3 +25,14 @@ export const PAYMENT_STATUS = {
   Failed: "Failed",
   Refunded: "Refunded",
 };
+
+export const GiFT_CARD_STATUS = {
+  Active: "Active",
+  Redeemed: "Redeemed",
+};
+
+export const TRANSACTION_STATUS = {
+  Completed: "Completed",
+  Pending: "Pending",
+  Refunded: "Refunded",
+};

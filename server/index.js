@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import { ROLES } from "./constants.js";
 
 // Dotenv config
 dotenv.config();
