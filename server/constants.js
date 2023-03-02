@@ -36,3 +36,8 @@ export const TRANSACTION_STATUS = {
   Pending: "Pending",
   Refunded: "Refunded",
 };
+
+export const PROMOTION_TYPE = {
+  Percentage: "Percentage",
+  Fixed: "Fixed",
+};

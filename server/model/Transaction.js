@@ -26,9 +26,9 @@ const transactionSchema = new Schema(
       ref: "User",
       required: true,
     },
-    serviceProvider: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: "ServiceProvider",
+      ref: "User",
       required: true,
     },
   },

@@ -38,6 +38,10 @@ const giftCardSchema = new Schema(
         ref: "Transaction",
       },
     ],
+    promotion: {
+      type: Schema.Types.ObjectId,
+      ref: "Promotion",
+    },
   },
   { timestamps: true }
 );

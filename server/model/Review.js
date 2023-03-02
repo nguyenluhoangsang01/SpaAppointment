@@ -15,9 +15,9 @@ const reviewSchema = new Schema(
       ref: "User",
       required: true,
     },
-    serviceProvider: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: "ServiceProvider",
+      ref: "USer",
       required: true,
     },
   },
