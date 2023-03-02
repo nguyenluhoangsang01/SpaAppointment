@@ -2,13 +2,26 @@ export const ROLES = {
   Admin: "Admin",
   "Service Provider": "Service Provider",
   Customer: "Customer",
-  Receptionist: "Receptionist",
   Manager: "Manager",
+  Receptionist: "Receptionist",
 };
 
 export const APPOINTMENT_STATUS = {
   Booked: "Booked",
-  Confirmed: "Confirmed",
   Cancelled: "Cancelled",
   Completed: "Completed",
+  Confirmed: "Confirmed",
+};
+
+export const PAYMENT_METHOD = {
+  Cash: "Cash",
+  "Credit cards": "Credit cards",
+  "Gift cards": "Gift cards",
+};
+
+export const PAYMENT_STATUS = {
+  Approved: "Approved",
+  Created: "Created",
+  Failed: "Failed",
+  Refunded: "Refunded",
 };
