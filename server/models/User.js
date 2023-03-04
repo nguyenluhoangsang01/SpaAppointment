@@ -36,33 +36,9 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: "",
+      default: "https://i.pravatar.cc/300",
     },
     bio: String,
-    availability: [
-      {
-        dayOfWeek: {
-          type: Number,
-          required: true,
-        },
-        startTime: {
-          type: String,
-          required: true,
-        },
-        endTime: {
-          type: String,
-          required: true,
-        },
-        timezone: {
-          type: String,
-          required: true,
-        },
-        location: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
     services: [
       {
         type: Schema.Types.ObjectId,
