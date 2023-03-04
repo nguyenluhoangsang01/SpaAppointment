@@ -39,8 +39,7 @@ export const validateUser = (req, res, next) => {
         minimum: 8,
       },
       format: {
-        pattern:
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
         message:
           "must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
       },

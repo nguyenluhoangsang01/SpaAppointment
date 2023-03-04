@@ -14,11 +14,21 @@ export const create = async (req, res, next) => {
     // Check email exists or not in database
     const isEmailExists = await User.findOne({ email });
     if (isEmailExists)
-      return sendError(res, "Email already exists", 400, "email");
+      return sendError(
+        res,
+        "User with this email already exists",
+        409,
+        "email"
+      );
     // Check phone exists or not in database
     const isPhoneExists = await User.findOne({ phone });
     if (isPhoneExists)
-      return sendError(res, "Phone already exists", 400, "phone");
+      return sendError(
+        res,
+        "User with this phone number already exists",
+        409,
+        "phone"
+      );
 
     // Hash password
     const hashedPassword = await hashPassword(password);
