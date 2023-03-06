@@ -51,6 +51,8 @@ const userSchema = new Schema(
         ref: "Appointment",
       },
     ],
+    loggedInAt: String,
+    loggedInIP: String,
   },
   { timestamps: true }
 );

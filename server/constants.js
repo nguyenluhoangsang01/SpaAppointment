@@ -41,3 +41,10 @@ export const PROMOTION_TYPE = {
   Percentage: "Percentage",
   Fixed: "Fixed",
 };
+
+export const formatTime = "MMM Do YYYY, h:mm:ss A";
+
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+
+export const phoneRegex =
+  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;

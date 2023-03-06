@@ -1,15 +1,24 @@
 import validate from "validate.js";
-import { ROLES } from "../constants.js";
+import { passwordRegex, phoneRegex, ROLES } from "../constants.js";
 import sendError from "../utils/sendError.js";
 
-export const validateUser = (req, res, next) => {
+export const validateAuth = (req, res, next) => {
   // Get data from request body
-  const { address, email, firstName, lastName, password, phone, role } =
-    req.body;
+  const {
+    address,
+    confirmPassword,
+    email,
+    firstName,
+    lastName,
+    password,
+    phone,
+    role,
+  } = req.body;
 
   // The properties to validate
   const attributes = {
     address,
+    confirmPassword,
     email,
     firstName,
     lastName,
@@ -22,6 +31,10 @@ export const validateUser = (req, res, next) => {
   const constraints = {
     address: {
       presence: true,
+    },
+    confirmPassword: {
+      presence: true,
+      equality: "password",
     },
     email: {
       presence: true,
@@ -39,7 +52,7 @@ export const validateUser = (req, res, next) => {
         minimum: 8,
       },
       format: {
-        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+        pattern: passwordRegex,
         message:
           "must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
       },
@@ -47,7 +60,7 @@ export const validateUser = (req, res, next) => {
     phone: {
       presence: true,
       format: {
-        pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+        pattern: phoneRegex,
         message: "must be a valid phone number",
       },
     },
@@ -63,7 +76,7 @@ export const validateUser = (req, res, next) => {
 
   // Check if errors occur
   if (errors) {
-    sendError(res, errors);
+    sendError(res, errors, 400, Object.keys(errors));
   } else {
     next();
   }

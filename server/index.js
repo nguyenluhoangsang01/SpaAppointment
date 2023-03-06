@@ -6,7 +6,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 // Import routes
-import userRoutes from "./routes/user.js";
+import authRoutes from "./routes/auth.js";
 
 // Config dotenv
 dotenv.config();
@@ -63,7 +63,7 @@ app.listen(PORT, () => {
 });
 
 // Routes
-app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // Route not found
 app.use("/*", (_req, res) => {
