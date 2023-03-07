@@ -1,6 +1,6 @@
 export const ROLES = {
   Admin: "Admin",
-  "Service Provider": "Service Provider",
+  Staff: "Staff",
   Customer: "Customer",
   Manager: "Manager",
   Receptionist: "Receptionist",
@@ -44,7 +44,8 @@ export const PROMOTION_TYPE = {
 
 export const formatTime = "MMM Do YYYY, h:mm:ss A";
 
-export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+export const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
 
 export const phoneRegex =
   /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
