@@ -14,8 +14,8 @@ dotenv.config();
 // Constants
 const HOST = process.env.HOST;
 const API_BASE_ENDPOINT_CLIENT = process.env.API_BASE_ENDPOINT_CLIENT;
-const PORT = process.env.PORT;
 const NODE_ENV = process.env.NODE_ENV;
+const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
