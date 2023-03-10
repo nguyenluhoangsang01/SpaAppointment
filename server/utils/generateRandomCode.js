@@ -1,16 +1,16 @@
 const generateRandomCode = () => {
-  let string = "";
-  const maxLength = 13;
-  const max = 90;
-  const min = 65;
+	let string = "";
+	const maxLength = 13;
+	const max = 90;
+	const min = 65;
 
-  for (let index = 0; index < maxLength; index++) {
-    const getRandomArbitrary = Math.random() * (max - min) + min;
+	for (let index = 0; index < maxLength; index++) {
+		const getRandomArbitrary = Math.random() * (max - min) + min;
 
-    string = string + String.fromCharCode(getRandomArbitrary);
-  }
+		string = string + String.fromCharCode(getRandomArbitrary);
+	}
 
-  return string;
+	return string;
 };
 
 export default generateRandomCode;

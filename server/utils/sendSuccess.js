@@ -1,13 +1,13 @@
 const sendSuccess = (res, message, data = null, statusCode = 200) => {
-  let resJson = {
-    success: true,
-    status: statusCode,
-    message,
-  };
+	let resJson = {
+		success: true,
+		status: statusCode,
+		message,
+	};
 
-  if (data) resJson.data = data;
+	if (data) resJson.data = data;
 
-  return res.status(statusCode).json(resJson);
+	return res.status(statusCode).json(resJson);
 };
 
 export default sendSuccess;
