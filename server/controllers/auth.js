@@ -83,7 +83,7 @@ export const login = async (req, res, next) => {
 
   // Validate auth
   if (!email && !phone)
-    return sendError(res, "Email or phone can't be blank", 400, "emailOrPhone");
+    return sendError(res, "Email or phone number can't be blank", 400, "emailOrPhone");
   if (!password)
     return sendError(res, "Password can't be blank", 400, "password");
 
