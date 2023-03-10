@@ -1,5 +1,9 @@
 import express from "express";
-import { getAllUsers, getUserById } from "../controllers/user.js";
+import {
+	getAllUsers,
+	getUserById,
+	getUserProfile
+} from "../controllers/user.js";
 
 // Config router
 const router = express.Router();
@@ -13,5 +17,10 @@ router.get("/", getAllUsers);
 // @desc Get user by id
 // @access Private
 router.get("/:id", getUserById);
+
+// @route GET api/user/profile
+// @desc Get user profile
+// @access Private
+router.get("/profile", getUserProfile);
 
 export default router;

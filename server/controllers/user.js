@@ -31,7 +31,7 @@ export const getUserById = async (req, res, next) => {
 	}
 };
 
-export const getProfile = async (req, res, next) => {
+export const getUserProfile = async (req, res, next) => {
 	try {
 		// Get user id from request
 		const { userId } = req;

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import moment from "moment";
 import { formatTime } from "../constants.js";
 import User from "../models/User.js";
+import generateAccessToken from "../utils/generateAccessToken.js";
 import hashPassword from "../utils/hashPassword.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
@@ -14,12 +15,12 @@ const ACCESS_TOKEN_EXPIRES_IN = "15m";
 const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
 export const register = async (req, res, next) => {
-	try {
-		// Get data from request body
-		const { email, password, phone } = req.body;
-		// Get file from request
-		const { file } = req;
+	// Get data from request body
+	const { email, password, phone } = req.body;
+	// Get file from request
+	const { file } = req;
 
+	try {
 		// Check email exists or not in database
 		const isEmailExists = await User.findOne({ email });
 		if (isEmailExists)
@@ -157,6 +158,41 @@ export const login = async (req, res, next) => {
 		return sendSuccess(res, "User logged successfully", {
 			accessToken,
 			refreshToken,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+export const refreshToken = async (req, res, next) => {
+	// Get refresh token secret from .env file
+	const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+
+	// Get refresh token from request body
+	const { refreshToken } = req.body;
+
+	// Check refresh token do not exist
+	if (!refreshToken) return sendError(res, "Refresh token can't be blank");
+
+	try {
+		// Use jwt to verify refresh token and get user
+		jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, async (error) => {
+			if (error)
+				return sendError(
+					res,
+					"Refresh token has expired or is otherwise invalid",
+					498
+				);
+
+			// Generate new access token using the refresh token
+			const accessToken = await generateAccessToken(res, refreshToken);
+
+			// Send success notification
+			return sendSuccess(
+				res,
+				"Refresh access token successfully",
+				accessToken
+			);
 		});
 	} catch (error) {
 		next(error);
