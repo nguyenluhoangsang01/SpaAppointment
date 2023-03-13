@@ -48,3 +48,11 @@ export const passwordRegex =
 
 export const phoneRegex =
 	/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
+export const avatarOptions = {
+	folder: "avatar",
+	unique_filename: true,
+	resource_type: "image",
+	use_filename: true,
+	overwrite: true,
+};

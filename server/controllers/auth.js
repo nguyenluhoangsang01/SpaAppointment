@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ip from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment";
-import { formatTime } from "../constants.js";
+import { avatarOptions, formatTime } from "../constants.js";
 import User from "../models/User.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import hashPassword from "../utils/hashPassword.js";
@@ -46,17 +46,10 @@ export const register = async (req, res, next) => {
 		let newUser;
 		// Check file exists or not
 		if (file) {
-			const imagePath = file.path;
-			const options = {
-				folder: "avatar",
-				unique_filename: true,
-				resource_type: "image",
-				use_filename: true,
-				overwrite: true,
-			};
+			const { path } = file;
 
 			await cloudinary.uploader
-				.upload(imagePath, options)
+				.upload(path, avatarOptions)
 				.then(async (result) => {
 					// Create a new user with avatar
 					newUser = new User({
@@ -188,11 +181,7 @@ export const refreshToken = async (req, res, next) => {
 			const accessToken = await generateAccessToken(res, refreshToken);
 
 			// Send success notification
-			return sendSuccess(
-				res,
-				"Refresh access token successfully",
-				accessToken
-			);
+			return sendSuccess(res, "Refresh access token successfully", accessToken);
 		});
 	} catch (error) {
 		next(error);
