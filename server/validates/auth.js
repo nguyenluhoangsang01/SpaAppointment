@@ -76,7 +76,7 @@ export const validateAuth = (req, res, next) => {
 
 	// Check if errors occur
 	if (errors) {
-		sendError(res, errors, 400, Object.keys(errors));
+		return sendError(res, errors, 400, Object.keys(errors));
 	} else {
 		next();
 	}

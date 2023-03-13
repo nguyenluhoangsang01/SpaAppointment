@@ -187,3 +187,19 @@ export const refreshToken = async (req, res, next) => {
 		next(error);
 	}
 };
+
+export const logout = async (req, res, next) => {
+	try {
+		// Clear access token cookie for the client
+		res.clearCookie("accessToken");
+		res.clearCookie("refreshToken");
+
+		// Clear access token and refresh by setting the Authorization header to an empty string
+		res.set("authorization", "");
+
+		// Send success notification
+		return sendSuccess(res, "User logout successfully");
+	} catch (error) {
+		next(error);
+	}
+};

@@ -1,6 +1,9 @@
 import express from "express";
 import multer from "multer";
 import {
+	changePassword,
+	deleteAllUsers,
+	deleteUserProfile,
 	getAllUsers,
 	getUserById,
 	getUserProfile,
@@ -8,7 +11,7 @@ import {
 } from "../controllers/user.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateAuth } from "../validates/auth.js";
+import { validateChangePassword, validateUser } from "../validates/user.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -22,10 +25,10 @@ const router = express.Router();
 // @access Private
 router.get("/", verifyToken, verifyAdmin, getAllUsers);
 
-// @route GET api/user/:id
+// @route GET api/user/profile/:id
 // @desc Get user by id
 // @access Private
-router.get("/:id", verifyToken, getUserById);
+router.get("/profile/:id", verifyToken, getUserById);
 
 // @route GET api/user/profile
 // @desc Get user profile
@@ -33,14 +36,34 @@ router.get("/:id", verifyToken, getUserById);
 router.get("/profile", verifyToken, getUserProfile);
 
 // @route PATCH api/user/profile
-// @desc Update profile of user
+// @desc Update user's profile
 // @access Private
 router.patch(
 	"/profile",
 	upload.single("avatar"),
 	verifyToken,
-	validateAuth,
+	validateUser,
 	updateUserProfile
 );
+
+// @route PATCH api/user/profile/change-password
+// @desc Change password of current user
+// @access Private
+router.patch(
+	"/profile/change-password",
+	verifyToken,
+	validateChangePassword,
+	changePassword
+);
+
+// @route DELETE api/user
+// @desc Delete all users
+// @access Private
+router.delete("/", verifyToken, verifyAdmin, deleteAllUsers);
+
+// @route DELETE api/user/:id
+// @desc Delete user by id
+// @access Private
+router.delete("/:id", verifyToken, verifyAdmin, deleteUserProfile);
 
 export default router;
