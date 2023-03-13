@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { login, refreshToken, register } from "../controllers/auth.js";
+import verifyToken from "../middleware/verifyToken.js";
 import { validateAuth } from "../validates/auth.js";
 
 // Config multer
@@ -23,6 +24,6 @@ router.post("/login", login);
 // @route POST api/auth/refresh-token
 // @desc Refresh new access token
 // @access Private
-router.post("/refresh-token", refreshToken);
+router.post("/refresh-token", verifyToken, refreshToken);
 
 export default router;

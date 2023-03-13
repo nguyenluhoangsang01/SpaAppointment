@@ -6,7 +6,7 @@ const generateAccessToken = (res, refreshToken) => {
 	const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 	return new Promise((resolve, reject) => {
-		jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (error, user) => {
+		jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (error, decoded) => {
 			if (error) {
 				reject(
 					sendError(
@@ -17,7 +17,7 @@ const generateAccessToken = (res, refreshToken) => {
 				);
 			} else {
 				const accessToken = jwt.sign(
-					{ userId: user.userId },
+					{ userId: decoded.userId },
 					ACCESS_TOKEN_SECRET,
 					{
 						expiresIn: "15m",
