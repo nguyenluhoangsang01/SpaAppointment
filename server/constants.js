@@ -56,3 +56,11 @@ export const avatarOptions = {
 	use_filename: true,
 	overwrite: true,
 };
+
+export const serviceOptions = {
+	folder: "service",
+	unique_filename: true,
+	resource_type: "image",
+	use_filename: true,
+	overwrite: true,
+};

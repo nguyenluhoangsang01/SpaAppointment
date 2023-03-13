@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 
 // Import routes
 import authRoutes from "./routes/auth.js";
+import serviceRoutes from "./routes/service.js";
 import userRoutes from "./routes/user.js";
 
 // Config dotenv
@@ -66,6 +67,7 @@ app.listen(PORT, () => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/service", serviceRoutes);
 
 // Route not found
 app.use("/*", (_req, res) => {

@@ -20,10 +20,10 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUserById = async (req, res, next) => {
-	try {
-		// Get user id from request params
-		const { id } = req.params;
+	// Get user id from request params
+	const { id } = req.params;
 
+	try {
 		// Get user by id
 		const user = await User.findById(id).select("-__v -password");
 		if (!user) return sendError(res, "User not found", 404);
@@ -183,8 +183,10 @@ export const changePassword = async (req, res, next) => {
 
 export const deleteAllUsers = async (req, res, next) => {
 	try {
+		// Delete all users
 		await User.deleteMany();
 
+		// Send success notification
 		return sendError(res, "Delete all users successfully");
 	} catch (error) {
 		next(error);
@@ -205,6 +207,7 @@ export const deleteUserProfile = async (req, res, next) => {
 		const user = await User.findByIdAndDelete(id);
 		if (!user) return sendError(res, "User not found", 404);
 
+		// Send success notification
 		return sendSuccess(res, "Delete user successfully");
 	} catch (error) {
 		next(error);

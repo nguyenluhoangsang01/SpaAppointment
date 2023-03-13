@@ -21,26 +21,26 @@ export const validateUser = (req, res, next) => {
 	// Check that the request body data meets the specified constraints
 	const constraints = {
 		address: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		email: {
-			presence: true,
+			presence: { allowEmpty: false },
 			email: true,
 		},
 		firstName: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		lastName: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		currentPassword: {
-			presence: true,
+			presence: { allowEmpty: false },
 			length: {
 				minimum: 8,
 			},
 		},
 		phone: {
-			presence: true,
+			presence: { allowEmpty: false },
 			format: {
 				pattern: phoneRegex,
 				message: "must be a valid phone number",
@@ -78,14 +78,14 @@ export const validateChangePassword = (req, res, next) => {
 	// Check that the request body data meets the specified constraints
 	const constraints = {
 		confirmPassword: {
-			presence: true,
+			presence: { allowEmpty: false },
 			equality: "newPassword",
 		},
 		currentPassword: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		newPassword: {
-			presence: true,
+			presence: { allowEmpty: false },
 			length: {
 				minimum: 8,
 			},

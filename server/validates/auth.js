@@ -30,24 +30,24 @@ export const validateAuth = (req, res, next) => {
 	// Check that the request body data meets the specified constraints
 	const constraints = {
 		address: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		confirmPassword: {
-			presence: true,
+			presence: { allowEmpty: false },
 			equality: "password",
 		},
 		email: {
-			presence: true,
+			presence: { allowEmpty: false },
 			email: true,
 		},
 		firstName: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		lastName: {
-			presence: true,
+			presence: { allowEmpty: false },
 		},
 		password: {
-			presence: true,
+			presence: { allowEmpty: false },
 			length: {
 				minimum: 8,
 			},
@@ -58,7 +58,7 @@ export const validateAuth = (req, res, next) => {
 			},
 		},
 		phone: {
-			presence: true,
+			presence: { allowEmpty: false },
 			format: {
 				pattern: phoneRegex,
 				message: "must be a valid phone number",
