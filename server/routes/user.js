@@ -32,13 +32,13 @@ router.get("/:id", verifyToken, getUserById);
 // @access Private
 router.get("/profile", verifyToken, getUserProfile);
 
-// @route PATCH api/user
-// @desc Update the information of that user
+// @route PATCH api/user/profile
+// @desc Update profile of user
 // @access Private
 router.patch(
-	"/",
-	verifyToken,
+	"/profile",
 	upload.single("avatar"),
+	verifyToken,
 	validateAuth,
 	updateUserProfile
 );
