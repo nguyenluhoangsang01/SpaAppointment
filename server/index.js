@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 
 // Import routes
 import authRoutes from "./routes/auth.js";
+import reviewRoutes from "./routes/review.js";
 import serviceRoutes from "./routes/service.js";
 import userRoutes from "./routes/user.js";
 
@@ -66,8 +67,9 @@ app.listen(PORT, () => {
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/review", reviewRoutes);
 app.use("/api/service", serviceRoutes);
+app.use("/api/user", userRoutes);
 
 // Route not found
 app.use("/*", (_req, res) => {

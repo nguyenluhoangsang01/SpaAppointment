@@ -9,7 +9,7 @@ export const getAll = async (req, res, next) => {
 	try {
 		// Get all users
 		const users = await User.find().select("-__v -password");
-		if (!users) return sendError(res, "Users not found", 404);
+		if (!users) return sendError(res, "User not found", 404);
 
 		// Send success notification
 		return sendSuccess(res, "Retrieving users successfully", users);
@@ -164,7 +164,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all users
 		const users = await User.find();
-		if (!users) return sendError(res, "Users not found", 404);
+		if (!users) return sendError(res, "User not found", 404);
 
 		// Delete all users
 		await User.deleteMany();

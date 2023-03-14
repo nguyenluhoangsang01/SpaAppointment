@@ -8,7 +8,7 @@ export const getAll = async (req, res, next) => {
 	try {
 		// Get all services
 		const services = await Service.find().select("-__v");
-		if (!services) return sendError(res, "Services not found", 404);
+		if (!services) return sendError(res, "Service not found", 404);
 
 		// Send success notification
 		return sendSuccess(res, "Retrieving services successfully", services);
@@ -122,7 +122,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all services
 		const services = await Service.find();
-		if (!services) return sendError(res, "Services not found", 404);
+		if (!services) return sendError(res, "Service not found", 404);
 
 		// Delete all services
 		await Service.deleteMany();
@@ -139,6 +139,7 @@ export const deleteById = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
+		// Get service by id
 		const service = await Service.findByIdAndDelete(id);
 		if (!service) return sendError(res, "Service not found", 404);
 

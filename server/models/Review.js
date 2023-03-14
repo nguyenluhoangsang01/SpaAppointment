@@ -2,12 +2,17 @@ import { model, Schema } from "mongoose";
 
 const reviewSchema = new Schema(
 	{
-		rating: {
-			type: Number,
+		appointment: {
+			type: Schema.Types.ObjectId,
+			ref: "Appointment",
 			required: true,
 		},
 		comment: {
 			type: String,
+			required: true,
+		},
+		rating: {
+			type: Number,
 			required: true,
 		},
 		user: {
@@ -15,6 +20,7 @@ const reviewSchema = new Schema(
 			ref: "User",
 			required: true,
 		},
+
 	},
 	{ timestamps: true }
 );
