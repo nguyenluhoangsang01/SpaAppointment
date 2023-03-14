@@ -16,30 +16,11 @@ const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
 export const register = async (req, res, next) => {
 	// Get data from request body
-	const { email, password, phone } = req.body;
+	const { password } = req.body;
 	// Get file from request
 	const { file } = req;
 
 	try {
-		// Check email exists or not in database
-		const isEmailExists = await User.findOne({ email });
-		if (isEmailExists)
-			return sendError(
-				res,
-				"User with this email already exists",
-				409,
-				"email"
-			);
-		// Check phone exists or not in database
-		const isPhoneExists = await User.findOne({ phone });
-		if (isPhoneExists)
-			return sendError(
-				res,
-				"User with this phone number already exists",
-				409,
-				"phone"
-			);
-
 		// Hash password
 		const hashedPassword = await hashPassword(password);
 

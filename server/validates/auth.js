@@ -1,8 +1,9 @@
 import validate from "validate.js";
 import { passwordRegex, phoneRegex, ROLES } from "../constants.js";
+import User from "../models/User.js";
 import sendError from "../utils/sendError.js";
 
-export const validateAuth = (req, res, next) => {
+export const validateAuth = async (req, res, next) => {
 	// Get data from request body
 	const {
 		address,
@@ -78,6 +79,25 @@ export const validateAuth = (req, res, next) => {
 	if (errors) {
 		return sendError(res, errors, 400, Object.keys(errors));
 	} else {
+		// Check email exists or not in database
+		const isEmailExists = await User.findOne({ email });
+		if (isEmailExists)
+			return sendError(
+				res,
+				"User with this email already exists",
+				409,
+				"email"
+			);
+		// Check phone exists or not in database
+		const isPhoneExists = await User.findOne({ phone });
+		if (isPhoneExists)
+			return sendError(
+				res,
+				"User with this phone number already exists",
+				409,
+				"phone"
+			);
+
 		next();
 	}
 };
