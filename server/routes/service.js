@@ -6,11 +6,14 @@ import {
 	deleteById,
 	getAll,
 	getById,
-	updateById
+	updateById,
 } from "../controllers/service.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateService } from "../validates/service.js";
+import {
+	validateService,
+	validateServiceWithID,
+} from "../validates/service.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -18,6 +21,16 @@ const upload = multer({ storage });
 
 // Config router
 const router = express.Router();
+
+// @route GET api/service
+// @desc Get all services
+// @access Private
+router.get("/", verifyToken, verifyAdmin, getAll);
+
+// @route GET api/service/:id
+// @desc Get service by id
+// @access Private
+router.get("/:id", verifyToken, getById);
 
 // @route POST api/service
 // @desc Create a new service
@@ -31,26 +44,6 @@ router.post(
 	create
 );
 
-// @route GET api/service
-// @desc Get all services
-// @access Private
-router.get("/", verifyToken, verifyAdmin, getAll);
-
-// @route GET api/service/:id
-// @desc Get service by id
-// @access Private
-router.get("/:id", verifyToken, getById);
-
-// @route DELETE api/service/:id
-// @desc Delete service by id
-// @access Private
-router.delete("/:id", verifyToken, verifyAdmin, deleteById);
-
-// @route DELETE api/service
-// @desc Delete all services
-// @access Private
-router.delete("/:id", verifyToken, verifyAdmin, deleteAll);
-
 // @route PATCH api/service/:id
 // @desc Update service by id
 // @access Private
@@ -59,8 +52,18 @@ router.patch(
 	upload.single("service"),
 	verifyToken,
 	verifyAdmin,
-	validateService,
+	validateServiceWithID,
 	updateById
 );
+
+// @route DELETE api/service
+// @desc Delete all services
+// @access Private
+router.delete("/", verifyToken, verifyAdmin, deleteAll);
+
+// @route DELETE api/service/:id
+// @desc Delete service by id
+// @access Private
+router.delete("/:id", verifyToken, verifyAdmin, deleteById);
 
 export default router;
