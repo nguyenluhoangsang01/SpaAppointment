@@ -3,6 +3,26 @@ import { ROLES } from "../constants.js";
 
 const userSchema = new Schema(
 	{
+		address: {
+			type: String,
+			required: true,
+		},
+		appointments: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Appointment",
+			},
+		],
+		avatar: {
+			type: String,
+			default: "https://i.pravatar.cc/300",
+		},
+		bio: String,
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		firstName: {
 			type: String,
 			required: true,
@@ -11,11 +31,8 @@ const userSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		email: {
-			type: String,
-			required: true,
-			unique: true,
-		},
+		loggedInAt: String,
+		loggedInIP: String,
 		password: {
 			type: String,
 			required: true,
@@ -25,36 +42,21 @@ const userSchema = new Schema(
 			required: true,
 			unique: true,
 		},
-		address: {
-			type: String,
-			required: true,
-		},
 		role: {
 			type: String,
 			enum: Object.values(ROLES),
 			default: ROLES.Customer,
 		},
-		avatar: {
-			type: String,
-			default: "https://i.pravatar.cc/300",
-		},
-		bio: String,
 		services: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: "Service",
 			},
 		],
-		appointments: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Appointment",
-			},
-		],
-		loggedInAt: String,
-		loggedInIP: String,
 	},
-	{ timestamps: true }
+	{
+		timestamps: true,
+	}
 );
 
 export default model("User", userSchema);

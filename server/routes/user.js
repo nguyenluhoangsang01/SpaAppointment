@@ -2,16 +2,21 @@ import express from "express";
 import multer from "multer";
 import {
 	changePassword,
-	deleteAllUsers,
-	deleteUserProfile,
-	getAllUsers,
-	getUserById,
-	getUserProfile,
-	updateUserProfile,
+	deleteAll,
+	deleteById,
+	getAll,
+	getById,
+	getProfile,
+	updateById,
+	updateProfile,
 } from "../controllers/user.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateChangePassword, validateUser } from "../validates/user.js";
+import {
+	validateChangePassword,
+	validateProfile,
+	validateProfileWithId,
+} from "../validates/user.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -23,17 +28,29 @@ const router = express.Router();
 // @route GET api/user
 // @desc Get all users
 // @access Private
-router.get("/", verifyToken, verifyAdmin, getAllUsers);
+router.get("/", verifyToken, verifyAdmin, getAll);
 
-// @route GET api/user/profile/:id
+// @route GET api/user/details/:id
 // @desc Get user by id
 // @access Private
-router.get("/profile/:id", verifyToken, getUserById);
+router.get("/details/:id", verifyToken, getById);
 
 // @route GET api/user/profile
 // @desc Get user profile
 // @access Private
-router.get("/profile", verifyToken, getUserProfile);
+router.get("/profile", verifyToken, getProfile);
+
+// @route PATCH api/user/details/:id
+// @desc Update user by id
+// @access Private
+router.patch(
+	"/details/:id",
+	upload.single("avatar"),
+	verifyToken,
+	verifyAdmin,
+	validateProfileWithId,
+	updateById
+);
 
 // @route PATCH api/user/profile
 // @desc Update user's profile
@@ -42,8 +59,8 @@ router.patch(
 	"/profile",
 	upload.single("avatar"),
 	verifyToken,
-	validateUser,
-	updateUserProfile
+	validateProfile,
+	updateProfile
 );
 
 // @route PATCH api/user/profile/change-password
@@ -59,11 +76,11 @@ router.patch(
 // @route DELETE api/user
 // @desc Delete all users
 // @access Private
-router.delete("/", verifyToken, verifyAdmin, deleteAllUsers);
+router.delete("/", verifyToken, verifyAdmin, deleteAll);
 
 // @route DELETE api/user/:id
 // @desc Delete user by id
 // @access Private
-router.delete("/:id", verifyToken, verifyAdmin, deleteUserProfile);
+router.delete("/:id", verifyToken, verifyAdmin, deleteById);
 
 export default router;

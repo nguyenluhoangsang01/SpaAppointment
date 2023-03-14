@@ -24,7 +24,7 @@ router.post("/login", login);
 // @route POST api/auth/refresh-token
 // @desc Refresh new access token
 // @access Private
-router.post("/refresh-token", verifyToken, refreshToken);
+router.post("/refresh-token", refreshToken);
 
 // @route POST api/auth/logout
 // @desc Logout

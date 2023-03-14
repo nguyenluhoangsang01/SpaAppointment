@@ -55,10 +55,6 @@ export const validateServiceWithID = async (req, res, next) => {
 	// Get data from request body
 	const { description, duration, name, price } = req.body;
 
-	// Get service by id
-	const service = await Service.findById(id);
-	if (!service) return sendError(res, "Service not found", 404);
-
 	// The properties to validate
 	const attributes = {
 		description,
@@ -91,13 +87,21 @@ export const validateServiceWithID = async (req, res, next) => {
 		},
 	};
 
-	// Find errors
-	const errors = validate(attributes, constraints);
+	try {
+		// Get service by id
+		const service = await Service.findById(id);
+		if (!service) return sendError(res, "Service not found", 404);
 
-	// Check if errors occur
-	if (errors) {
-		return sendError(res, errors, 400, Object.keys(errors));
-	} else {
-		next();
+		// Find errors
+		const errors = validate(attributes, constraints);
+
+		// Check if errors occur
+		if (errors) {
+			return sendError(res, errors, 400, Object.keys(errors));
+		} else {
+			next();
+		}
+	} catch (error) {
+		next(error);
 	}
 };
