@@ -23,7 +23,7 @@ const promotionSchema = new Schema(
 		},
 		maxUses: {
 			type: Number,
-			default: Infinity,
+			default: 1,
 		},
 		name: {
 			type: String,
