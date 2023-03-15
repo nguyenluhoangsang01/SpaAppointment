@@ -51,7 +51,7 @@ export const validateReview = async (req, res, next) => {
 	}
 };
 
-export const validateReviewWithId = async (req, res, next) => {
+export const validateReviewById = async (req, res, next) => {
 	// Get user id from request
 	const { userId } = req;
 	// Get data from request body

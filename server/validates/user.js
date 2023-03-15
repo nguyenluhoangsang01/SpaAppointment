@@ -112,7 +112,7 @@ export const validateProfile = async (req, res, next) => {
 	}
 };
 
-export const validateProfileWithId = async (req, res, next) => {
+export const validateProfileById = async (req, res, next) => {
 	// Get user id from request params
 	const { id } = req.params;
 	// Get data from request body

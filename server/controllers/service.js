@@ -122,7 +122,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all services
 		const services = await Service.find();
-		if (!services) return sendError(res, "Service not found", 404);
+		if (services.length <= 0) return sendError(res, "Service not found", 404);
 
 		// Delete all services
 		await Service.deleteMany();

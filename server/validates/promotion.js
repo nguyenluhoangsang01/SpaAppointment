@@ -1,17 +1,32 @@
 import validate from "validate.js";
-import Service from "../models/Service.js";
+import { PROMOTION_TYPE } from "../constants.js";
+import Promotion from "../models/Promotion.js";
 import sendError from "../utils/sendError.js";
+import validateDatetime from "../utils/validateDateTime.js";
 
-export const validateService = async (req, res, next) => {
+export const validatePromotion = async (req, res, next) => {
 	// Get data from request body
-	const { description, duration, name, price } = req.body;
+	const {
+		description,
+		endDate,
+		maxUses,
+		name,
+		service,
+		startDate,
+		type,
+		value,
+	} = req.body;
 
 	// The properties to validate
 	const attributes = {
 		description,
-		duration,
+		endDate,
+		maxUses,
 		name,
-		price,
+		service,
+		startDate,
+		type,
+		value,
 	};
 
 	// Check that the request body data meets the specified constraints
@@ -19,17 +34,32 @@ export const validateService = async (req, res, next) => {
 		description: {
 			presence: { allowEmpty: false },
 		},
-		duration: {
+		endDate: {
 			presence: { allowEmpty: false },
+			datetime: true,
+		},
+		maxUses: {
 			numericality: {
-				onlyInteger: false,
-				greaterThan: 0,
+				onlyInteger: true,
+				greaterThanOrEqualTo: 1,
 			},
 		},
 		name: {
 			presence: { allowEmpty: false },
 		},
-		price: {
+		service: {
+			presence: { allowEmpty: false },
+		},
+		startDate: {
+			presence: { allowEmpty: false },
+			datetime: true,
+		},
+		type: {
+			inclusion: {
+				within: PROMOTION_TYPE,
+			},
+		},
+		value: {
 			presence: { allowEmpty: false },
 			numericality: {
 				onlyInteger: true,
@@ -37,6 +67,8 @@ export const validateService = async (req, res, next) => {
 			},
 		},
 	};
+
+	validateDatetime();
 
 	try {
 		// Find errors
@@ -47,11 +79,11 @@ export const validateService = async (req, res, next) => {
 			return sendError(res, errors, 400, Object.keys(errors));
 		} else {
 			// Check name exists or not in database
-			const isNameExists = await Service.findOne({ name });
+			const isNameExists = await Promotion.findOne({ name });
 			if (isNameExists)
 				return sendError(
 					res,
-					`Service with this name (${isNameExists.name}) already exists`,
+					`Promotion with this name (${isNameExists.name}) already exists`,
 					409,
 					"name"
 				);
@@ -63,18 +95,31 @@ export const validateService = async (req, res, next) => {
 	}
 };
 
-export const validateServiceByID = async (req, res, next) => {
-	// Get service id from request params
+export const validatePromotionById = async (req, res, next) => {
+	// Get promotion id from request params
 	const { id } = req.params;
 	// Get data from request body
-	const { description, duration, name, price } = req.body;
+	const {
+		description,
+		endDate,
+		maxUses,
+		name,
+		service,
+		startDate,
+		type,
+		value,
+	} = req.body;
 
 	// The properties to validate
 	const attributes = {
 		description,
-		duration,
+		endDate,
+		maxUses,
 		name,
-		price,
+		service,
+		startDate,
+		type,
+		value,
 	};
 
 	// Check that the request body data meets the specified constraints
@@ -82,17 +127,32 @@ export const validateServiceByID = async (req, res, next) => {
 		description: {
 			presence: { allowEmpty: false },
 		},
-		duration: {
+		endDate: {
 			presence: { allowEmpty: false },
+			datetime: true,
+		},
+		maxUses: {
 			numericality: {
-				onlyInteger: false,
-				greaterThan: 0,
+				onlyInteger: true,
+				greaterThanOrEqualTo: 1,
 			},
 		},
 		name: {
 			presence: { allowEmpty: false },
 		},
-		price: {
+		service: {
+			presence: { allowEmpty: false },
+		},
+		startDate: {
+			presence: { allowEmpty: false },
+			datetime: true,
+		},
+		type: {
+			inclusion: {
+				within: PROMOTION_TYPE,
+			},
+		},
+		value: {
 			presence: { allowEmpty: false },
 			numericality: {
 				onlyInteger: true,
@@ -101,10 +161,12 @@ export const validateServiceByID = async (req, res, next) => {
 		},
 	};
 
+	validateDatetime();
+
 	try {
-		// Get service by id
-		const service = await Service.findById(id);
-		if (!service) return sendError(res, "Service not found", 404);
+		// Get promotion by id
+		const promotion = await Promotion.findById(id);
+		if (!promotion) return sendError(res, "Promotion not found", 404);
 
 		// Find errors
 		const errors = validate(attributes, constraints);
@@ -114,13 +176,13 @@ export const validateServiceByID = async (req, res, next) => {
 			return sendError(res, errors, 400, Object.keys(errors));
 		} else {
 			// Check name exists or not in database
-			const isNameExists = await Service.findOne({
-				name: { $eq: name, $ne: service.name },
+			const isNameExists = await Promotion.findOne({
+				name: { $eq: name, $ne: promotion.name },
 			});
 			if (isNameExists)
 				return sendError(
 					res,
-					`Service with this name (${isNameExists.name}) already exists`,
+					`Promotion with this name (${isNameExists.name}) already exists`,
 					409,
 					"name"
 				);

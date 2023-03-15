@@ -11,7 +11,7 @@ import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 import {
 	validateGiftCard,
-	validateGiftCardWithId
+	validateGiftCardById
 } from "../validates/giftCard.js";
 
 // Config router
@@ -39,7 +39,7 @@ router.patch(
 	"/:id",
 	verifyToken,
 	verifyAdmin,
-	validateGiftCardWithId,
+	validateGiftCardById,
 	updateById
 );
 

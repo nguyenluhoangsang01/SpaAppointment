@@ -12,7 +12,7 @@ import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 import {
 	validateService,
-	validateServiceWithID,
+	validateServiceByID,
 } from "../validates/service.js";
 
 // Config multer
@@ -52,7 +52,7 @@ router.patch(
 	upload.single("service"),
 	verifyToken,
 	verifyAdmin,
-	validateServiceWithID,
+	validateServiceByID,
 	updateById
 );
 

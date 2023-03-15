@@ -1,13 +1,11 @@
-import moment from "moment/moment.js";
 import validate from "validate.js";
 import {
-	formatDateOnly,
-	formatDateTime,
-	GiFT_CARD_STATUS,
+	GiFT_CARD_STATUS
 } from "../constants.js";
 import GiftCard from "../models/GiftCard.js";
 import Promotion from "../models/Promotion.js";
 import sendError from "../utils/sendError.js";
+import validateDatetime from "../utils/validateDateTime.js";
 
 export const validateGiftCard = async (req, res, next) => {
 	// Get data from request body
@@ -43,18 +41,7 @@ export const validateGiftCard = async (req, res, next) => {
 		},
 	};
 
-	validate.extend(validate.validators.datetime, {
-		// The value is guaranteed not to be null or undefined but otherwise it
-		// could be anything.
-		parse: function (value) {
-			return moment.utc(value, formatDateTime).valueOf();
-		},
-		// Input is a unix timestamp
-		format: function (value, options) {
-			const format = options.datetime ? formatDateTime : formatDateOnly;
-			return moment.utc(value).format(format);
-		},
-	});
+	validateDatetime();
 
 	try {
 		// Find errors
@@ -83,7 +70,7 @@ export const validateGiftCard = async (req, res, next) => {
 	}
 };
 
-export const validateGiftCardWithId = async (req, res, next) => {
+export const validateGiftCardById = async (req, res, next) => {
 	// Get gift card id from request params
 	const { id } = req.params;
 	// Get data from request body
@@ -119,18 +106,7 @@ export const validateGiftCardWithId = async (req, res, next) => {
 		},
 	};
 
-	validate.extend(validate.validators.datetime, {
-		// The value is guaranteed not to be null or undefined but otherwise it
-		// could be anything.
-		parse: function (value) {
-			return moment.utc(value, formatDateTime).valueOf();
-		},
-		// Input is a unix timestamp
-		format: function (value, options) {
-			const format = options.datetime ? formatDateTime : formatDateOnly;
-			return moment.utc(value).format(format);
-		},
-	});
+	validateDatetime();
 
 	try {
 		// Get gift card by id

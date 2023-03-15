@@ -15,7 +15,7 @@ import verifyToken from "../middleware/verifyToken.js";
 import {
 	validateChangePassword,
 	validateProfile,
-	validateProfileWithId,
+	validateProfileById,
 } from "../validates/user.js";
 
 // Config multer
@@ -48,7 +48,7 @@ router.patch(
 	upload.single("avatar"),
 	verifyToken,
 	verifyAdmin,
-	validateProfileWithId,
+	validateProfileById,
 	updateById
 );
 

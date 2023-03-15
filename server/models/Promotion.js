@@ -3,13 +3,45 @@ import { PROMOTION_TYPE } from "../constants.js";
 
 const promotionSchema = new Schema(
 	{
-		name: {
-			type: String,
-			required: true,
-		},
+		codes: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "GiftCard",
+			},
+		],
 		description: {
 			type: String,
 			required: true,
+		},
+		endDate: {
+			type: String,
+			require: true,
+		},
+		isActive: {
+			type: Boolean,
+			default: false,
+		},
+		maxUses: {
+			type: Number,
+			default: Infinity,
+		},
+		name: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		service: {
+			type: Schema.Types.ObjectId,
+			require: true,
+			ref: "Service",
+		},
+		startDate: {
+			type: String,
+			require: true,
+		},
+		totalUses: {
+			type: Number,
+			default: 0,
 		},
 		type: {
 			type: String,
@@ -20,44 +52,6 @@ const promotionSchema = new Schema(
 			type: Number,
 			required: true,
 		},
-		codes: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "GiftCard",
-			},
-		],
-		startDate: {
-			type: Date,
-			require: true,
-		},
-		endDate: {
-			type: Date,
-			require: true,
-		},
-		isActive: {
-			type: Boolean,
-			required: true,
-		},
-		totalUses: {
-			type: Number,
-			default: 0,
-		},
-		maxUses: {
-			type: Number,
-			default: Infinity,
-		},
-		users: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "User",
-			},
-		],
-		services: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Service",
-			},
-		],
 	},
 	{ timestamps: true }
 );

@@ -8,7 +8,7 @@ import {
 	updateById,
 } from "../controllers/review.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateReview, validateReviewWithId } from "../validates/review.js";
+import { validateReview, validateReviewById } from "../validates/review.js";
 
 // Config router
 const router = express.Router();
@@ -31,7 +31,7 @@ router.post("/:appointmentId", verifyToken, validateReview, create);
 // @route PATCH api/review/:id
 // @desc Update review by id
 // @access Private
-router.patch("/:id/:appointmentId", verifyToken, validateReviewWithId, updateById);
+router.patch("/:id/:appointmentId", verifyToken, validateReviewById, updateById);
 
 // @route DELETE api/review
 // @desc Delete all reviews

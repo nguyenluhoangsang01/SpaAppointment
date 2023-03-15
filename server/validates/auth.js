@@ -84,7 +84,7 @@ export const validateAuth = async (req, res, next) => {
 		if (isEmailExists)
 			return sendError(
 				res,
-				"User with this email already exists",
+				`User with this email (${isEmailExists.email}) already exists`,
 				409,
 				"email"
 			);
@@ -93,7 +93,7 @@ export const validateAuth = async (req, res, next) => {
 		if (isPhoneExists)
 			return sendError(
 				res,
-				"User with this phone number already exists",
+				`User with this phone number (${isPhoneExists.phone}) already exists`,
 				409,
 				"phone"
 			);
