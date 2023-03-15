@@ -6,7 +6,9 @@ import express from "express";
 import mongoose from "mongoose";
 
 // Import routes
+import appointmentRoutes from "./routes/appointment.js";
 import authRoutes from "./routes/auth.js";
+import giftCardRoutes from "./routes/giftCard.js";
 import reviewRoutes from "./routes/review.js";
 import serviceRoutes from "./routes/service.js";
 import userRoutes from "./routes/user.js";
@@ -66,7 +68,9 @@ app.listen(PORT, () => {
 });
 
 // Routes
+app.use("/api/appointment", appointmentRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/gift-card", giftCardRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/user", userRoutes);

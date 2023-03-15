@@ -8,39 +8,23 @@ const giftCardSchema = new Schema(
 			required: true,
 			unique: true,
 		},
-		value: {
-			type: Number,
-			required: true,
-		},
-		purchaser: {
-			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: true,
-		},
-		recipient: {
-			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: true,
-		},
 		expirationDate: {
-			type: Date,
+			type: String,
 			required: true,
+		},
+		promotion: {
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: "Promotion",
 		},
 		status: {
 			type: String,
 			enum: Object.values(GiFT_CARD_STATUS),
 			default: GiFT_CARD_STATUS.Active,
 		},
-		dateRedeemed: Date,
-		transactionHistory: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Transaction",
-			},
-		],
-		promotion: {
-			type: Schema.Types.ObjectId,
-			ref: "Promotion",
+		value: {
+			type: Number,
+			required: true,
 		},
 	},
 	{ timestamps: true }

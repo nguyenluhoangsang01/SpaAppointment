@@ -41,7 +41,9 @@ export const PROMOTION_TYPE = {
 	Fixed: "Fixed",
 };
 
-export const formatTime = "MMM Do YYYY, h:mm:ss A";
+export const formatDateTime = "HH:mm DD/MM/YYYY";
+
+export const formatDateOnly = "DD/MM/YYYY";
 
 export const passwordRegex =
 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;

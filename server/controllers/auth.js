@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ip from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment";
-import { avatarOptions, formatTime } from "../constants.js";
+import { avatarOptions, formatDateTime } from "../constants.js";
 import User from "../models/User.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import hashPassword from "../utils/hashPassword.js";
@@ -122,7 +122,7 @@ export const login = async (req, res, next) => {
 		await User.findByIdAndUpdate(
 			isEmailOrPhoneExists._id,
 			{
-				loggedInAt: moment().format(formatTime),
+				loggedInAt: moment().format(formatDateTime),
 				loggedInIP: currentIP,
 			},
 			{ new: true }
