@@ -110,8 +110,10 @@ export const login = async (req, res, next) => {
 			{ expiresIn: REFRESH_TOKEN_EXPIRES_IN }
 		);
 
-		// Send HTTP-only cookie
-		res.cookie("accessToken", accessToken);
+		// Set access token in response headers
+		res.setHeader("authorization", `Bearer ${accessToken}`);
+
+		// Set refresh token in response cookies
 		res.cookie("refreshToken", refreshToken);
 
 		// Initial current ip
