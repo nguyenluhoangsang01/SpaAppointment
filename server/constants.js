@@ -41,13 +41,14 @@ export const PROMOTION_TYPE = {
 	Fixed: "Fixed",
 };
 
-export const formatDateTime = "HH:mm DD/MM/YYYY";
+export const ACCESS_TOKEN_EXPIRES_IN = "15m";
+export const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
+export const formatDateTime = "HH:mm DD/MM/YYYY";
 export const formatDateOnly = "DD/MM/YYYY";
 
 export const passwordRegex =
 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
-
 export const phoneRegex =
 	/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
@@ -58,7 +59,6 @@ export const avatarOptions = {
 	use_filename: true,
 	overwrite: true,
 };
-
 export const serviceOptions = {
 	folder: "service",
 	unique_filename: true,
