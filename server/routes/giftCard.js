@@ -20,12 +20,12 @@ const router = express.Router();
 // @route GET api/gift-card
 // @desc Get all gift cards
 // @access Public
-router.get("/", verifyToken, getAll);
+router.get("/", getAll);
 
 // @route GET api/gift-card/:id
 // @desc Get gift card by id
 // @access Public
-router.get("/:id", verifyToken, getById);
+router.get("/:id", getById);
 
 // @route POST api/gift-card
 // @desc Create a new gift card

@@ -7,8 +7,17 @@ export const getAll = async (req, res, next) => {
 	try {
 		// Get all gift cards
 		const giftCards = await GiftCard.find()
-			.select("-__v")
-			.populate("promotion", "-__v");
+			.populate({
+				path: "promotion",
+				select: "-__v",
+				populate: [
+					{
+						path: "service",
+						select: "-__v",
+					},
+				],
+			})
+			.select("-__v");
 		if (!giftCards) return sendError(res, "Gift card not found", 404);
 
 		// Send success notification
@@ -25,8 +34,17 @@ export const getById = async (req, res, next) => {
 	try {
 		// Get gift card by id
 		const giftCard = await GiftCard.findById(id)
-			.select("-__v")
-			.populate("promotion", "-__v");
+			.populate({
+				path: "promotion",
+				select: "-__v",
+				populate: [
+					{
+						path: "service",
+						select: "-__v",
+					},
+				],
+			})
+			.select("-__v");
 		if (!giftCard) return sendError(res, "Gift card not found", 404);
 
 		// Send success notification
