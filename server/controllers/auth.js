@@ -130,41 +130,7 @@ export const login = async (req, res, next) => {
 		);
 
 		// Send success notification
-		return sendSuccess(res, "User logged successfully", {
-			accessToken,
-			refreshToken,
-		});
-	} catch (error) {
-		next(error);
-	}
-};
-
-export const refreshToken = async (req, res, next) => {
-	// Get refresh token secret from .env file
-	const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-
-	// Get refresh token from request body
-	const { refreshToken } = req.body;
-
-	// Check refresh token do not exist
-	if (!refreshToken) return sendError(res, "Refresh token can't be blank");
-
-	try {
-		// Use jwt to verify refresh token and get user
-		jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, async (error) => {
-			if (error)
-				return sendError(
-					res,
-					"Refresh token has expired or is otherwise invalid",
-					498
-				);
-
-			// Generate new access token using the refresh token
-			const accessToken = await generateAccessToken(res, refreshToken);
-
-			// Send success notification
-			return sendSuccess(res, "Refresh access token successfully", accessToken);
-		});
+		return sendSuccess(res, "User logged successfully");
 	} catch (error) {
 		next(error);
 	}
@@ -172,12 +138,11 @@ export const refreshToken = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
 	try {
-		// Clear access token cookie for the client
-		res.clearCookie("accessToken");
+		// Clear refresh token cookie for the client
 		res.clearCookie("refreshToken");
 
 		// Clear access token and refresh by setting the Authorization header to an empty string
-		res.set("authorization", "");
+		res.setHeader("authorization", "");
 
 		// Send success notification
 		return sendSuccess(res, "User logout successfully");

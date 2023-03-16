@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { login, logout, refreshToken, register } from "../controllers/auth.js";
+import { login, logout, register } from "../controllers/auth.js";
 import verifyToken from "../middleware/verifyToken.js";
 import { validateAuth } from "../validates/auth.js";
 
@@ -20,11 +20,6 @@ router.post("/register", upload.single("avatar"), validateAuth, register);
 // @desc Login
 // @access Public
 router.post("/login", login);
-
-// @route POST api/auth/refresh-token
-// @desc Refresh new access token
-// @access Private
-router.post("/refresh-token", refreshToken);
 
 // @route POST api/auth/logout
 // @desc Logout
