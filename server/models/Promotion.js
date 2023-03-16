@@ -9,7 +9,7 @@ const promotionSchema = new Schema(
 		},
 		endDate: {
 			type: String,
-			require: true,
+			required: true,
 		},
 		isActive: {
 			type: Boolean,
@@ -26,12 +26,12 @@ const promotionSchema = new Schema(
 		},
 		service: {
 			type: Schema.Types.ObjectId,
-			require: true,
+			required: true,
 			ref: "Service",
 		},
 		startDate: {
 			type: String,
-			require: true,
+			required: true,
 		},
 		totalUses: {
 			type: Number,

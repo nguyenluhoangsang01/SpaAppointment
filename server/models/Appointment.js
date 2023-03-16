@@ -3,6 +3,15 @@ import { APPOINTMENT_STATUS } from "../constants.js";
 
 const appointmentSchema = new Schema(
 	{
+		datetime: {
+			type: String,
+			required: true,
+		},
+		duration: {
+			type: Number,
+			required: true,
+		},
+		notes: String,
 		services: [
 			{
 				type: Schema.Types.ObjectId,
@@ -10,22 +19,14 @@ const appointmentSchema = new Schema(
 				required: true,
 			},
 		],
-		date: {
-			type: Date,
-			required: true,
-		},
-		time: {
-			type: String,
-			required: true,
-		},
-		duration: {
-			type: String,
-			required: true,
-		},
 		status: {
 			type: String,
 			enum: Object.values(APPOINTMENT_STATUS),
 			default: APPOINTMENT_STATUS.Booked,
+		},
+		title: {
+			type: String,
+			required: true,
 		},
 		user: {
 			type: Schema.Types.ObjectId,
