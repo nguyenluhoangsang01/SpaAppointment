@@ -10,10 +10,7 @@ import {
 } from "../controllers/service.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import {
-	validateService,
-	validateServiceByID,
-} from "../validates/service.js";
+import { validateService, validateServiceByID } from "../validates/service.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -25,12 +22,12 @@ const router = express.Router();
 // @route GET api/service
 // @desc Get all services
 // @access Private
-router.get("/", verifyToken, verifyAdmin, getAll);
+router.get("/", getAll);
 
 // @route GET api/service/:id
 // @desc Get service by id
 // @access Private
-router.get("/:id", verifyToken, getById);
+router.get("/:id", getById);
 
 // @route POST api/service
 // @desc Create a new service
