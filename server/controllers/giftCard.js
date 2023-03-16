@@ -6,7 +6,9 @@ import sendSuccess from "../utils/sendSuccess.js";
 export const getAll = async (req, res, next) => {
 	try {
 		// Get all gift cards
-		const giftCards = await GiftCard.find().select("-__v");
+		const giftCards = await GiftCard.find()
+			.select("-__v")
+			.populate("promotion", "-__v");
 		if (!giftCards) return sendError(res, "Gift card not found", 404);
 
 		// Send success notification
@@ -22,7 +24,9 @@ export const getById = async (req, res, next) => {
 
 	try {
 		// Get gift card by id
-		const giftCard = await GiftCard.findById(id).select("-__v");
+		const giftCard = await GiftCard.findById(id)
+			.select("-__v")
+			.populate("promotion", "-__v");
 		if (!giftCard) return sendError(res, "Gift card not found", 404);
 
 		// Send success notification
@@ -33,10 +37,14 @@ export const getById = async (req, res, next) => {
 };
 
 export const create = async (req, res, next) => {
+	// Get data from request body
+	const { promotionId } = req.body;
+
 	try {
 		const newGiftCard = new GiftCard({
 			...req.body,
 			code: generateRandomCode(),
+			promotion: promotionId,
 		});
 		await newGiftCard.save();
 
@@ -50,6 +58,8 @@ export const create = async (req, res, next) => {
 export const updateById = async (req, res, next) => {
 	// Get gift card id from request params
 	const { id } = req.params;
+	// Get data from request body
+	const { promotionId } = req.body;
 
 	try {
 		// Get gift card by id
@@ -57,12 +67,12 @@ export const updateById = async (req, res, next) => {
 
 		await GiftCard.findByIdAndUpdate(
 			id,
-			{ ...req.body, code: giftCard.code },
+			{ ...req.body, code: giftCard.code, promotion: promotionId },
 			{ new: true }
 		);
 
 		// Send success notification
-		return sendSuccess(res, "Edited gift card successfully")
+		return sendSuccess(res, "Edited gift card successfully");
 	} catch (error) {
 		next(error);
 	}

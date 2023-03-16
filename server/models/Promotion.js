@@ -3,7 +3,7 @@ import { PROMOTION_TYPE } from "../constants.js";
 
 const promotionSchema = new Schema(
 	{
-		codes: [
+		giftCard: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: "GiftCard",
