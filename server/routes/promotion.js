@@ -5,11 +5,14 @@ import {
 	deleteById,
 	getAll,
 	getById,
-	updateById
+	updateById,
 } from "../controllers/promotion.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validatePromotion } from "../validates/promotion.js";
+import {
+	validatePromotion,
+	validatePromotionById,
+} from "../validates/promotion.js";
 
 // Config router
 const router = express.Router();
@@ -32,7 +35,13 @@ router.post("/", verifyToken, verifyAdmin, validatePromotion, create);
 // @route PATCH api/promotion/:id
 // @desc Update promotion by id
 // @access Private
-router.patch("/:id", verifyToken, verifyAdmin, updateById);
+router.patch(
+	"/:id",
+	verifyToken,
+	verifyAdmin,
+	validatePromotionById,
+	updateById
+);
 
 // @route DELETE api/promotion
 // @desc Delete all promotions
