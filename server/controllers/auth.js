@@ -145,7 +145,7 @@ export const logout = async (req, res, next) => {
 		res.setHeader("authorization", "");
 
 		// Send success notification
-		return sendSuccess(res, "User logout successfully");
+		return sendSuccess(res, "Logged out successfully");
 	} catch (error) {
 		next(error);
 	}

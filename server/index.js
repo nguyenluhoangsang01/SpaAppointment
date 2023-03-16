@@ -57,7 +57,7 @@ mongoose.set("strictQuery", false);
 mongoose
 	.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
-		console.log("Connected to MongoDB successfully");
+		console.log("MongoDB connection is established successfully");
 	})
 	.catch((error) => {
 		console.log(error.message);
@@ -65,7 +65,7 @@ mongoose
 
 // Config server
 app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`);
+	console.log(`Listening on port ${PORT}`);
 });
 
 // Routes
