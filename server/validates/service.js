@@ -7,12 +7,7 @@ export const validateService = async (req, res, next) => {
 	const { description, duration, name, price } = req.body;
 
 	// The properties to validate
-	const attributes = {
-		description,
-		duration,
-		name,
-		price,
-	};
+	const attributes = { description, duration, name, price };
 
 	// Check that the request body data meets the specified constraints
 	const constraints = {

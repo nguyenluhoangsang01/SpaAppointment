@@ -1,7 +1,5 @@
 import validate from "validate.js";
-import {
-	GiFT_CARD_STATUS
-} from "../constants.js";
+import { GiFT_CARD_STATUS } from "../constants.js";
 import GiftCard from "../models/GiftCard.js";
 import Promotion from "../models/Promotion.js";
 import sendError from "../utils/sendError.js";
@@ -12,12 +10,7 @@ export const validateGiftCard = async (req, res, next) => {
 	const { expirationDate, promotionId, status, value } = req.body;
 
 	// The properties to validate
-	const attributes = {
-		expirationDate,
-		promotionId,
-		status,
-		value,
-	};
+	const attributes = { expirationDate, promotionId, status, value };
 
 	// Check that the request body data meets the specified constraints
 	const constraints = {

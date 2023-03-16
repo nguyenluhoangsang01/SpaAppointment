@@ -3,10 +3,10 @@ import sendError from "../utils/sendError.js";
 
 export const validateAppointment = async (req, res, next) => {
 	// Get data from request body
-	const {} = req.body;
+	const { datetime, duration, services, status, title, user } = req.body;
 
 	// The properties to validate
-	const attributes = {};
+	const attributes = { datetime, duration, services, status, title, user };
 
 	// Check that the request body data meets the specified constraints
 	const constraints = {};
