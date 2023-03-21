@@ -7,10 +7,9 @@ import {
 	ACCESS_TOKEN_EXPIRES_IN,
 	avatarOptions,
 	formatDateTime,
-	REFRESH_TOKEN_EXPIRES_IN,
+	REFRESH_TOKEN_EXPIRES_IN
 } from "../constants.js";
 import User from "../models/User.js";
-import generateAccessToken from "../utils/generateAccessToken.js";
 import hashPassword from "../utils/hashPassword.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";

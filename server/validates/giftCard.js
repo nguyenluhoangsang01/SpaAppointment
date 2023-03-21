@@ -50,7 +50,7 @@ export const validateGiftCard = async (req, res, next) => {
 				return sendError(
 					res,
 					`${
-						promotion ? promotion : "Promotion id"
+						promotion ? promotion.name : "Promotion id"
 					} is not included in the list`,
 					404,
 					"promotion"
@@ -119,7 +119,7 @@ export const validateGiftCardById = async (req, res, next) => {
 				return sendError(
 					res,
 					`${
-						promotion ? promotion : "Promotion id"
+						promotion ? promotion.name : "Promotion"
 					} is not included in the list`,
 					404,
 					"promotion"

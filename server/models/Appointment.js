@@ -28,6 +28,11 @@ const appointmentSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		staff: {
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: "User",

@@ -87,7 +87,7 @@ export const updateById = async (req, res, next) => {
 export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all reviews
-		const reviews = await Review.find().select("-__v");
+		const reviews = await Review.find();
 		if (reviews.length <= 0) return sendError(res, "Review not found", 404);
 
 		// Delete all reviews
