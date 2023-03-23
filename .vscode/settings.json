@@ -3,6 +3,8 @@
 		"cloudinary",
 		"datetime",
 		"numericality",
+		"persistor",
+		"reduxjs",
 		"spaappointment"
 	]
 }
