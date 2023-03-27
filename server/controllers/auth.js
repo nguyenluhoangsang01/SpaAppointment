@@ -7,7 +7,7 @@ import {
 	ACCESS_TOKEN_EXPIRES_IN,
 	avatarOptions,
 	formatDateTime,
-	REFRESH_TOKEN_EXPIRES_IN
+	REFRESH_TOKEN_EXPIRES_IN,
 } from "../constants.js";
 import User from "../models/User.js";
 import hashPassword from "../utils/hashPassword.js";
@@ -75,7 +75,9 @@ export const login = async (req, res, next) => {
 		if (!isEmailOrPhoneExists)
 			return sendError(
 				res,
-				"User does not exist with the provided email or phone number"
+				"User does not exist with the provided email or phone number",
+				400,
+				"emailOrPhone"
 			);
 
 		// Compare password
@@ -128,8 +130,16 @@ export const login = async (req, res, next) => {
 			{ new: true }
 		);
 
+		// Get user after updated
+		const userUpdated = await User.findById(isEmailOrPhoneExists._id).select(
+			"-__v -password"
+		);
+
 		// Send success notification
-		return sendSuccess(res, "User logged successfully");
+		return sendSuccess(res, "User logged successfully", {
+			accessToken,
+			user: userUpdated,
+		});
 	} catch (error) {
 		next(error);
 	}

@@ -88,7 +88,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all reviews
 		const reviews = await Review.find();
-		if (reviews.length <= 0) return sendError(res, "Review not found", 404);
+		if (!reviews) return sendError(res, "Review not found", 404);
 
 		// Delete all reviews
 		await Review.deleteMany();

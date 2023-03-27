@@ -100,8 +100,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all gift cards
 		const giftCards = await GiftCard.find();
-		if (giftCards.length <= 0)
-			return sendError(res, "Gift card not found", 404);
+		if (!giftCards) return sendError(res, "Gift card not found", 404);
 
 		// Delete all gift cards
 		await GiftCard.deleteMany();

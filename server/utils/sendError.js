@@ -2,10 +2,12 @@ const sendError = (res, errors, statusCode = 400, name) => {
 	let resJson = {
 		success: false,
 		status: statusCode,
-		errors,
+		errors: {
+			[name ? name : "system"]: [errors],
+		},
 	};
 
-	if (name) resJson.name = name;
+	if (name) resJson.name = [name];
 
 	return res.status(statusCode).json(resJson);
 };

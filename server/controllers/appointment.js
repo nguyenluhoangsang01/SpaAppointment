@@ -107,8 +107,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all appointments
 		const appointments = await Appointment.find();
-		if (appointments.length < 0)
-			return sendError(res, "Appointment not found", 404);
+		if (!appointments) return sendError(res, "Appointment not found", 404);
 
 		// Delete all appointments
 		await Appointment.deleteMany();

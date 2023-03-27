@@ -8,7 +8,6 @@ const verifyAdmin = async (req, res, next) => {
 
 		// Get user by user id
 		const user = await User.findById(userId);
-		// Check if user does not exist
 		if (!user) return sendError(res, "User not found", 404);
 
 		// Check if user's role isn't admin

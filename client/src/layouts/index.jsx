@@ -8,8 +8,10 @@ const Default = () => {
 		<>
 			<Navbar />
 
-			<main>
-				<Outlet />
+			<main className="mx-auto px-6 md:px-10 max-w-full pt-[56px] min-h-[calc(100vh-56px)]">
+				<div className="py-6">
+					<Outlet />
+				</div>
 			</main>
 
 			<Footer />

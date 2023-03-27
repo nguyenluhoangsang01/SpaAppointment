@@ -67,8 +67,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all promotions
 		const promotions = await Promotion.find();
-		if (promotions.length <= 0)
-			return sendError(res, "Promotion not found", 404);
+		if (!promotions) return sendError(res, "Promotion not found", 404);
 
 		// Delete all promotions
 		await Promotion.deleteMany();

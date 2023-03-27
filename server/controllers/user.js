@@ -164,13 +164,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all users
 		const users = await User.find();
-		if (users.length <= 0) return sendError(res, "User not found", 404);
+		if (!users) return sendError(res, "User not found", 404);
 
 		// Delete all users
 		await User.deleteMany();
 
 		// Send success notification
-		return sendError(res, "Delete all users successfully");
+		return sendSuccess(res, "Delete all users successfully");
 	} catch (error) {
 		next(error);
 	}
