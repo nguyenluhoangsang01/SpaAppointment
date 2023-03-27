@@ -138,6 +138,7 @@ export const login = async (req, res, next) => {
 		// Send success notification
 		return sendSuccess(res, "User logged successfully", {
 			accessToken,
+			refreshToken,
 			user: userUpdated,
 		});
 	} catch (error) {

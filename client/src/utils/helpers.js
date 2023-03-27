@@ -16,3 +16,12 @@ export const sendErrors = ({ errors, name }, form) => {
 		}
 	});
 };
+
+export const axiosConfig = (accessToken, refreshToken) => {
+	return {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+			Cookies: `refreshToken=${refreshToken}`,
+		},
+	};
+};
