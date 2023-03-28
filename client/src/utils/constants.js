@@ -100,6 +100,9 @@ export const navbarRoutes = [
 		path: "/users",
 		name: "Users",
 	},
+];
+
+export const authRoutes = [
 	{
 		path: "/sign-up",
 		name: "Sign up",

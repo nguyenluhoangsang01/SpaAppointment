@@ -8,7 +8,7 @@ import { MdOutlineMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { selectAuth, signOutReducer } from "../../redux/slice/auth";
-import { accountRoutes, navbarRoutes } from "../../utils/constants";
+import { accountRoutes, authRoutes, navbarRoutes } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 import { useOutsideClick } from "../../utils/hooks";
 
@@ -77,9 +77,9 @@ const Navbar = () => {
 			</div>
 
 			<ul
-				className={`w-3/5 h-full md:flex md:items-center ${
+				className={`h-full md:flex md:items-center md:justify-center ${
 					isShowMenu
-						? "flex flex-col items-center justify-center w-full bg-[#000] border-t-2"
+						? "flex flex-col items-center w-full bg-[#000] border-t-2"
 						: "hidden md:flex"
 				}`}
 			>
@@ -97,53 +97,75 @@ const Navbar = () => {
 								}`
 							}
 						>
-							<li>{route.name}</li>
+							<li className="min-w-[100px] text-center">{route.name}</li>
 						</NavLink>
 					))}
-
-				{user && (
-					<>
-						<li
-							className="	h-[40px] md:h-full hover:bg-[#FFFFFF] hover:text-black w-full transition md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate"
-							onClick={handleUserDropdownClick}
-						>
-							<span className="flex items-center justify-center h-full">
-								{user.lastName}
-							</span>
-						</li>
-
-						{isClicked && (
-							<div
-								ref={userDropdownRef}
-								className="absolute top-[56px] right-0 flex flex-col bg-[#000]"
-							>
-								{accountRoutes.map((route) =>
-									route.path !== "" ? (
-										<Link
-											key={route.name}
-											to={route.path}
-											className="hover:bg-white hover:text-black transition px-4 h-[40px] flex items-center"
-										>
-											{route.name}
-										</Link>
-									) : (
-										<button
-											key={route.name}
-											onClick={handleSignOut}
-											className="px-4 flex items-center gap-2 hover:bg-white hover:text-black transition h-[40px]"
-										>
-											{isLoading && (
-												<AiOutlineLoading3Quarters className="animate-spin" />
-											)}
-											<span>{route.name}</span>
-										</button>
-									)
-								)}
-							</div>
-						)}
-					</>
-				)}
 			</ul>
+
+			{user ? (
+				<div>
+					<div
+						className="md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate hover:underline transition"
+						onClick={handleUserDropdownClick}
+					>
+						<span className="flex items-center justify-center">
+							{user.lastName}
+						</span>
+					</div>
+
+					{isClicked && (
+						<div
+							ref={userDropdownRef}
+							className="absolute top-[56px] right-0 flex flex-col bg-[#000]"
+						>
+							{accountRoutes.map((route) =>
+								route.path !== "" ? (
+									<Link
+										key={route.name}
+										to={route.path}
+										className="hover:bg-white hover:text-black transition px-4 h-[40px] flex items-center"
+									>
+										{route.name}
+									</Link>
+								) : (
+									<button
+										key={route.name}
+										onClick={handleSignOut}
+										className="px-4 flex items-center gap-2 hover:bg-white hover:text-black transition h-[40px]"
+									>
+										{isLoading && (
+											<AiOutlineLoading3Quarters className="animate-spin" />
+										)}
+										<span>{route.name}</span>
+									</button>
+								)
+							)}
+						</div>
+					)}
+				</div>
+			) : (
+				<ul
+					className={`h-full md:flex md:items-center md:justify-center ${
+						isShowMenu
+							? "flex flex-col items-center w-full bg-[#000] border-t-2"
+							: "hidden md:flex"
+					}`}
+				>
+					{authRoutes.map((route) => (
+						<NavLink
+							key={route.name}
+							to={route.path}
+							className={({ isActive }) =>
+								`h-[40px] md:h-full flex items-center justify-center hover:bg-[#FFFFFF] hover:text-black w-full transition md:px-2 ${
+									isActive ? "bg-[#FFFFFF] text-black" : ""
+								}`
+							}
+						>
+							<li className="min-w-[100px] text-center">{route.name}</li>
+						</NavLink>
+					))}
+				</ul>
+			)}
 		</nav>
 	);
 };
