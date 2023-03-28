@@ -58,7 +58,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav className="h-14 bg-[#EAB0C2] w-full z-50 shadow fixed md:flex md:items-center md:justify-between">
+		<nav className="h-14 bg-[#000] w-full z-50 shadow fixed md:flex md:items-center md:justify-between text-white">
 			<div className="px-10 flex items-center justify-between">
 				<Link to="/">
 					<Image
@@ -79,7 +79,7 @@ const Navbar = () => {
 			<ul
 				className={`w-3/5 h-full md:flex md:items-center ${
 					isShowMenu
-						? "flex flex-col items-center justify-center w-full bg-[#EAB0C2] border-t-2"
+						? "flex flex-col items-center justify-center w-full bg-[#000] border-t-2"
 						: "hidden md:flex"
 				}`}
 			>
@@ -92,8 +92,8 @@ const Navbar = () => {
 							key={route.name}
 							to={route.path}
 							className={({ isActive }) =>
-								`h-[40px] md:h-full flex items-center justify-center hover:bg-[#FFFFFF] w-full transition md:px-2 ${
-									isActive ? "bg-[#FFFFFF]" : ""
+								`h-[40px] md:h-full flex items-center justify-center hover:bg-[#FFFFFF] hover:text-black w-full transition md:px-2 ${
+									isActive ? "bg-[#FFFFFF] text-black" : ""
 								}`
 							}
 						>
@@ -104,7 +104,7 @@ const Navbar = () => {
 				{user && (
 					<>
 						<li
-							className="	h-[40px] md:h-full hover:bg-[#FFFFFF] w-full transition md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate"
+							className="	h-[40px] md:h-full hover:bg-[#FFFFFF] hover:text-black w-full transition md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate"
 							onClick={handleUserDropdownClick}
 						>
 							<span className="flex items-center justify-center h-full">
@@ -115,14 +115,14 @@ const Navbar = () => {
 						{isClicked && (
 							<div
 								ref={userDropdownRef}
-								className="absolute top-[56px] right-0 flex flex-col bg-[#EAB0C2]"
+								className="absolute top-[56px] right-0 flex flex-col bg-[#000]"
 							>
 								{accountRoutes.map((route) =>
 									route.path !== "" ? (
 										<Link
 											key={route.name}
 											to={route.path}
-											className="hover:bg-white transition px-4 h-[40px] flex items-center"
+											className="hover:bg-white hover:text-black transition px-4 h-[40px] flex items-center"
 										>
 											{route.name}
 										</Link>
