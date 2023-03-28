@@ -101,12 +101,12 @@ export const navbarRoutes = [
 		name: "Users",
 	},
 	{
-		path: "/sign-in",
-		name: "Sign in",
-	},
-	{
 		path: "/sign-up",
 		name: "Sign up",
+	},
+	{
+		path: "/sign-in",
+		name: "Sign in",
 	},
 ];
 

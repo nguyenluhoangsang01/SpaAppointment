@@ -84,7 +84,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="First name" />
 			</Form.Item>
 
 			<Form.Item
@@ -97,7 +97,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="Last name" />
 			</Form.Item>
 
 			<Form.Item
@@ -114,7 +114,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="Email" />
 			</Form.Item>
 
 			<Form.Item
@@ -132,7 +132,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="Phone number" />
 			</Form.Item>
 
 			<Form.Item
@@ -155,7 +155,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input.Password />
+				<Input.Password placeholder="Password" />
 			</Form.Item>
 
 			<Form.Item
@@ -168,7 +168,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input.Password />
+				<Input.Password placeholder="Confirm password" />
 			</Form.Item>
 
 			<Form.Item
@@ -181,7 +181,7 @@ const SignUp = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="Address" />
 			</Form.Item>
 
 			<Form.Item label="Role" name="role">

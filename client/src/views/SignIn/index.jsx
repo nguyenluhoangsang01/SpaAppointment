@@ -89,7 +89,7 @@ const SignIn = () => {
 					},
 				]}
 			>
-				<Input />
+				<Input placeholder="Email or phone" />
 			</Form.Item>
 
 			<Form.Item
@@ -102,7 +102,7 @@ const SignIn = () => {
 					},
 				]}
 			>
-				<Input.Password />
+				<Input.Password placeholder="Password" />
 			</Form.Item>
 
 			<Form.Item>

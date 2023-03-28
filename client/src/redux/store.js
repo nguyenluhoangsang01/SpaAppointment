@@ -7,7 +7,7 @@ import {
 	persistStore,
 	PURGE,
 	REGISTER,
-	REHYDRATE,
+	REHYDRATE
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./slice/auth";

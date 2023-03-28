@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import storage from "redux-persist/lib/storage";
 
 const initialState = {
 	accessToken: null,
@@ -21,6 +22,8 @@ export const authSlice = createSlice({
 			if (payload.success) {
 				state.accessToken = null;
 				state.user = null;
+				storage.removeItem("root");
+				Cookies.remove("refreshToken");
 			}
 		},
 	},
