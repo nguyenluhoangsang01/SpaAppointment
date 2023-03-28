@@ -130,7 +130,7 @@ const Navbar = () => {
 										<button
 											key={route.name}
 											onClick={handleSignOut}
-											className="px-4 flex items-center gap-2"
+											className="px-4 flex items-center gap-2 hover:bg-white hover:text-black transition h-[40px]"
 										>
 											{isLoading && (
 												<AiOutlineLoading3Quarters className="animate-spin" />
