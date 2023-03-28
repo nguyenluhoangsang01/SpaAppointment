@@ -105,9 +105,17 @@ const Navbar = () => {
 			{user ? (
 				<div>
 					<div
-						className="md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate hover:underline transition"
+						className="md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate hover:underline transition flex items-center justify-center"
 						onClick={handleUserDropdownClick}
 					>
+						<Image
+							src={user.avatar}
+							alt={`${user.firstName} ${user.lastName}`}
+							preview={false}
+							width={35}
+							height={35}
+							className="rounded-full"
+						/>
 						<span className="flex items-center justify-center">
 							{user.lastName}
 						</span>
@@ -116,7 +124,7 @@ const Navbar = () => {
 					{isClicked && (
 						<div
 							ref={userDropdownRef}
-							className="absolute top-[56px] right-0 flex flex-col bg-[#000]"
+							className="absolute top-[56px] right-0 flex flex-col bg-[#000] min-w-[200px]"
 						>
 							{accountRoutes.map((route) =>
 								route.path !== "" ? (

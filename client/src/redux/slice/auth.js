@@ -26,9 +26,16 @@ export const authSlice = createSlice({
 				Cookies.remove("refreshToken");
 			}
 		},
+
+		updateProfile: (state, { payload }) => {
+			if (payload.success) {
+				state.user = payload.data.user;
+			}
+		},
 	},
 });
 
 export const selectAuth = (state) => state.auth;
-export const { signInReducer, signOutReducer } = authSlice.actions;
+export const { signInReducer, signOutReducer, updateProfile } =
+	authSlice.actions;
 export default authSlice.reducer;

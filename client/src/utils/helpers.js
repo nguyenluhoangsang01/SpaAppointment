@@ -25,3 +25,13 @@ export const axiosConfig = (accessToken, refreshToken) => {
 		},
 	};
 };
+
+export const axiosConfigFormData = (accessToken, refreshToken) => {
+	return {
+		headers: {
+			authorization: `Bearer ${accessToken}`,
+			Cookies: `refreshToken=${refreshToken}`,
+			"Content-Type": "multipart/form-data",
+		},
+	};
+};

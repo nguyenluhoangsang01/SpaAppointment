@@ -32,10 +32,7 @@ const SignUp = () => {
 		try {
 			const { data } = await axios.post(
 				"/auth/register",
-				{
-					...values,
-					avatar,
-				},
+				{ ...values, avatar },
 				{ headers: { "Content-Type": "multipart/form-data" } }
 			);
 

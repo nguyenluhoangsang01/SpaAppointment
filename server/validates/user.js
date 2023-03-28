@@ -8,18 +8,13 @@ export const validateProfile = async (req, res, next) => {
 	// Get user id from request
 	const { userId } = req;
 	// Get data from request body
-	const { address, currentPassword, email, firstName, lastName, phone, role } =
-		req.body;
+	const { address, firstName, lastName } = req.body;
 
 	// The properties to validate
 	const attributes = {
 		address,
-		currentPassword,
-		email,
 		firstName,
 		lastName,
-		phone,
-		role,
 	};
 
 	// Check that the request body data meets the specified constraints
@@ -27,33 +22,11 @@ export const validateProfile = async (req, res, next) => {
 		address: {
 			presence: { allowEmpty: false },
 		},
-		currentPassword: {
-			presence: { allowEmpty: false },
-			length: {
-				minimum: 8,
-			},
-		},
-		email: {
-			presence: { allowEmpty: false },
-			email: true,
-		},
 		firstName: {
 			presence: { allowEmpty: false },
 		},
 		lastName: {
 			presence: { allowEmpty: false },
-		},
-		phone: {
-			presence: { allowEmpty: false },
-			format: {
-				pattern: phoneRegex,
-				message: "must be a valid phone number",
-			},
-		},
-		role: {
-			inclusion: {
-				within: ROLES,
-			},
 		},
 	};
 
@@ -68,45 +41,9 @@ export const validateProfile = async (req, res, next) => {
 		// Check if errors occur
 		if (errors) {
 			return sendError(res, errors, 400, Object.keys(errors));
-		} else {
-			// Compare password with current password
-			const comparedPassword = bcrypt.compareSync(
-				currentPassword,
-				user.password
-			);
-			if (!comparedPassword)
-				return sendError(
-					res,
-					"Sorry, the password you entered is incorrect. Please try again",
-					400,
-					"currentPassword"
-				);
-
-			// Check email exists or not in database
-			const isEmailExists = await User.findOne({
-				email: { $eq: email, $ne: user.email },
-			});
-			if (isEmailExists)
-				return sendError(
-					res,
-					`User with this email (${isEmailExists.email}) already exists`,
-					409,
-					"email"
-				);
-			// Check phone exists or not in database
-			const isPhoneExists = await User.findOne({
-				phone: { $eq: phone, $ne: user.phone },
-			});
-			if (isPhoneExists)
-				return sendError(
-					res,
-					`User with this phone number (${isPhoneExists.phone}) already exists`,
-					409,
-					"phone"
-				);
-
-			next();
 		}
+
+		next();
 	} catch (error) {
 		next(error);
 	}

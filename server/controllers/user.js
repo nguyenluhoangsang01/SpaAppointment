@@ -53,8 +53,6 @@ export const getProfile = async (req, res, next) => {
 export const updateProfile = async (req, res, next) => {
 	// Get user id from request
 	const { userId } = req;
-	// Get data from request body
-	const { email, currentPassword, phone } = req.body;
 	// Get file from request
 	const { file } = req;
 
@@ -87,8 +85,13 @@ export const updateProfile = async (req, res, next) => {
 			);
 		}
 
+		// Get user after updated
+		const userUpdated = await User.findById(user._id).select("-__v -password");
+
 		// Send success notification
-		return sendSuccess(res, "Your profile has been edited successfully");
+		return sendSuccess(res, "Your profile has been edited successfully", {
+			user: userUpdated,
+		});
 	} catch (error) {
 		next(error);
 	}
