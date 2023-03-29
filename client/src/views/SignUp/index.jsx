@@ -9,7 +9,7 @@ import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth } from "../../redux/slice/auth";
 import { layout, ROLES } from "../../utils/constants";
-import { sendErrors } from "../../utils/helpers";
+import { validateErrors } from "../../utils/helpers";
 
 const SignUp = () => {
 	// State
@@ -45,7 +45,7 @@ const SignUp = () => {
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
-				sendErrors(data, formRef);
+				validateErrors(data, formRef);
 
 				setIsLoading(false);
 			}

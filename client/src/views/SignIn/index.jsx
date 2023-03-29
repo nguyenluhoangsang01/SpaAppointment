@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import validate from "validate.js";
 import { selectAuth, signInReducer } from "../../redux/slice/auth";
 import { layout, phoneRegex } from "../../utils/constants";
-import { sendErrors } from "../../utils/helpers";
+import { validateErrors } from "../../utils/helpers";
 
 const SignIn = () => {
 	// Ref
@@ -63,7 +63,7 @@ const SignIn = () => {
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
-				sendErrors(data, formRef);
+				validateErrors(data, formRef);
 
 				setIsLoading(false);
 			}

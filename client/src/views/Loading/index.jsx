@@ -8,8 +8,8 @@ const Loading = () => {
 		<>
 			<Navbar />
 
-			<div className="mx-auto px-6 md:px-10 max-w-full pt-[56px] min-h-[calc(100vh-56px)]">
-				<div className="py-6">
+			<div className="mx-auto px-6 md:px-10 w-full pt-[56px]">
+				<div className="py-6 flex items-center justify-center">
 					<Image
 						src="https://assets-global.website-files.com/5c7fdbdd4e3feeee8dd96dd2/6134707265a929f4cdfc1f6d_5.gif"
 						alt="Loading..."

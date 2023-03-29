@@ -10,7 +10,9 @@ import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth, updateProfile } from "../../redux/slice/auth";
 import { layout } from "../../utils/constants";
-import { axiosConfigFormData } from "../../utils/helpers";
+import {
+	axiosConfigFormData, validateErrors
+} from "../../utils/helpers";
 
 const Profile = () => {
 	// Redux
@@ -47,10 +49,12 @@ const Profile = () => {
 
 				setIsLoading(false);
 			}
-		} catch (error) {
-			console.log(error);
+		} catch ({ response: { data } }) {
+			if (!data.success) {
+				validateErrors(data, formRef);
 
-			setIsLoading(false);
+				setIsLoading(false);
+			}
 		}
 	};
 

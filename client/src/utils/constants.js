@@ -1,6 +1,7 @@
 import { lazy } from "react";
 
 const Appointment = lazy(() => import("../views/Appointment"));
+const ChangePassword = lazy(() => import("../views/ChangePassword"));
 const GiftCard = lazy(() => import("../views/GiftCard"));
 const Home = lazy(() => import("../views/Home"));
 const NotFound = lazy(() => import("../views/NotFound"));
@@ -24,6 +25,10 @@ export const routes = [
 	{
 		path: "/appointments",
 		element: <Appointment />,
+	},
+	{
+		path: "/change-password",
+		element: <ChangePassword />,
 	},
 	{
 		path: "/gift-cards",
@@ -117,6 +122,10 @@ export const accountRoutes = [
 	{
 		path: "/profile",
 		name: "Profile",
+	},
+	{
+		path: "/change-password",
+		name: "Change password",
 	},
 	{
 		path: "/transactions",

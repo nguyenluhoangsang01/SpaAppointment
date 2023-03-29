@@ -9,10 +9,10 @@ export const sizeInMb = (bytes) => {
 	}`;
 };
 
-export const sendErrors = ({ errors, name }, form) => {
+export const validateErrors = ({ errors, name }, { current }) => {
 	Object.keys(errors).forEach((fieldName) => {
 		if (name.includes(fieldName)) {
-			form.current.setFields([{ name: fieldName, errors: errors[fieldName] }]);
+			current.setFields([{ name: fieldName, errors: errors[fieldName] }]);
 		}
 	});
 };
