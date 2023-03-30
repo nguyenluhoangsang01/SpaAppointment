@@ -156,7 +156,7 @@ export const login = async (req, res, next) => {
 		if (!isMatchPassword)
 			return sendError(
 				res,
-				"Sorry, the password you entered is incorrect. Please try again",
+				"Password you entered is incorrect",
 				400,
 				"password"
 			);

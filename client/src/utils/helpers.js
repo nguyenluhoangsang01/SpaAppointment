@@ -9,14 +9,6 @@ export const sizeInMb = (bytes) => {
 	}`;
 };
 
-export const validateErrors = ({ errors, name }, { current }) => {
-	Object.keys(errors).forEach((fieldName) => {
-		if (name.includes(fieldName)) {
-			current.setFields([{ name: fieldName, errors: errors[fieldName] }]);
-		}
-	});
-};
-
 export const axiosConfig = (accessToken, refreshToken) => {
 	return {
 		headers: {

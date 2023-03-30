@@ -62,6 +62,23 @@ const SignIn = () => {
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
+				if (data.name === "emailOrPhone") {
+					formRef.current.setFields([
+						{ name: "emailOrPhone", errors: [data.message] },
+						{ name: "password", errors: null },
+					]);
+				} else if (data.name === "password") {
+					formRef.current.setFields([
+						{ name: "emailOrPhone", errors: null },
+						{ name: "password", errors: [data.message] },
+					]);
+				} else {
+					formRef.current.setFields([
+						{ name: "emailOrPhone", errors: null },
+						{ name: "password", errors: null },
+					]);
+				}
+
 				setIsLoading(false);
 			}
 		}
