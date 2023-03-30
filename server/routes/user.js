@@ -8,13 +8,12 @@ import {
 	getById,
 	getProfile,
 	updateById,
-	updateProfile,
+	updateProfile
 } from "../controllers/user.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 import {
-	validateChangePassword,
-	validateProfileById,
+	validateChangePassword
 } from "../validates/user.js";
 
 // Config multer
@@ -47,7 +46,6 @@ router.patch(
 	upload.single("avatar"),
 	verifyToken,
 	verifyAdmin,
-	validateProfileById,
 	updateById
 );
 

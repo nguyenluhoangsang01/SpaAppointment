@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
-import { avatarOptions } from "../constants.js";
+import validate from "validate.js";
+import { avatarOptions, phoneRegex, ROLES } from "../constants.js";
 import User from "../models/User.js";
 import hashPassword from "../utils/hashPassword.js";
 import sendError from "../utils/sendError.js";
@@ -112,10 +113,72 @@ export const updateById = async (req, res, next) => {
 	const { id } = req.params;
 	// Get file from request
 	const { file } = req;
+	// Get data from request body
+	const { address, email, firstName, lastName, phone, role } = req.body;
+
+	const emailConstraint = {
+		email: {
+			email: true,
+		},
+	};
+	const phoneConstraint = {
+		phone: {
+			format: {
+				pattern: phoneRegex,
+			},
+		},
+	};
+	const roleConstraint = {
+		role: {
+			inclusion: {
+				within: ROLES,
+			},
+		},
+	};
+
+	if (!firstName)
+		return sendError(res, "First name can't be blank", 400, "firstName");
+	if (!lastName)
+		return sendError(res, "Last name can't be blank", 400, "lastName");
+	if (!email) return sendError(res, "Email can't be blank", 400, "email");
+	if (validate({ email }, emailConstraint))
+		return sendError(res, "Email is not a valid email", 400, "email");
+	if (!phone)
+		return sendError(res, "Phone number can't be blank", 400, "phone");
+	if (validate({ phone }, phoneConstraint))
+		return sendError(res, "Phone must be a valid phone number", 400, "phone");
+	if (!address) return sendError(res, "Address can't be blank", 400, "address");
+	if (!role) return sendError(res, "Role can't be blank", 400, "role");
+	if (validate({ role }, roleConstraint))
+		return sendError(res, `${role} is not included in the list`, 400, "role");
 
 	try {
 		// Get user by id
 		const user = await User.findById(id);
+		if (!user) return sendError(res, "User not found", 404);
+
+		// Check email exists or not in database
+		const isEmailExists = await User.findOne({
+			email: { $eq: email, $ne: user.email },
+		});
+		if (isEmailExists)
+			return sendError(
+				res,
+				`User with this email (${isEmailExists.email}) already exists`,
+				409,
+				"email"
+			);
+		// Check phone exists or not in database
+		const isPhoneExists = await User.findOne({
+			phone: { $eq: phone, $ne: user.phone },
+		});
+		if (isPhoneExists)
+			return sendError(
+				res,
+				`User with this phone number (${isPhoneExists.phone}) already exists`,
+				409,
+				"phone"
+			);
 
 		// Check file exist or not
 		if (file) {
