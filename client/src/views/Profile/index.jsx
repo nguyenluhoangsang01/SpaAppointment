@@ -1,6 +1,8 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Table } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import Cookies from "js-cookie";
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -9,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth, updateProfile } from "../../redux/slice/auth";
-import { layout } from "../../utils/constants";
+import { formatDateTime, layout } from "../../utils/constants";
 import { axiosConfigFormData } from "../../utils/helpers";
 
 const Profile = () => {
@@ -80,81 +82,117 @@ const Profile = () => {
 		}
 	};
 
+	const columns = [];
+
 	return (
-		<Form
-			name="profile"
-			layout="vertical"
-			onFinish={onFinish}
-			ref={formRef}
-			{...layout}
-			initialValues={{ ...user }}
-		>
-			<Form.Item
-				label="First name"
-				name="firstName"
-				rules={[
-					{
-						required: true,
-						message: "First name can't be blank",
-					},
-				]}
+		<div className="divide-y-4">
+			<Form
+				name="profile"
+				layout="vertical"
+				onFinish={onFinish}
+				ref={formRef}
+				{...layout}
+				initialValues={{
+					...user,
+					createdAt: moment(user.createdAt).format(formatDateTime),
+					updatedAt: moment(user.updatedAt).format(formatDateTime),
+				}}
 			>
-				<Input placeholder="First name" />
-			</Form.Item>
-
-			<Form.Item
-				label="Last name"
-				name="lastName"
-				rules={[
-					{
-						required: true,
-						message: "Last name can't be blank",
-					},
-				]}
-			>
-				<Input placeholder="Last name" />
-			</Form.Item>
-
-			<Form.Item
-				label="Address"
-				name="address"
-				rules={[
-					{
-						required: true,
-						message: "Address can't be blank",
-					},
-				]}
-			>
-				<Input placeholder="Address" />
-			</Form.Item>
-
-			<Form.Item label="Avatar">
-				<Dropzone setAvatar={setAvatar} />
-			</Form.Item>
-			{avatar && (
-				<Form.Item name="avatar">
-					<RenderFile
-						avatar={{
-							format: avatar.type.split("/")[1],
-							name: avatar.name,
-							size: avatar.size,
-						}}
-					/>
-				</Form.Item>
-			)}
-
-			<Form.Item>
-				<Button
-					type="primary"
-					htmlType="submit"
-					className="bg-black flex items-center gap-2"
-					disabled={isLoading}
+				<Form.Item
+					label="First name"
+					name="firstName"
+					rules={[
+						{
+							required: true,
+							message: "First name can't be blank",
+						},
+					]}
 				>
-					{isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
-					<span>Update</span>
-				</Button>
-			</Form.Item>
-		</Form>
+					<Input placeholder="First name" />
+				</Form.Item>
+
+				<Form.Item
+					label="Last name"
+					name="lastName"
+					rules={[
+						{
+							required: true,
+							message: "Last name can't be blank",
+						},
+					]}
+				>
+					<Input placeholder="Last name" />
+				</Form.Item>
+
+				<Form.Item
+					label="Address"
+					name="address"
+					rules={[
+						{
+							required: true,
+							message: "Address can't be blank",
+						},
+					]}
+				>
+					<Input placeholder="Address" />
+				</Form.Item>
+
+				<Form.Item label="Bio" name="bio">
+					<TextArea />
+				</Form.Item>
+
+				<Form.Item label="Role" name="role">
+					<Input disabled />
+				</Form.Item>
+
+				<Form.Item label="Logged in at" name="loggedInAt">
+					<Input disabled />
+				</Form.Item>
+
+				<Form.Item label="Logged in ip" name="loggedInIP">
+					<Input disabled />
+				</Form.Item>
+
+				<Form.Item label="Created at" name="createdAt">
+					<Input disabled />
+				</Form.Item>
+
+				<Form.Item label="Updated at" name="updatedAt">
+					<Input disabled />
+				</Form.Item>
+
+				<Form.Item label="Avatar">
+					<Dropzone setAvatar={setAvatar} />
+				</Form.Item>
+				{avatar && (
+					<Form.Item name="avatar">
+						<RenderFile
+							avatar={{
+								format: avatar.type.split("/")[1],
+								name: avatar.name,
+								size: avatar.size,
+							}}
+						/>
+					</Form.Item>
+				)}
+
+				<Form.Item>
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="bg-black flex items-center gap-2"
+						disabled={isLoading}
+					>
+						{isLoading && (
+							<AiOutlineLoading3Quarters className="animate-spin" />
+						)}
+						<span>Update</span>
+					</Button>
+				</Form.Item>
+			</Form>
+
+			<Table className="pt-8" columns={columns} />
+		</div>
 	);
 };
 
