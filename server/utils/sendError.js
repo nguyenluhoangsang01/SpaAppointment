@@ -1,13 +1,11 @@
-const sendError = (res, errors, statusCode = 400, name) => {
+const sendError = (res, message, statusCode = 400, name) => {
 	let resJson = {
 		success: false,
 		status: statusCode,
-		errors: {
-			[name ? name : "system"]: [errors],
-		},
+		message,
 	};
 
-	if (name) resJson.name = [name];
+	if (name) resJson.name = name;
 
 	return res.status(statusCode).json(resJson);
 };

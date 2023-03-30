@@ -4,51 +4,6 @@ import { passwordRegex, phoneRegex, ROLES } from "../constants.js";
 import User from "../models/User.js";
 import sendError from "../utils/sendError.js";
 
-export const validateProfile = async (req, res, next) => {
-	// Get user id from request
-	const { userId } = req;
-	// Get data from request body
-	const { address, firstName, lastName } = req.body;
-
-	// The properties to validate
-	const attributes = {
-		address,
-		firstName,
-		lastName,
-	};
-
-	// Check that the request body data meets the specified constraints
-	const constraints = {
-		address: {
-			presence: { allowEmpty: false },
-		},
-		firstName: {
-			presence: { allowEmpty: false },
-		},
-		lastName: {
-			presence: { allowEmpty: false },
-		},
-	};
-
-	try {
-		// Get user by id
-		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
-
-		// Find errors
-		const errors = validate(attributes, constraints);
-
-		// Check if errors occur
-		if (errors) {
-			return sendError(res, errors, 400, Object.keys(errors));
-		}
-
-		next();
-	} catch (error) {
-		next(error);
-	}
-};
-
 export const validateProfileById = async (req, res, next) => {
 	// Get user id from request params
 	const { id } = req.params;

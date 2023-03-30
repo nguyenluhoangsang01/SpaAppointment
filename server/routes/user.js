@@ -14,7 +14,6 @@ import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
 import {
 	validateChangePassword,
-	validateProfile,
 	validateProfileById,
 } from "../validates/user.js";
 
@@ -55,13 +54,7 @@ router.patch(
 // @route PATCH api/user/profile
 // @desc Update user's profile
 // @access Private
-router.patch(
-	"/profile",
-	upload.single("avatar"),
-	verifyToken,
-	validateProfile,
-	updateProfile
-);
+router.patch("/profile", upload.single("avatar"), verifyToken, updateProfile);
 
 // @route PATCH api/user/profile/change-password
 // @desc Change password of current user

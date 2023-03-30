@@ -55,10 +55,20 @@ export const updateProfile = async (req, res, next) => {
 	const { userId } = req;
 	// Get file from request
 	const { file } = req;
+	// Get data from request body
+	const { address, firstName, lastName } = req.body;
+
+	// Validate
+	if (!firstName)
+		return sendError(res, "First name can't be blank", 400, "firstName");
+	if (!lastName)
+		return sendError(res, "Last name can't be blank", 400, "lastName");
+	if (!address) return sendError(res, "Address can't be blank", 400, "address");
 
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
+		if (!user) return sendError(res, "User not found", 404);
 
 		// Check file exist or not
 		if (file) {

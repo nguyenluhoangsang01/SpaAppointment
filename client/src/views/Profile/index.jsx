@@ -10,9 +10,7 @@ import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth, updateProfile } from "../../redux/slice/auth";
 import { layout } from "../../utils/constants";
-import {
-	axiosConfigFormData, validateErrors
-} from "../../utils/helpers";
+import { axiosConfigFormData } from "../../utils/helpers";
 
 const Profile = () => {
 	// Redux
@@ -51,7 +49,67 @@ const Profile = () => {
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
-				validateErrors(data, formRef);
+				if (data.name === "firstName") {
+					formRef.current.setFields([
+						{
+							name: "firstName",
+							errors: [data.message],
+						},
+						{
+							name: "lastName",
+							errors: null,
+						},
+						{
+							name: "address",
+							errors: null,
+						},
+					]);
+				} else if (data.name === "lastName") {
+					formRef.current.setFields([
+						{
+							name: "firstName",
+							errors: null,
+						},
+						{
+							name: "lastName",
+							errors: [data.message],
+						},
+						{
+							name: "address",
+							errors: null,
+						},
+					]);
+				} else if (data.name === "address") {
+					formRef.current.setFields([
+						{
+							name: "firstName",
+							errors: null,
+						},
+						{
+							name: "lastName",
+							errors: null,
+						},
+						{
+							name: "address",
+							errors: [data.message],
+						},
+					]);
+				} else {
+					formRef.current.setFields([
+						{
+							name: "firstName",
+							errors: null,
+						},
+						{
+							name: "lastName",
+							errors: null,
+						},
+						{
+							name: "address",
+							errors: null,
+						},
+					]);
+				}
 
 				setIsLoading(false);
 			}
@@ -70,12 +128,12 @@ const Profile = () => {
 			<Form.Item
 				label="First name"
 				name="firstName"
-				rules={[
-					{
-						required: true,
-						message: "First name can't be blank",
-					},
-				]}
+				// rules={[
+				// 	{
+				// 		required: true,
+				// 		message: "First name can't be blank",
+				// 	},
+				// ]}
 			>
 				<Input placeholder="First name" />
 			</Form.Item>
@@ -83,12 +141,12 @@ const Profile = () => {
 			<Form.Item
 				label="Last name"
 				name="lastName"
-				rules={[
-					{
-						required: true,
-						message: "Last name can't be blank",
-					},
-				]}
+				// rules={[
+				// 	{
+				// 		required: true,
+				// 		message: "Last name can't be blank",
+				// 	},
+				// ]}
 			>
 				<Input placeholder="Last name" />
 			</Form.Item>
@@ -96,12 +154,12 @@ const Profile = () => {
 			<Form.Item
 				label="Address"
 				name="address"
-				rules={[
-					{
-						required: true,
-						message: "Address can't be blank",
-					},
-				]}
+				// rules={[
+				// 	{
+				// 		required: true,
+				// 		message: "Address can't be blank",
+				// 	},
+				// ]}
 			>
 				<Input placeholder="Address" />
 			</Form.Item>
