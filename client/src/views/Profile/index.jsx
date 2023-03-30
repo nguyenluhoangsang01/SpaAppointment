@@ -82,7 +82,9 @@ const Profile = () => {
 		}
 	};
 
-	const columns = [];
+	const appointmentColumns = [];
+
+	const serviceColumns = [];
 
 	return (
 		<div className="divide-y-4">
@@ -191,7 +193,9 @@ const Profile = () => {
 				</Form.Item>
 			</Form>
 
-			<Table className="pt-8" columns={columns} />
+			<Table className="pt-10" columns={appointmentColumns} />
+
+			<Table className="pt-10" columns={serviceColumns} />
 		</div>
 	);
 };
