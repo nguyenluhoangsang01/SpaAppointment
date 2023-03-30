@@ -12,9 +12,6 @@ import {
 } from "../controllers/user.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import {
-	validateChangePassword
-} from "../validates/user.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -60,7 +57,6 @@ router.patch("/profile", upload.single("avatar"), verifyToken, updateProfile);
 router.patch(
 	"/profile/change-password",
 	verifyToken,
-	validateChangePassword,
 	changePassword
 );
 

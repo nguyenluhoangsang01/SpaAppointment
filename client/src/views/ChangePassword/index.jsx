@@ -2,12 +2,13 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectAuth } from "../../redux/slice/auth";
 import { layout } from "../../utils/constants";
-import { axiosConfig, validateErrors } from "../../utils/helpers";
+import { axiosConfig } from "../../utils/helpers";
 
 const ChangePassword = () => {
 	// Redux
@@ -36,11 +37,75 @@ const ChangePassword = () => {
 			);
 
 			if (data.success) {
+				formRef.current.resetFields();
+
+				toast.success(data.message);
+
 				setIsLoading(false);
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
-				validateErrors(data, formRef);
+				if (data.name === "currentPassword") {
+					formRef.current.setFields([
+						{
+							name: "currentPassword",
+							errors: [data.message],
+						},
+						{
+							name: "newPassword",
+							errors: null,
+						},
+						{
+							name: "confirmPassword",
+							errors: null,
+						},
+					]);
+				} else if (data.name === "newPassword") {
+					formRef.current.setFields([
+						{
+							name: "currentPassword",
+							errors: null,
+						},
+						{
+							name: "newPassword",
+							errors: [data.message],
+						},
+						{
+							name: "confirmPassword",
+							errors: null,
+						},
+					]);
+				} else if (data.name === "confirmPassword") {
+					formRef.current.setFields([
+						{
+							name: "currentPassword",
+							errors: null,
+						},
+						{
+							name: "newPassword",
+							errors: null,
+						},
+						{
+							name: "confirmPassword",
+							errors: [data.message],
+						},
+					]);
+				} else {
+					formRef.current.setFields([
+						{
+							name: "currentPassword",
+							errors: null,
+						},
+						{
+							name: "newPassword",
+							errors: null,
+						},
+						{
+							name: "confirmPassword",
+							errors: null,
+						},
+					]);
+				}
 
 				setIsLoading(false);
 			}
@@ -65,12 +130,12 @@ const ChangePassword = () => {
 				<Form.Item
 					label="Current password"
 					name="currentPassword"
-					rules={[
-						{
-							required: true,
-							message: "Current password can't be blank",
-						},
-					]}
+					// rules={[
+					// 	{
+					// 		required: true,
+					// 		message: "Current password can't be blank",
+					// 	},
+					// ]}
 				>
 					<Input.Password placeholder="Current password" />
 				</Form.Item>
@@ -80,22 +145,22 @@ const ChangePassword = () => {
 				<Form.Item
 					label="New password"
 					name="newPassword"
-					rules={[
-						{
-							required: true,
-							message: "New password can't be blank",
-						},
-						{
-							min: 8,
-							message: "New password is too short (minimum is 8 characters)",
-						},
-						{
-							pattern:
-								/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-							message:
-								"New password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
-						},
-					]}
+					// rules={[
+					// 	{
+					// 		required: true,
+					// 		message: "New password can't be blank",
+					// 	},
+					// 	{
+					// 		min: 8,
+					// 		message: "New password is too short (minimum is 8 characters)",
+					// 	},
+					// 	{
+					// 		pattern:
+					// 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+					// 		message:
+					// 			"New password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+					// 	},
+					// ]}
 				>
 					<Input.Password placeholder="New password" />
 				</Form.Item>
@@ -103,12 +168,12 @@ const ChangePassword = () => {
 				<Form.Item
 					label="Confirm new password"
 					name="confirmPassword"
-					rules={[
-						{
-							required: true,
-							message: "Confirm new password can't be blank",
-						},
-					]}
+					// rules={[
+					// 	{
+					// 		required: true,
+					// 		message: "Confirm new password can't be blank",
+					// 	},
+					// ]}
 				>
 					<Input.Password placeholder="Confirm new password" />
 				</Form.Item>

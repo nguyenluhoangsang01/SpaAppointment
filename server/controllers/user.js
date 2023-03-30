@@ -1,6 +1,12 @@
+import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import validate from "validate.js";
-import { avatarOptions, phoneRegex, ROLES } from "../constants.js";
+import {
+	avatarOptions,
+	passwordRegex,
+	phoneRegex,
+	ROLES,
+} from "../constants.js";
 import User from "../models/User.js";
 import hashPassword from "../utils/hashPassword.js";
 import sendError from "../utils/sendError.js";
@@ -117,23 +123,13 @@ export const updateById = async (req, res, next) => {
 	const { address, email, firstName, lastName, phone, role } = req.body;
 
 	const emailConstraint = {
-		email: {
-			email: true,
-		},
+		email: { email: true },
 	};
 	const phoneConstraint = {
-		phone: {
-			format: {
-				pattern: phoneRegex,
-			},
-		},
+		phone: { format: { pattern: phoneRegex } },
 	};
 	const roleConstraint = {
-		role: {
-			inclusion: {
-				within: ROLES,
-			},
-		},
+		role: { inclusion: { within: ROLES } },
 	};
 
 	if (!firstName)
@@ -216,9 +212,72 @@ export const changePassword = async (req, res, next) => {
 	// Get user id from request
 	const { userId } = req;
 	// Get data from request body
-	const { newPassword } = req.body;
+	const { confirmPassword, currentPassword, newPassword } = req.body;
+
+	const newPasswordConstraint = {
+		newPassword: {
+			length: { minimum: 8 },
+			format: { pattern: passwordRegex },
+		},
+	};
 
 	try {
+		// Get user by id
+		const user = await User.findById(userId);
+		if (!user) return sendError(res, "User not found", 404);
+
+		// Compare current password
+		const isMatchCurrentPassword = bcrypt.compareSync(
+			currentPassword,
+			user.password
+		);
+
+		if (!currentPassword)
+			return sendError(
+				res,
+				"Current password can't be blank",
+				400,
+				"currentPassword"
+			);
+		if (!isMatchCurrentPassword)
+			return sendError(
+				res,
+				"Current password you entered is incorrect",
+				400,
+				"currentPassword"
+			);
+		if (!newPassword)
+			return sendError(res, "New password can't be blank", 400, "newPassword");
+		if (validate({ newPassword }, newPasswordConstraint))
+			return sendError(
+				res,
+				"New password should be at least 8 characters long and must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+				400,
+				"newPassword"
+			);
+		const isMatchNewPassword = bcrypt.compareSync(newPassword, user.password);
+		if (isMatchNewPassword)
+			return sendError(
+				res,
+				"New password must be different from old password",
+				400,
+				"newPassword"
+			);
+		if (!confirmPassword)
+			return sendError(
+				res,
+				"Confirm new password can't be blank",
+				400,
+				"confirmPassword"
+			);
+		if (confirmPassword !== newPassword)
+			return sendError(
+				res,
+				"Confirm new password is not equal to new password",
+				400,
+				"confirmPassword"
+			);
+
 		// Hash new password
 		const hashedNewPassword = await hashPassword(newPassword);
 
