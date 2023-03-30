@@ -51,7 +51,7 @@ export const validateGiftCard = async (req, res, next) => {
 					res,
 					`${
 						promotion ? promotion.name : "Promotion id"
-					} is not included in the list`,
+					} isn't included in the list`,
 					404,
 					"promotion"
 				);
@@ -120,7 +120,7 @@ export const validateGiftCardById = async (req, res, next) => {
 					res,
 					`${
 						promotion ? promotion.name : "Promotion"
-					} is not included in the list`,
+					} isn't included in the list`,
 					404,
 					"promotion"
 				);

@@ -80,3 +80,29 @@ export const RATES = {
 	9: 9,
 	10: 10,
 };
+
+export const emailConstraint = {
+	email: { email: true },
+};
+export const phoneConstraint = {
+	phone: { format: { pattern: phoneRegex } },
+};
+export const roleConstraint = {
+	role: { inclusion: { within: ROLES } },
+};
+export const newPasswordConstraint = {
+	newPassword: {
+		length: { minimum: 8 },
+		format: { pattern: passwordRegex },
+	},
+};
+export const passwordConstraint = {
+	password: {
+		length: {
+			minimum: 8,
+		},
+		format: {
+			pattern: passwordRegex,
+		},
+	},
+};

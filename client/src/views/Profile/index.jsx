@@ -51,63 +51,27 @@ const Profile = () => {
 			if (!data.success) {
 				if (data.name === "firstName") {
 					formRef.current.setFields([
-						{
-							name: "firstName",
-							errors: [data.message],
-						},
-						{
-							name: "lastName",
-							errors: null,
-						},
-						{
-							name: "address",
-							errors: null,
-						},
+						{ name: "firstName", errors: [data.message] },
+						{ name: "lastName", errors: null },
+						{ name: "address", errors: null },
 					]);
 				} else if (data.name === "lastName") {
 					formRef.current.setFields([
-						{
-							name: "firstName",
-							errors: null,
-						},
-						{
-							name: "lastName",
-							errors: [data.message],
-						},
-						{
-							name: "address",
-							errors: null,
-						},
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: [data.message] },
+						{ name: "address", errors: null },
 					]);
 				} else if (data.name === "address") {
 					formRef.current.setFields([
-						{
-							name: "firstName",
-							errors: null,
-						},
-						{
-							name: "lastName",
-							errors: null,
-						},
-						{
-							name: "address",
-							errors: [data.message],
-						},
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "address", errors: [data.message] },
 					]);
 				} else {
 					formRef.current.setFields([
-						{
-							name: "firstName",
-							errors: null,
-						},
-						{
-							name: "lastName",
-							errors: null,
-						},
-						{
-							name: "address",
-							errors: null,
-						},
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "address", errors: null },
 					]);
 				}
 

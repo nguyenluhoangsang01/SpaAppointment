@@ -3,10 +3,14 @@ import { v2 as cloudinary } from "cloudinary";
 import ip from "ip";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import validate from "validate.js";
 import {
 	ACCESS_TOKEN_EXPIRES_IN,
 	avatarOptions,
+	emailConstraint,
 	formatDateTime,
+	passwordConstraint,
+	phoneConstraint,
 	REFRESH_TOKEN_EXPIRES_IN,
 } from "../constants.js";
 import User from "../models/User.js";
@@ -15,12 +19,75 @@ import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
 
 export const register = async (req, res, next) => {
-	// Get data from request body
-	const { password } = req.body;
 	// Get file from request
 	const { file } = req;
+	// Get data from request body
+	const {
+		address,
+		confirmPassword,
+		email,
+		firstName,
+		lastName,
+		password,
+		phone,
+	} = req.body;
+
+	if (!firstName)
+		return sendError(res, "First name can't be blank", 400, "firstName");
+	if (!lastName)
+		return sendError(res, "Last name can't be blank", 400, "lastName");
+	if (!email) return sendError(res, "Email can't be blank", 400, "email");
+	if (validate({ email }, emailConstraint))
+		return sendError(res, "Email isn't a valid email", 400, "email");
+	if (!phone)
+		return sendError(res, "Phone number can't be blank", 400, "phone");
+	if (validate({ phone }, phoneConstraint))
+		return sendError(res, "Phone must be a valid phone number", 400, "phone");
+	if (!password)
+		return sendError(res, "Password can't be blank", 400, "password");
+	if (validate({ password }, passwordConstraint))
+		return sendError(
+			res,
+			"Password should be at least 8 characters long and must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+			400,
+			"password"
+		);
+	if (!confirmPassword)
+		return sendError(
+			res,
+			"Confirm password can't be blank",
+			400,
+			"confirmPassword"
+		);
+	if (confirmPassword !== password)
+		return sendError(
+			res,
+			"Confirm password isn't equal to password",
+			400,
+			"confirmPassword"
+		);
+	if (!address) return sendError(res, "Address can't be blank", 400, "address");
 
 	try {
+		// Check email exists or not in database
+		const isEmailExists = await User.findOne({ email });
+		if (isEmailExists)
+			return sendError(
+				res,
+				`User with this email (${isEmailExists.email}) already exists`,
+				409,
+				"email"
+			);
+		// Check phone exists or not in database
+		const isPhoneExists = await User.findOne({ phone });
+		if (isPhoneExists)
+			return sendError(
+				res,
+				`User with this phone number (${isPhoneExists.phone}) already exists`,
+				409,
+				"phone"
+			);
+
 		// Hash password
 		const hashedPassword = await hashPassword(password);
 

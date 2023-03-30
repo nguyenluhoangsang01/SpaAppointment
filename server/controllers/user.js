@@ -3,9 +3,10 @@ import { v2 as cloudinary } from "cloudinary";
 import validate from "validate.js";
 import {
 	avatarOptions,
-	passwordRegex,
-	phoneRegex,
-	ROLES,
+	emailConstraint,
+	newPasswordConstraint,
+	phoneConstraint,
+	roleConstraint,
 } from "../constants.js";
 import User from "../models/User.js";
 import hashPassword from "../utils/hashPassword.js";
@@ -122,23 +123,13 @@ export const updateById = async (req, res, next) => {
 	// Get data from request body
 	const { address, email, firstName, lastName, phone, role } = req.body;
 
-	const emailConstraint = {
-		email: { email: true },
-	};
-	const phoneConstraint = {
-		phone: { format: { pattern: phoneRegex } },
-	};
-	const roleConstraint = {
-		role: { inclusion: { within: ROLES } },
-	};
-
 	if (!firstName)
 		return sendError(res, "First name can't be blank", 400, "firstName");
 	if (!lastName)
 		return sendError(res, "Last name can't be blank", 400, "lastName");
 	if (!email) return sendError(res, "Email can't be blank", 400, "email");
 	if (validate({ email }, emailConstraint))
-		return sendError(res, "Email is not a valid email", 400, "email");
+		return sendError(res, "Email isn't a valid email", 400, "email");
 	if (!phone)
 		return sendError(res, "Phone number can't be blank", 400, "phone");
 	if (validate({ phone }, phoneConstraint))
@@ -146,7 +137,7 @@ export const updateById = async (req, res, next) => {
 	if (!address) return sendError(res, "Address can't be blank", 400, "address");
 	if (!role) return sendError(res, "Role can't be blank", 400, "role");
 	if (validate({ role }, roleConstraint))
-		return sendError(res, `${role} is not included in the list`, 400, "role");
+		return sendError(res, `${role} isn't included in the list`, 400, "role");
 
 	try {
 		// Get user by id
@@ -214,13 +205,6 @@ export const changePassword = async (req, res, next) => {
 	// Get data from request body
 	const { confirmPassword, currentPassword, newPassword } = req.body;
 
-	const newPasswordConstraint = {
-		newPassword: {
-			length: { minimum: 8 },
-			format: { pattern: passwordRegex },
-		},
-	};
-
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
@@ -273,7 +257,7 @@ export const changePassword = async (req, res, next) => {
 		if (confirmPassword !== newPassword)
 			return sendError(
 				res,
-				"Confirm new password is not equal to new password",
+				"Confirm new password isn't equal to new password",
 				400,
 				"confirmPassword"
 			);

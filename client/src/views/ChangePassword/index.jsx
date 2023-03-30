@@ -47,63 +47,27 @@ const ChangePassword = () => {
 			if (!data.success) {
 				if (data.name === "currentPassword") {
 					formRef.current.setFields([
-						{
-							name: "currentPassword",
-							errors: [data.message],
-						},
-						{
-							name: "newPassword",
-							errors: null,
-						},
-						{
-							name: "confirmPassword",
-							errors: null,
-						},
+						{ name: "currentPassword", errors: [data.message] },
+						{ name: "newPassword", errors: null },
+						{ name: "confirmPassword", errors: null },
 					]);
 				} else if (data.name === "newPassword") {
 					formRef.current.setFields([
-						{
-							name: "currentPassword",
-							errors: null,
-						},
-						{
-							name: "newPassword",
-							errors: [data.message],
-						},
-						{
-							name: "confirmPassword",
-							errors: null,
-						},
+						{ name: "currentPassword", errors: null },
+						{ name: "newPassword", errors: [data.message] },
+						{ name: "confirmPassword", errors: null },
 					]);
 				} else if (data.name === "confirmPassword") {
 					formRef.current.setFields([
-						{
-							name: "currentPassword",
-							errors: null,
-						},
-						{
-							name: "newPassword",
-							errors: null,
-						},
-						{
-							name: "confirmPassword",
-							errors: [data.message],
-						},
+						{ name: "currentPassword", errors: null },
+						{ name: "newPassword", errors: null },
+						{ name: "confirmPassword", errors: [data.message] },
 					]);
 				} else {
 					formRef.current.setFields([
-						{
-							name: "currentPassword",
-							errors: null,
-						},
-						{
-							name: "newPassword",
-							errors: null,
-						},
-						{
-							name: "confirmPassword",
-							errors: null,
-						},
+						{ name: "currentPassword", errors: null },
+						{ name: "newPassword", errors: null },
+						{ name: "confirmPassword", errors: null },
 					]);
 				}
 

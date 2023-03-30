@@ -9,7 +9,6 @@ import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth } from "../../redux/slice/auth";
 import { layout, ROLES } from "../../utils/constants";
-import { validateErrors } from "../../utils/helpers";
 
 const SignUp = () => {
 	// State
@@ -45,7 +44,106 @@ const SignUp = () => {
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
-				validateErrors(data, formRef);
+				if (data.name === "firstName") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: [data.message] },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "lastName") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: [data.message] },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "email") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: [data.message] },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "phone") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: [data.message] },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "password") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: [data.message] },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "confirmPassword") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: [data.message] },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "address") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: [data.message] },
+						{ name: "role", errors: null },
+					]);
+				} else if (data.name === "role") {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: [data.message] },
+					]);
+				} else {
+					formRef.current.setFields([
+						{ name: "firstName", errors: null },
+						{ name: "lastName", errors: null },
+						{ name: "email", errors: null },
+						{ name: "phone", errors: null },
+						{ name: "password", errors: null },
+						{ name: "confirmPassword", errors: null },
+						{ name: "address", errors: null },
+						{ name: "role", errors: null },
+					]);
+				}
 
 				setIsLoading(false);
 			}
@@ -107,7 +205,7 @@ const SignUp = () => {
 					},
 					{
 						type: "email",
-						message: "Email is not a valid email",
+						message: "Email isn't a valid email",
 					},
 				]}
 			>

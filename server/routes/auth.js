@@ -2,7 +2,6 @@ import express from "express";
 import multer from "multer";
 import { login, logout, register } from "../controllers/auth.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateAuth } from "../validates/auth.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -14,7 +13,7 @@ const router = express.Router();
 // @route POST api/auth/register
 // @desc Create a new user
 // @access Public
-router.post("/register", upload.single("avatar"), validateAuth, register);
+router.post("/register", upload.single("avatar"), register);
 
 // @route POST api/auth/login
 // @desc Login

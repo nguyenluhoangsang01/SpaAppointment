@@ -61,19 +61,19 @@ export const validateAppointment = async (req, res, next) => {
 			if (!staff)
 				return sendError(
 					res,
-					"Staff is not included in the list",
+					"Staff isn't included in the list",
 					404,
 					"staff"
 				);
 			if (staff.role !== ROLES.Staff)
-				return sendError(res, "User is not a staff");
+				return sendError(res, "User isn't a staff");
 
 			// Get service by id
 			const service = await Service.findById(serviceId);
 			if (!service)
 				return sendError(
 					res,
-					"Service is not included in the list",
+					"Service isn't included in the list",
 					404,
 					"service"
 				);
@@ -146,19 +146,19 @@ export const validateAppointmentById = async (req, res, next) => {
 			if (!staff)
 				return sendError(
 					res,
-					"Staff is not included in the list",
+					"Staff isn't included in the list",
 					404,
 					"staff"
 				);
 			if (staff.role !== ROLES.Staff)
-				return sendError(res, "User is not a staff");
+				return sendError(res, "User isn't a staff");
 
 			// Get service by id
 			const service = await Service.findById(serviceId);
 			if (!service)
 				return sendError(
 					res,
-					"Service is not included in the list",
+					"Service isn't included in the list",
 					404,
 					"service"
 				);
