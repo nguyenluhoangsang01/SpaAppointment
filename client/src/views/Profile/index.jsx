@@ -92,12 +92,12 @@ const Profile = () => {
 			<Form.Item
 				label="First name"
 				name="firstName"
-				// rules={[
-				// 	{
-				// 		required: true,
-				// 		message: "First name can't be blank",
-				// 	},
-				// ]}
+				rules={[
+					{
+						required: true,
+						message: "First name can't be blank",
+					},
+				]}
 			>
 				<Input placeholder="First name" />
 			</Form.Item>
@@ -105,12 +105,12 @@ const Profile = () => {
 			<Form.Item
 				label="Last name"
 				name="lastName"
-				// rules={[
-				// 	{
-				// 		required: true,
-				// 		message: "Last name can't be blank",
-				// 	},
-				// ]}
+				rules={[
+					{
+						required: true,
+						message: "Last name can't be blank",
+					},
+				]}
 			>
 				<Input placeholder="Last name" />
 			</Form.Item>
@@ -118,12 +118,12 @@ const Profile = () => {
 			<Form.Item
 				label="Address"
 				name="address"
-				// rules={[
-				// 	{
-				// 		required: true,
-				// 		message: "Address can't be blank",
-				// 	},
-				// ]}
+				rules={[
+					{
+						required: true,
+						message: "Address can't be blank",
+					},
+				]}
 			>
 				<Input placeholder="Address" />
 			</Form.Item>
