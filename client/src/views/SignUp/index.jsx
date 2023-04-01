@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -277,15 +277,6 @@ const SignUp = () => {
 				]}
 			>
 				<Input placeholder="Address" />
-			</Form.Item>
-
-			<Form.Item label="Role" name="role">
-				<Select>
-					<Select.Option value="Admin">Admin</Select.Option>
-					<Select.Option value="Staff">Staff</Select.Option>
-					<Select.Option value="Customer">Customer</Select.Option>
-					<Select.Option value="Receptionist">Receptionist</Select.Option>
-				</Select>
 			</Form.Item>
 
 			<Form.Item label="Avatar">

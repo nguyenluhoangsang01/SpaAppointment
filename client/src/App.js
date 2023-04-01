@@ -20,7 +20,13 @@ function App() {
 
 	useEffect(() => {
 		document.title =
-			convertPathname(pathname) !== "" ? convertPathname(pathname) : "Home";
+			convertPathname(pathname) !== ""
+				? convertPathname(
+						pathname.split("/").length > 1
+							? pathname.split("/")[2] || pathname.split("/")[1]
+							: pathname
+				  )
+				: "Home";
 	}, [pathname]);
 
 	return (

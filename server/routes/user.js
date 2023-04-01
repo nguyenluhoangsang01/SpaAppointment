@@ -8,7 +8,7 @@ import {
 	getById,
 	getProfile,
 	updateById,
-	updateProfile
+	updateProfile,
 } from "../controllers/user.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
@@ -28,7 +28,7 @@ router.get("/", verifyToken, verifyAdmin, getAll);
 // @route GET api/user/details/:id
 // @desc Get user by id
 // @access Private
-router.get("/details/:id", verifyToken, getById);
+router.get("/details/:id", verifyToken, verifyAdmin, getById);
 
 // @route GET api/user/profile
 // @desc Get user profile
@@ -38,13 +38,7 @@ router.get("/profile", verifyToken, getProfile);
 // @route PATCH api/user/details/:id
 // @desc Update user by id
 // @access Private
-router.patch(
-	"/details/:id",
-	upload.single("avatar"),
-	verifyToken,
-	verifyAdmin,
-	updateById
-);
+router.patch("/details/:id", verifyToken, verifyAdmin, updateById);
 
 // @route PATCH api/user/profile
 // @desc Update user's profile
@@ -54,11 +48,7 @@ router.patch("/profile", upload.single("avatar"), verifyToken, updateProfile);
 // @route PATCH api/user/profile/change-password
 // @desc Change password of current user
 // @access Private
-router.patch(
-	"/profile/change-password",
-	verifyToken,
-	changePassword
-);
+router.patch("/profile/change-password", verifyToken, changePassword);
 
 // @route DELETE api/user
 // @desc Delete all users

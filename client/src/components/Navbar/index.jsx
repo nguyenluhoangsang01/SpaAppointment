@@ -85,7 +85,7 @@ const Navbar = () => {
 			>
 				{navbarRoutes
 					.filter((route) =>
-						user ? route.name !== "Sign in" && route.name !== "Sign up" : route
+						user?.role !== "Admin" ? route.name !== "Users" : route
 					)
 					.map((route) => (
 						<NavLink

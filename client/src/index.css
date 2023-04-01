@@ -22,4 +22,49 @@
 		display: flex !important;
 		align-items: center !important;
 	}
+
+	svg {
+		cursor: pointer !important;
+	}
+}
+
+.view-details {
+	width: 100%;
+}
+
+.view-details tr {
+	height: 50px;
+}
+
+.view-details tr:nth-child(odd) {
+	background: #ccc;
+}
+
+.view-details th {
+	border-right: 1px solid black;
+}
+
+.view-details td {
+	padding-left: 30px;
+}
+
+.view-details span {
+	color: #f00;
+	font-style: italic;
+	font-size: 14px;
+}
+
+.ant-modal-footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ant-modal-content button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ant-modal-footer button:last-child {
+	background: #000;
 }

@@ -1,6 +1,6 @@
 export const convertPathname = (pathname) => {
-	const str = pathname.replace("-", " ").replace("/", "");
-	return str.charAt(0).toUpperCase() + str.slice(1);
+	const str = pathname?.replace("-", " ").replace("/", "");
+	return str?.charAt(0).toUpperCase() + str?.slice(1);
 };
 
 export const sizeInMb = (bytes) => {

@@ -134,10 +134,10 @@ export const updateById = async (req, res, next) => {
 		return sendError(res, "Phone number can't be blank", 400, "phone");
 	if (validate({ phone }, phoneConstraint))
 		return sendError(res, "Phone must be a valid phone number", 400, "phone");
-	if (!address) return sendError(res, "Address can't be blank", 400, "address");
 	if (!role) return sendError(res, "Role can't be blank", 400, "role");
 	if (validate({ role }, roleConstraint))
 		return sendError(res, `${role} isn't included in the list`, 400, "role");
+	if (!address) return sendError(res, "Address can't be blank", 400, "address");
 
 	try {
 		// Get user by id

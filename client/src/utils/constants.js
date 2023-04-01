@@ -13,6 +13,8 @@ const SignIn = lazy(() => import("../views/SignIn"));
 const SignUp = lazy(() => import("../views/SignUp"));
 const Transaction = lazy(() => import("../views/Transaction"));
 const User = lazy(() => import("../views/User"));
+const UserViewDetails = lazy(() => import("../views/User/UserViewDetails"));
+const UserUpdate = lazy(() => import("../views/User/UserUpdate"));
 
 export const ROLES = {
 	Admin: "Admin",
@@ -20,6 +22,25 @@ export const ROLES = {
 	Customer: "Customer",
 	Receptionist: "Receptionist",
 };
+
+export const SELECT_ROLES = [
+	{
+		value: "Admin",
+		label: "Admin",
+	},
+	{
+		value: "Staff",
+		label: "Staff",
+	},
+	{
+		value: "Customer",
+		label: "Customer",
+	},
+	{
+		value: "Receptionist",
+		label: "Receptionist",
+	},
+];
 
 export const routes = [
 	{
@@ -73,6 +94,14 @@ export const routes = [
 	{
 		path: "/users",
 		element: <User />,
+	},
+	{
+		path: "/users/:id/view-details",
+		element: <UserViewDetails />,
+	},
+	{
+		path: "/users/:id/update",
+		element: <UserUpdate />,
 	},
 ];
 
