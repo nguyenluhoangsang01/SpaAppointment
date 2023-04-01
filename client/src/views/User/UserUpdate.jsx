@@ -50,7 +50,7 @@ const UserUpdate = () => {
 					setData(data.data);
 				}
 			} catch ({ response: { data } }) {
-				alert(data.message);
+				console.log(data.message);
 			}
 		})();
 	}, [accessToken, id, refreshToken]);

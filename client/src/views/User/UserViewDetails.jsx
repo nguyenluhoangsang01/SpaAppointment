@@ -1,9 +1,11 @@
 import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
 import { axiosConfig } from "../../utils/helpers";
 
@@ -16,6 +18,8 @@ const UserViewDetails = () => {
 	const navigate = useNavigate();
 	// State
 	const [data, setData] = useState(null);
+	const [open, setOpen] = useState(false);
+	const [confirmLoading, setConfirmLoading] = useState(false);
 
 	// Title
 	const title = `${data?.firstName} ${data?.lastName}`;
@@ -51,7 +55,37 @@ const UserViewDetails = () => {
 
 	if (!data) return <Loading />;
 
-	const handleDelete = () => {};
+	const handleUpdate = () => {
+		navigate(`/users/${id}/update`);
+	};
+
+	const onOk = async () => {
+		setConfirmLoading(true);
+
+		try {
+			const { data } = await axios.delete(
+				`/user/${id}`,
+				axiosConfig(accessToken, refreshToken)
+			);
+
+			if (data.success) {
+				toast.success(data.message);
+				setConfirmLoading(false);
+				setOpen(false);
+
+				navigate("/users");
+			}
+		} catch ({ response: { data } }) {
+			if (!data.success) {
+				setConfirmLoading(false);
+				setOpen(false);
+			}
+		}
+	};
+
+	const onCancel = () => {
+		setOpen(false);
+	};
 
 	return (
 		<>
@@ -60,10 +94,18 @@ const UserViewDetails = () => {
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Link to={`/users/${id}/update`}>
-					<Button className="bg-[yellow]">Update</Button>
-				</Link>
-				<Button className="bg-[red] text-white" onClick={handleDelete}>
+				<Button
+					className="bg-[yellow]"
+					onClick={handleUpdate}
+					disabled={id === user._id}
+				>
+					Update
+				</Button>
+				<Button
+					className="bg-[red] text-white"
+					onClick={() => setOpen(true)}
+					disabled={id === user._id}
+				>
 					Delete
 				</Button>
 			</div>
@@ -113,6 +155,16 @@ const UserViewDetails = () => {
 					</tr>
 				</tbody>
 			</table>
+
+			<Modals
+				title="Delete user"
+				open={open}
+				confirmLoading={confirmLoading}
+				onOk={onOk}
+				onCancel={onCancel}
+			>
+				Do you want to delete this user?
+			</Modals>
 		</>
 	);
 };

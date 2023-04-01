@@ -30,7 +30,7 @@ export const getAllUsersReducerAsync =
 				dispatch(getAllUsersReducer(data));
 			}
 		} catch ({ response: { data } }) {
-			alert(data.message);
+			console.log(data.message);
 		}
 	};
 
