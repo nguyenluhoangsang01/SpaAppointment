@@ -146,7 +146,7 @@ const User = () => {
 			<Table
 				rowKey="_id"
 				columns={columns}
-				dataSource={users}
+				dataSource={[...users].reverse()}
 				loading={!users}
 			/>
 

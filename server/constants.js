@@ -44,7 +44,7 @@ export const PROMOTION_TYPE = {
 export const ACCESS_TOKEN_EXPIRES_IN = "7d";
 export const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
-export const formatDateTime = "HH:mm DD/MM/YYYY";
+export const formatDateTime = "HH:mm - DD/MM/YYYY";
 export const formatDateOnly = "DD/MM/YYYY";
 
 export const passwordRegex =
@@ -103,6 +103,22 @@ export const passwordConstraint = {
 		},
 		format: {
 			pattern: passwordRegex,
+		},
+	},
+};
+export const durationConstraint = {
+	duration: {
+		numericality: {
+			onlyInteger: false,
+			greaterThan: 0,
+		},
+	},
+};
+export const priceConstraint = {
+	price: {
+		numericality: {
+			onlyInteger: true,
+			greaterThanOrEqualTo: 0,
 		},
 	},
 };

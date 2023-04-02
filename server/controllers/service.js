@@ -1,5 +1,10 @@
 import { v2 as cloudinary } from "cloudinary";
-import { serviceOptions } from "../constants.js";
+import validate from "validate.js";
+import {
+	durationConstraint,
+	priceConstraint,
+	serviceOptions,
+} from "../constants.js";
 import Service from "../models/Service.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
@@ -34,16 +39,42 @@ export const getById = async (req, res, next) => {
 };
 
 export const create = async (req, res, next) => {
-	// Get data from request body
-	const { name } = req.body;
 	// Get file from request
 	const { file } = req;
+	// Get data from request body
+	const { description, duration, name, price } = req.body;
+
+	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!price) return sendError(res, "Price can't be blank", 400, "price");
+	if (validate({ price }, priceConstraint))
+		return sendError(
+			res,
+			"Price is not a number or must be greater than 0",
+			400,
+			"price"
+		);
+	if (!duration)
+		return sendError(res, "Duration can't be blank", 400, "duration");
+	if (validate({ duration }, durationConstraint))
+		return sendError(
+			res,
+			"Duration is not a number or must be greater than 0",
+			400,
+			"duration"
+		);
+	if (!description)
+		return sendError(res, "Description can't be blank", 400, "description");
 
 	try {
 		// Check name exists or not in database
 		const isNameExists = await Service.findOne({ name });
 		if (isNameExists)
-			return sendError(res, "Service with this name already exists");
+			return sendError(
+				res,
+				`Service with this name (${isNameExists.name}) already exists`,
+				409,
+				"name"
+			);
 
 		let newService;
 		// Check file exists or not
@@ -75,14 +106,36 @@ export const create = async (req, res, next) => {
 export const updateById = async (req, res, next) => {
 	// Get service id from request params
 	const { id } = req.params;
-	// Get data from request body
-	const { name } = req.body;
 	// Get file from request
 	const { file } = req;
+	// Get data from request body
+	const { description, duration, name, price } = req.body;
+
+	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!price) return sendError(res, "Price can't be blank", 400, "price");
+	if (validate({ price }, priceConstraint))
+		return sendError(
+			res,
+			"Price is not a number or must be greater than 0",
+			400,
+			"price"
+		);
+	if (!duration)
+		return sendError(res, "Duration can't be blank", 400, "duration");
+	if (validate({ duration }, durationConstraint))
+		return sendError(
+			res,
+			"Duration is not a number or must be greater than 0",
+			400,
+			"duration"
+		);
+	if (!description)
+		return sendError(res, "Description can't be blank", 400, "description");
 
 	try {
 		// Get service by id
 		const service = await Service.findById(id);
+		if (!service) return sendError(res, "Service not found", 404);
 
 		// Check name exists or not in database
 		const isNameExists = await Service.findOne({
@@ -91,7 +144,9 @@ export const updateById = async (req, res, next) => {
 		if (isNameExists)
 			return sendError(
 				res,
-				`Service with this name (${isNameExists.name}) already exists`
+				`Service with this name (${isNameExists.name}) already exists`,
+				409,
+				"name"
 			);
 
 		// Check file exists or not

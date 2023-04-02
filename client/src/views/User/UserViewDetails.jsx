@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
+import { formatDateTime } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
 const UserViewDetails = () => {
@@ -20,7 +22,6 @@ const UserViewDetails = () => {
 	const [data, setData] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
-
 	// Title
 	const title = `${data?.firstName} ${data?.lastName}`;
 
@@ -144,7 +145,11 @@ const UserViewDetails = () => {
 					<tr>
 						<th>Logged in at</th>
 						<td>
-							{data?.loggedInAt ? data?.loggedInAt : <span>not set</span>}
+							{data?.loggedInAt ? (
+								moment(data?.loggedInAt).format(formatDateTime)
+							) : (
+								<span>not set</span>
+							)}
 						</td>
 					</tr>
 					<tr>

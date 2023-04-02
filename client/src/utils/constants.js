@@ -9,6 +9,11 @@ const Profile = lazy(() => import("../views/Profile"));
 const Promotion = lazy(() => import("../views/Promotion"));
 const Review = lazy(() => import("../views/Review"));
 const Service = lazy(() => import("../views/Service"));
+const ServiceCreate = lazy(() => import("../views/Service/ServiceCreate"));
+const ServiceViewDetails = lazy(() =>
+	import("../views/Service/ServiceViewDetails")
+);
+const ServiceUpdate = lazy(() => import("../views/Service/ServiceUpdate"));
 const SignIn = lazy(() => import("../views/SignIn"));
 const SignUp = lazy(() => import("../views/SignUp"));
 const Transaction = lazy(() => import("../views/Transaction"));
@@ -103,6 +108,18 @@ export const routes = [
 		path: "/users/:id/update",
 		element: <UserUpdate />,
 	},
+	{
+		path: "/services/create",
+		element: <ServiceCreate />,
+	},
+	{
+		path: "/services/:id/view-details",
+		element: <ServiceViewDetails />,
+	},
+	{
+		path: "/services/:id/update",
+		element: <ServiceUpdate />,
+	},
 ];
 
 export const navbarRoutes = [
@@ -184,4 +201,4 @@ export const tailLayout = {
 export const phoneRegex =
 	/^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/;
 
-export const formatDateTime = "HH:mm A DD/MM/YYYY";
+export const formatDateTime = "HH:mm - DD/MM/YYYY";

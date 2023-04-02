@@ -10,7 +10,6 @@ import {
 } from "../controllers/service.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import { validateService, validateServiceByID } from "../validates/service.js";
 
 // Config multer
 const storage = multer.diskStorage({});
@@ -32,14 +31,7 @@ router.get("/:id", getById);
 // @route POST api/service
 // @desc Create a new service
 // @access Private
-router.post(
-	"/",
-	upload.single("service"),
-	verifyToken,
-	verifyAdmin,
-	validateService,
-	create
-);
+router.post("/", upload.single("service"), verifyToken, verifyAdmin, create);
 
 // @route PATCH api/service/:id
 // @desc Update service by id
@@ -49,7 +41,6 @@ router.patch(
 	upload.single("service"),
 	verifyToken,
 	verifyAdmin,
-	validateServiceByID,
 	updateById
 );
 
