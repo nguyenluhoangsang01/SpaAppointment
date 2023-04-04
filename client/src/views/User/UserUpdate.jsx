@@ -70,7 +70,7 @@ const UserUpdate = () => {
 			if (data.success) {
 				toast.success(data.message);
 
-				navigate("/users");
+				navigate(`/users/${id}/view-details`);
 
 				setIsLoading(false);
 			}

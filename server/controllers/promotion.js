@@ -1,6 +1,15 @@
+import validate from "validate.js";
+import {
+	endDateConstraint,
+	maxUsesConstraint,
+	promotionTypesConstraint,
+	startDateConstraint,
+	valueConstraint,
+} from "../constants.js";
 import Promotion from "../models/Promotion.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
+import validateDatetime from "../utils/validateDateTime.js";
 
 export const getAll = async (req, res, next) => {
 	try {
@@ -36,7 +45,65 @@ export const getById = async (req, res, next) => {
 };
 
 export const create = async (req, res, next) => {
+	// Get data from request body
+	const {
+		description,
+		endDate,
+		maxUses,
+		name,
+		service,
+		startDate,
+		type,
+		value,
+	} = req.body;
+
+	validateDatetime();
+
+	if (!service) return sendError(res, "Service can't be blank", 400, "service");
+	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!description)
+		return sendError(res, "Description can't be blank", 400, "description");
+	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+	if (validate({ type }, promotionTypesConstraint))
+		return sendError(res, `${type} is not included in the list`, 400, "type");
+	if (!startDate)
+		return sendError(res, "Start date can't be blank", 400, "startDate");
+	if (validate({ startDate }, startDateConstraint))
+		return sendError(res, "Start date must be a valid date", 400, "startDate");
+	if (!endDate)
+		return sendError(res, "End date can't be blank", 400, "endDate");
+	if (validate({ endDate }, endDateConstraint))
+		return sendError(res, "End date must be a valid date", 400, "endDate");
+	if (!value && value !== 0)
+		return sendError(res, "Value can't be blank", 400, "value");
+	if (validate({ value }, valueConstraint))
+		return sendError(
+			res,
+			"Value must be numeric and greater than or equal to 1",
+			400,
+			"value"
+		);
+	if (!maxUses && maxUses !== 0)
+		return sendError(res, "Max uses can't be blank", 400, "maxUses");
+	if (validate({ maxUses }, maxUsesConstraint))
+		return sendError(
+			res,
+			"Max uses must be numeric and greater than or equal to 1",
+			400,
+			"maxUses"
+		);
+
 	try {
+		// Check name exists or not in database
+		const isNameExists = await Promotion.findOne({ name });
+		if (isNameExists)
+			return sendError(
+				res,
+				`Promotion with this name (${isNameExists.name}) already exists`,
+				409,
+				"name"
+			);
+
 		const newPromotion = new Promotion({
 			...req.body,
 		});
@@ -52,8 +119,71 @@ export const create = async (req, res, next) => {
 export const updateById = async (req, res, next) => {
 	// Get promotion id from request params
 	const { id } = req.params;
+	// Get data from request body
+	const {
+		description,
+		endDate,
+		maxUses,
+		name,
+		service,
+		startDate,
+		type,
+		value,
+	} = req.body;
+
+	validateDatetime();
+
+	if (!service) return sendError(res, "Service can't be blank", 400, "service");
+	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!description)
+		return sendError(res, "Description can't be blank", 400, "description");
+	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+	if (validate({ type }, promotionTypesConstraint))
+		return sendError(res, `${type} is not included in the list`, 400, "type");
+	if (!startDate)
+		return sendError(res, "Start date can't be blank", 400, "startDate");
+	if (validate({ startDate }, startDateConstraint))
+		return sendError(res, "Start date must be a valid date", 400, "startDate");
+	if (!endDate)
+		return sendError(res, "End date can't be blank", 400, "endDate");
+	if (validate({ endDate }, endDateConstraint))
+		return sendError(res, "End date must be a valid date", 400, "endDate");
+	if (!value && value !== 0)
+		return sendError(res, "Value can't be blank", 400, "value");
+	if (validate({ value }, valueConstraint))
+		return sendError(
+			res,
+			"Value must be numeric and greater than or equal to 0",
+			400,
+			"value"
+		);
+	if (!maxUses && maxUses !== 0)
+		return sendError(res, "Max uses can't be blank", 400, "maxUses");
+	if (validate({ maxUses }, maxUsesConstraint))
+		return sendError(
+			res,
+			"Max uses must be numeric and greater than or equal to 1",
+			400,
+			"maxUses"
+		);
 
 	try {
+		// Get promotion by id
+		const promotion = await Promotion.findById(id);
+		if (!promotion) return sendError(res, "Promotion not found", 404);
+
+		// Check name exists or not in database
+		const isNameExists = await Promotion.findOne({
+			name: { $eq: name, $ne: promotion.name },
+		});
+		if (isNameExists)
+			return sendError(
+				res,
+				`Promotion with this name (${isNameExists.name}) already exists`,
+				409,
+				"name"
+			);
+
 		await Promotion.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
 		// Send success notification

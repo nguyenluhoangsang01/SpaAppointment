@@ -7,6 +7,15 @@ const Home = lazy(() => import("../views/Home"));
 const NotFound = lazy(() => import("../views/NotFound"));
 const Profile = lazy(() => import("../views/Profile"));
 const Promotion = lazy(() => import("../views/Promotion"));
+const PromotionCreate = lazy(() =>
+	import("../views/Promotion/PromotionCreate")
+);
+const PromotionViewDetails = lazy(() =>
+	import("../views/Promotion/PromotionViewDetails")
+);
+const PromotionUpdate = lazy(() =>
+	import("../views/Promotion/PromotionUpdate")
+);
 const Review = lazy(() => import("../views/Review"));
 const Service = lazy(() => import("../views/Service"));
 const ServiceCreate = lazy(() => import("../views/Service/ServiceCreate"));
@@ -47,6 +56,17 @@ export const SELECT_ROLES = [
 	},
 ];
 
+export const SELECT_TYPES = [
+	{
+		value: "Percentage",
+		label: "Percentage",
+	},
+	{
+		value: "Fixed",
+		label: "Fixed",
+	},
+];
+
 export const routes = [
 	{
 		path: "/appointments",
@@ -75,6 +95,18 @@ export const routes = [
 	{
 		path: "/promotions",
 		element: <Promotion />,
+	},
+	{
+		path: "/promotions/:id/view-details",
+		element: <PromotionViewDetails />,
+	},
+	{
+		path: "/promotions/:id/update",
+		element: <PromotionUpdate />,
+	},
+	{
+		path: "/promotions/create",
+		element: <PromotionCreate />,
 	},
 	{
 		path: "/reviews",

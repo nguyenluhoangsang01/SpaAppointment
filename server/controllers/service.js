@@ -45,20 +45,20 @@ export const create = async (req, res, next) => {
 	const { description, duration, name, price } = req.body;
 
 	if (!name) return sendError(res, "Name can't be blank", 400, "name");
-	if (!price) return sendError(res, "Price can't be blank", 400, "price");
+	if (!price && price !== 0) return sendError(res, "Price can't be blank", 400, "price");
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
-			"Price is not a number or must be greater than 0",
+			"Price must be numeric and greater than 0",
 			400,
 			"price"
 		);
-	if (!duration)
+	if (!duration  && duration !== 0)
 		return sendError(res, "Duration can't be blank", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration is not a number or must be greater than 0",
+			"Duration must be numeric and greater than 0",
 			400,
 			"duration"
 		);
@@ -112,20 +112,20 @@ export const updateById = async (req, res, next) => {
 	const { description, duration, name, price } = req.body;
 
 	if (!name) return sendError(res, "Name can't be blank", 400, "name");
-	if (!price) return sendError(res, "Price can't be blank", 400, "price");
+	if (!price && price !== 0) return sendError(res, "Price can't be blank", 400, "price");
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
-			"Price is not a number or must be greater than 0",
+			"Price must be numeric and greater than 0",
 			400,
 			"price"
 		);
-	if (!duration)
+	if (!duration && duration !== 0)
 		return sendError(res, "Duration can't be blank", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration is not a number or must be greater than 0",
+			"Duration must be numeric and greater than 0",
 			400,
 			"duration"
 		);

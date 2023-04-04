@@ -9,10 +9,6 @@ import {
 } from "../controllers/promotion.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import {
-	validatePromotion,
-	validatePromotionById,
-} from "../validates/promotion.js";
 
 // Config router
 const router = express.Router();
@@ -30,18 +26,12 @@ router.get("/:id", getById);
 // @route POST api/promotion
 // @desc Create a new promotion
 // @access Private
-router.post("/", verifyToken, verifyAdmin, validatePromotion, create);
+router.post("/", verifyToken, verifyAdmin, create);
 
 // @route PATCH api/promotion/:id
 // @desc Update promotion by id
 // @access Private
-router.patch(
-	"/:id",
-	verifyToken,
-	verifyAdmin,
-	validatePromotionById,
-	updateById
-);
+router.patch("/:id", verifyToken, verifyAdmin, updateById);
 
 // @route DELETE api/promotion
 // @desc Delete all promotions

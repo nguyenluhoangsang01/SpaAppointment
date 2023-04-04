@@ -76,7 +76,7 @@ const ServiceUpdate = () => {
 			if (data.success) {
 				toast.success(data.message);
 
-				navigate("/services");
+				navigate(`/services/${id}/view-details`);
 
 				setIsLoading(false);
 			}

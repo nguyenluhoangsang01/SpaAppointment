@@ -122,3 +122,36 @@ export const priceConstraint = {
 		},
 	},
 };
+export const startDateConstraint = {
+	startDate: {
+		datetime: true,
+	},
+};
+export const endDateConstraint = {
+	endDate: {
+		datetime: true,
+	},
+};
+export const maxUsesConstraint = {
+	maxUses: {
+		numericality: {
+			onlyInteger: true,
+			greaterThanOrEqualTo: 1,
+		},
+	},
+};
+export const promotionTypesConstraint = {
+	type: {
+		inclusion: {
+			within: PROMOTION_TYPE,
+		},
+	},
+};
+export const valueConstraint = {
+	value: {
+		numericality: {
+			onlyInteger: true,
+			greaterThanOrEqualTo: 1,
+		},
+	},
+};
