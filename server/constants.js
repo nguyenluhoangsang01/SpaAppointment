@@ -155,3 +155,13 @@ export const valueConstraint = {
 		},
 	},
 };
+export const expirationDateConstraint = {
+	expirationDate: {
+		datetime: true,
+	},
+};
+export const statusConstraint = {
+	status: {
+		inclusion: { within: GiFT_CARD_STATUS },
+	},
+};

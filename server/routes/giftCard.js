@@ -5,14 +5,10 @@ import {
 	deleteById,
 	getAll,
 	getById,
-	updateById
+	updateById,
 } from "../controllers/giftCard.js";
 import verifyAdmin from "../middleware/verifyAdmin.js";
 import verifyToken from "../middleware/verifyToken.js";
-import {
-	validateGiftCard,
-	validateGiftCardById
-} from "../validates/giftCard.js";
 
 // Config router
 const router = express.Router();
@@ -30,18 +26,12 @@ router.get("/:id", getById);
 // @route POST api/gift-card
 // @desc Create a new gift card
 // @access Private
-router.post("/", verifyToken, verifyAdmin, validateGiftCard, create);
+router.post("/", verifyToken, verifyAdmin, create);
 
 // @route PATCH api/gift-card/:id
 // @desc Update gift card by id
 // @access Private
-router.patch(
-	"/:id",
-	verifyToken,
-	verifyAdmin,
-	validateGiftCardById,
-	updateById
-);
+router.patch("/:id", verifyToken, verifyAdmin, updateById);
 
 // @route DELETE api/gift-card
 // @desc Delete all gift cards

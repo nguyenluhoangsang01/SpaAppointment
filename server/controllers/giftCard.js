@@ -1,7 +1,14 @@
+import {
+	expirationDateConstraint,
+	statusConstraint,
+	valueConstraint,
+} from "../constants.js";
 import GiftCard from "../models/GiftCard.js";
+import Promotion from "../models/Promotion.js";
 import generateRandomCode from "../utils/generateRandomCode.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
+import validateDatetime from "../utils/validateDateTime.js";
 
 export const getAll = async (req, res, next) => {
 	try {
@@ -56,9 +63,57 @@ export const getById = async (req, res, next) => {
 
 export const create = async (req, res, next) => {
 	// Get data from request body
-	const { promotionId } = req.body;
+	const { expirationDate, promotionId, status, value } = req.body;
+
+	validateDatetime();
+
+	if (!promotionId)
+		return sendError(res, "Promotion can't be blank", 400, "promotionId");
+	if (!expirationDate)
+		return sendError(
+			res,
+			"Expiration date can't be blank",
+			400,
+			"expirationDate"
+		);
+	if (validate({ expirationDate }, expirationDateConstraint))
+		return sendError(
+			res,
+			"Expiration must be a valid date",
+			400,
+			"expirationDate"
+		);
+	if (!value && value !== 0)
+		return sendError(res, "Value can't be blank", 400, "value");
+	if (validate({ value }, valueConstraint))
+		return sendError(
+			res,
+			"Value must be numeric and greater than or equal to 1",
+			400,
+			"value"
+		);
+	if (!status) return sendError(res, "Status can't be blank", 400, "status");
+	if (validate({ status }, statusConstraint))
+		return sendError(
+			res,
+			`${status} is not included in the list`,
+			400,
+			"status"
+		);
 
 	try {
+		// Get promotion by id
+		const promotion = await Promotion.findById(promotionId);
+		if (!promotion)
+			return sendError(
+				res,
+				`${
+					promotion ? promotion.name : "Promotion id"
+				} isn't included in the list`,
+				404,
+				"promotion"
+			);
+
 		const newGiftCard = new GiftCard({
 			...req.body,
 			code: generateRandomCode(),
@@ -77,11 +132,60 @@ export const updateById = async (req, res, next) => {
 	// Get gift card id from request params
 	const { id } = req.params;
 	// Get data from request body
-	const { promotionId } = req.body;
+	const { expirationDate, promotionId, status, value } = req.body;
+
+	validateDatetime();
+
+	if (!promotionId)
+		return sendError(res, "Promotion can't be blank", 400, "promotionId");
+	if (!expirationDate)
+		return sendError(
+			res,
+			"Expiration date can't be blank",
+			400,
+			"expirationDate"
+		);
+	if (validate({ expirationDate }, expirationDateConstraint))
+		return sendError(
+			res,
+			"Expiration must be a valid date",
+			400,
+			"expirationDate"
+		);
+	if (!value && value !== 0)
+		return sendError(res, "Value can't be blank", 400, "value");
+	if (validate({ value }, valueConstraint))
+		return sendError(
+			res,
+			"Value must be numeric and greater than or equal to 1",
+			400,
+			"value"
+		);
+	if (!status) return sendError(res, "Status can't be blank", 400, "status");
+	if (validate({ status }, statusConstraint))
+		return sendError(
+			res,
+			`${status} is not included in the list`,
+			400,
+			"status"
+		);
 
 	try {
 		// Get gift card by id
 		const giftCard = await GiftCard.findById(id);
+		if (!giftCard) return sendError(res, "Gift card not found", 404);
+
+		// Get promotion by id
+		const promotion = await Promotion.findById(promotionId);
+		if (!promotion)
+			return sendError(
+				res,
+				`${
+					promotion ? promotion.name : "Promotion"
+				} isn't included in the list`,
+				404,
+				"promotion"
+			);
 
 		await GiftCard.findByIdAndUpdate(
 			id,
