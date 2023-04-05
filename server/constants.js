@@ -27,7 +27,7 @@ export const PAYMENT_STATUS = {
 
 export const GiFT_CARD_STATUS = {
 	Active: "Active",
-	Redeemed: "Redeemed",
+	Inactive: "Inactive",
 };
 
 export const TRANSACTION_STATUS = {

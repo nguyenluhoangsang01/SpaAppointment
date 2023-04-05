@@ -301,8 +301,8 @@ const PromotionCreate = () => {
 					},
 					{
 						type: "number",
-						min: 0,
-						message: "Value must be greater than or equal to 0",
+						min: 1,
+						message: "Value must be greater than or equal to 1",
 					},
 				]}
 			>
@@ -319,8 +319,8 @@ const PromotionCreate = () => {
 					},
 					{
 						type: "number",
-						min: 0,
-						message: "Max uses must be greater than or equal to 0",
+						min: 1,
+						message: "Max uses must be greater than or equal to 1",
 					},
 				]}
 			>

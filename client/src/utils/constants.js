@@ -3,6 +3,11 @@ import { lazy } from "react";
 const Appointment = lazy(() => import("../views/Appointment"));
 const ChangePassword = lazy(() => import("../views/ChangePassword"));
 const GiftCard = lazy(() => import("../views/GiftCard"));
+const GiftCardCreate = lazy(() => import("../views/GiftCard/GiftCardCreate"));
+const GiftCardViewDetails = lazy(() =>
+	import("../views/GiftCard/GiftCardViewDetails")
+);
+const GiftCardUpdate = lazy(() => import("../views/GiftCard/GiftCardUpdate"));
 const Home = lazy(() => import("../views/Home"));
 const NotFound = lazy(() => import("../views/NotFound"));
 const Profile = lazy(() => import("../views/Profile"));
@@ -67,6 +72,17 @@ export const SELECT_TYPES = [
 	},
 ];
 
+export const SELECT_STATUS = [
+	{
+		value: "Active",
+		label: "Active",
+	},
+	{
+		value: "Inactive",
+		label: "Inactive",
+	},
+];
+
 export const routes = [
 	{
 		path: "/appointments",
@@ -79,6 +95,18 @@ export const routes = [
 	{
 		path: "/gift-cards",
 		element: <GiftCard />,
+	},
+	{
+		path: "/gift-cards/create",
+		element: <GiftCardCreate />,
+	},
+	{
+		path: "/gift-cards/:id/view-details",
+		element: <GiftCardViewDetails />,
+	},
+	{
+		path: "/gift-cards/:id/update",
+		element: <GiftCardUpdate />,
 	},
 	{
 		path: "/",

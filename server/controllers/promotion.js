@@ -104,9 +104,7 @@ export const create = async (req, res, next) => {
 				"name"
 			);
 
-		const newPromotion = new Promotion({
-			...req.body,
-		});
+		const newPromotion = new Promotion({ ...req.body });
 		await newPromotion.save();
 
 		// Send success notification

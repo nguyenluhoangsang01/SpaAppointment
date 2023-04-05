@@ -1,3 +1,4 @@
+import validate from "validate.js";
 import {
 	expirationDateConstraint,
 	statusConstraint,
@@ -111,7 +112,7 @@ export const create = async (req, res, next) => {
 					promotion ? promotion.name : "Promotion id"
 				} isn't included in the list`,
 				404,
-				"promotion"
+				"promotionId"
 			);
 
 		const newGiftCard = new GiftCard({
@@ -184,7 +185,7 @@ export const updateById = async (req, res, next) => {
 					promotion ? promotion.name : "Promotion"
 				} isn't included in the list`,
 				404,
-				"promotion"
+				"promotionId"
 			);
 
 		await GiftCard.findByIdAndUpdate(

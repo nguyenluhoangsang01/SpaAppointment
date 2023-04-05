@@ -1,15 +1,15 @@
+import { Button } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectAuth } from "../../redux/slice/auth";
-import axios from "axios";
-import { axiosConfig } from "../../utils/helpers";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
-import { toast } from "react-hot-toast";
-import { Button } from "antd";
+import { selectAuth } from "../../redux/slice/auth";
+import { axiosConfig } from "../../utils/helpers";
 
-const PromotionViewDetails = () => {
+const GiftCardViewDetails = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
@@ -21,7 +21,7 @@ const PromotionViewDetails = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	// Title
-	const title = data?.name;
+	const title = data?.code;
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -39,7 +39,7 @@ const PromotionViewDetails = () => {
 		(async () => {
 			try {
 				const { data } = await axios.get(
-					`/promotion/${id}`,
+					`/gift-card/${id}`,
 					axiosConfig(accessToken, refreshToken)
 				);
 
@@ -55,7 +55,7 @@ const PromotionViewDetails = () => {
 	if (!data) return <Loading />;
 
 	const handleUpdate = () => {
-		navigate(`/promotions/${id}/update`);
+		navigate(`/gift-cards/${id}/update`);
 	};
 
 	const onOk = async () => {
@@ -63,7 +63,7 @@ const PromotionViewDetails = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/promotion/${id}`,
+				`/gift-card/${id}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -72,7 +72,7 @@ const PromotionViewDetails = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				navigate("/promotions");
+				navigate("/gift-cards");
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -104,63 +104,47 @@ const PromotionViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Service</th>
+						<th>Promotion</th>
 						<td>
-							{data?.service ? data?.service?.name : <span>not set</span>}
+							{data?.promotion ? data?.promotion?.name : <span>not set</span>}
 						</td>
 					</tr>
 					<tr>
-						<th>Name</th>
-						<td>{data?.name ? data?.name : <span>not set</span>}</td>
+						<th>Code</th>
+						<td>{data?.code ? data?.code : <span>not set</span>}</td>
 					</tr>
 					<tr>
-						<th>Description</th>
+						<th>Expiration date</th>
 						<td>
-							{data?.description ? data?.description : <span>not set</span>}
+							{data?.expirationDate ? (
+								data?.expirationDate
+							) : (
+								<span>not set</span>
+							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Type</th>
-						<td>{data?.type ? data?.type : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Start date</th>
-						<td>{data?.startDate ? data?.startDate : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>End date</th>
-						<td>{data?.endDate ? data?.endDate : <span>not set</span>}</td>
+						<th>Status</th>
+						<td>{data?.status ? data?.status : <span>not set</span>}</td>
 					</tr>
 					<tr>
 						<th>Value</th>
 						<td>{data?.value ? data?.value : <span>not set</span>}</td>
 					</tr>
-					<tr>
-						<th>Max uses</th>
-						<td>{data?.maxUses ? data?.maxUses : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Active</th>
-						<td>{data?.isActive ? "Active" : "Inactive"}</td>
-					</tr>
-					<tr>
-						<th>Total uses</th>
-						<td>{data?.totalUses ? data?.totalUses : 0}</td>
-					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete promotion"
+				title="Delete gift card"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this promotion?
+				Do you want to delete this gift card?
 			</Modals>
 		</>
 	);
 };
 
-export default PromotionViewDetails;
+export default GiftCardViewDetails;
