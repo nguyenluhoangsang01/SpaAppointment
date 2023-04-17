@@ -83,9 +83,9 @@ const Appointment = () => {
 				"/appointment",
 				{
 					...values,
-
 					startDate: moment(datetime.start).format(formatDateTime),
 					endDate: moment(datetime.end).format(formatDateTime),
+					emailTo: user?.email,
 				},
 				axiosConfig(accessToken, refreshToken)
 			);
@@ -94,6 +94,7 @@ const Appointment = () => {
 				setIsLoading(false);
 				setOpen(false);
 				toast.success(data.message);
+				formRef.current.resetFields();
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
