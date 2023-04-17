@@ -104,10 +104,16 @@ const Promotion = () => {
 					<Button onClick={() => handleViewDetails(record?._id)}>
 						<IoEyeSharp />
 					</Button>
-					<Button onClick={() => handleUpdate(record?._id)}>
+					<Button
+						onClick={() => handleUpdate(record?._id)}
+						disabled={user?.role !== "Admin"}
+					>
 						<BsPencilFill />
 					</Button>
-					<Button onClick={() => handleDelete(record?._id)}>
+					<Button
+						onClick={() => handleDelete(record?._id)}
+						disabled={user?.role !== "Admin"}
+					>
 						<BsTrashFill />
 					</Button>
 				</div>
@@ -149,6 +155,7 @@ const Promotion = () => {
 				<Button
 					onClick={() => navigate("/promotions/create")}
 					className="bg-[green] text-white"
+					disabled={user?.role !== "Admin"}
 				>
 					Create
 				</Button>

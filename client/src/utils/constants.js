@@ -30,7 +30,6 @@ const PromotionViewDetails = lazy(() =>
 const PromotionUpdate = lazy(() =>
 	import("../views/Promotion/PromotionUpdate")
 );
-const Review = lazy(() => import("../views/Review"));
 const Service = lazy(() => import("../views/Service"));
 const ServiceCreate = lazy(() => import("../views/Service/ServiceCreate"));
 const ServiceViewDetails = lazy(() =>
@@ -181,10 +180,6 @@ export const routes = [
 		element: <PromotionCreate />,
 	},
 	{
-		path: "/reviews",
-		element: <Review />,
-	},
-	{
 		path: "/services",
 		element: <Service />,
 	},
@@ -246,10 +241,6 @@ export const navbarRoutes = [
 	{
 		path: "/gift-cards",
 		name: "Gift cards",
-	},
-	{
-		path: "/reviews",
-		name: "Reviews",
 	},
 	{
 		path: "/users",

@@ -90,10 +90,16 @@ const GiftCard = () => {
 					<Button onClick={() => handleViewDetails(record?._id)}>
 						<IoEyeSharp />
 					</Button>
-					<Button onClick={() => handleUpdate(record?._id)}>
+					<Button
+						onClick={() => handleUpdate(record?._id)}
+						disabled={user?.role !== "Admin"}
+					>
 						<BsPencilFill />
 					</Button>
-					<Button onClick={() => handleDelete(record?._id)}>
+					<Button
+						onClick={() => handleDelete(record?._id)}
+						disabled={user?.role !== "Admin"}
+					>
 						<BsTrashFill />
 					</Button>
 				</div>
@@ -135,6 +141,7 @@ const GiftCard = () => {
 				<Button
 					onClick={() => navigate("/gift-cards/create")}
 					className="bg-[green] text-white"
+					disabled={user?.role !== "Admin"}
 				>
 					Create
 				</Button>

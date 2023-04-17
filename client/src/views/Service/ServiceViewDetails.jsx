@@ -30,10 +30,6 @@ const ServiceViewDetails = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
-	}, [navigate, user?.role]);
-
-	useEffect(() => {
 		document.title = title;
 	}, [title]);
 
