@@ -10,6 +10,7 @@ import {
 	persistStore,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import appointmentReducer from "./slice/appointment";
 import authReducer from "./slice/auth";
 import giftCardReducer from "./slice/giftCard";
 import promotionReducer from "./slice/promotion";
@@ -40,6 +41,10 @@ const giftCardPersistConfig = {
 	key: "giftCard",
 	storage,
 };
+const appointmentPersistConfig = {
+	key: "appointment",
+	storage,
+};
 
 const rootReducer = combineReducers({
 	auth: persistReducer(authPersistConfig, authReducer),
@@ -47,6 +52,7 @@ const rootReducer = combineReducers({
 	service: persistReducer(servicePersistConfig, serviceReducer),
 	promotion: persistReducer(promotionPersistConfig, promotionReducer),
 	giftCard: persistReducer(giftCardPersistConfig, giftCardReducer),
+	appointment: persistReducer(appointmentPersistConfig, appointmentReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

@@ -1,6 +1,15 @@
 import { lazy } from "react";
 
 const Appointment = lazy(() => import("../views/Appointment"));
+const AppointmentView = lazy(() =>
+	import("../views/Appointment/AppointmentView")
+);
+const AppointmentViewDetails = lazy(() =>
+	import("../views/Appointment/AppointmentViewDetails")
+);
+const AppointmentUpdate = lazy(() =>
+	import("../views/Appointment/AppointmentUpdate")
+);
 const ChangePassword = lazy(() => import("../views/ChangePassword"));
 const GiftCard = lazy(() => import("../views/GiftCard"));
 const GiftCardCreate = lazy(() => import("../views/GiftCard/GiftCardCreate"));
@@ -83,10 +92,45 @@ export const SELECT_STATUS = [
 	},
 ];
 
+export const SELECT_APPOINTMENT_STATUS = [
+	{
+		value: "Booked",
+		label: "Booked",
+	},
+	{
+		value: "Cancelled",
+		label: "Cancelled",
+	},
+	{
+		value: "Completed",
+		label: "Completed",
+	},
+	{
+		value: "Confirmed",
+		label: "Confirmed",
+	},
+];
+
 export const routes = [
 	{
 		path: "/appointments",
 		element: <Appointment />,
+	},
+	{
+		path: "/appointments/view-appointments",
+		element: <AppointmentView />,
+	},
+	{
+		path: "/appointments/:id/view-details",
+		element: <AppointmentViewDetails />,
+	},
+	{
+		path: "/appointments/view-appointments/:id/update",
+		element: <AppointmentUpdate />,
+	},
+	{
+		path: "/appointments/:id/update",
+		element: <AppointmentUpdate />,
 	},
 	{
 		path: "/change-password",

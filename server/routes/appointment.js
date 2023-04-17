@@ -5,13 +5,9 @@ import {
 	deleteById,
 	getAll,
 	getById,
-	updateById
+	updateById,
 } from "../controllers/appointment.js";
 import verifyToken from "../middleware/verifyToken.js";
-import {
-	validateAppointment,
-	validateAppointmentById
-} from "../validates/appointment.js";
 
 // Config router
 const router = express.Router();
@@ -29,12 +25,12 @@ router.get("/:id", verifyToken, getById);
 // @route POST api/appointment
 // @desc Create a new appointment
 // @access Private
-router.post("/", verifyToken, validateAppointment, create);
+router.post("/", verifyToken, create);
 
 // @route PATCH api/appointment/:id
 // @desc Update appointment by id
 // @access Private
-router.patch("/:id", verifyToken, validateAppointmentById, updateById);
+router.patch("/:id", verifyToken, updateById);
 
 // @route DELETE api/appointment
 // @desc Delete all appointments

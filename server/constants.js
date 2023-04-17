@@ -165,3 +165,9 @@ export const statusConstraint = {
 		inclusion: { within: GiFT_CARD_STATUS },
 	},
 };
+export const statusAppointmentConstraint = {
+	status: {
+		presence: { allowEmpty: false },
+		inclusion: { within: APPOINTMENT_STATUS },
+	},
+};

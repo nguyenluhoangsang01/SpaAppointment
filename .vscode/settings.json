@@ -3,9 +3,12 @@
 		"antd",
 		"cloudinary",
 		"datetime",
+		"daygrid",
+		"fullcalendar",
 		"numericality",
 		"persistor",
 		"reduxjs",
-		"spaappointment"
+		"spaappointment",
+		"timegrid"
 	]
 }

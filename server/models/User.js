@@ -33,6 +33,10 @@ const userSchema = new Schema(
 		},
 		loggedInAt: String,
 		loggedInIP: String,
+		money: {
+			type: Number,
+			default: 500,
+		},
 		password: {
 			type: String,
 			required: true,

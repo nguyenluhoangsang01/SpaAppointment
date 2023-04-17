@@ -71,3 +71,11 @@
 	color: #fff;
 	font-size: 12px;
 }
+
+.fc-toolbar-chunk {
+	display: flex !important;
+}
+
+.fc-toolbar-chunk button {
+	text-transform: capitalize !important;
+}

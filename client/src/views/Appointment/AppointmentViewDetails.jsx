@@ -1,6 +1,5 @@
 import { Button } from "antd";
 import axios from "axios";
-import Cookies from "js-cookie";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -12,13 +11,11 @@ import { selectAuth } from "../../redux/slice/auth";
 import { formatDateTime } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
-const UserViewDetails = () => {
+const AppointmentViewDetails = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
-	const { user, accessToken } = useSelector(selectAuth);
-	// Cookies
-	const refreshToken = Cookies.get("refreshToken");
+	const { user, accessToken, refreshToken } = useSelector(selectAuth);
 	// Router
 	const navigate = useNavigate();
 	// State
@@ -26,15 +23,11 @@ const UserViewDetails = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	// Title
-	const title = `${data?.firstName} ${data?.lastName}`;
+	const title = data?.title;
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
 	}, [navigate, user]);
-
-	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
-	}, [navigate, user?.role]);
 
 	useEffect(() => {
 		document.title = title;
@@ -44,7 +37,7 @@ const UserViewDetails = () => {
 		(async () => {
 			try {
 				const { data } = await axios.get(
-					`/user/details/${id}`,
+					`/appointment/${id}`,
 					axiosConfig(accessToken, refreshToken)
 				);
 
@@ -60,7 +53,7 @@ const UserViewDetails = () => {
 	if (!data) return <Loading />;
 
 	const handleUpdate = () => {
-		navigate(`/users/${id}/update`);
+		navigate(`/appointments/${id}/update`);
 	};
 
 	const onOk = async () => {
@@ -68,7 +61,7 @@ const UserViewDetails = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/user/${id}`,
+				`/appointment/${id}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -77,7 +70,7 @@ const UserViewDetails = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				navigate("/users");
+				navigate("/appointments");
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -117,64 +110,72 @@ const UserViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>First name</th>
-						<td>{data?.firstName ? data?.firstName : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Last name</th>
-						<td>{data?.lastName ? data?.lastName : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Email</th>
-						<td>{data?.email ? data?.email : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Phone</th>
-						<td>{data?.phone ? data?.phone : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Role</th>
-						<td>{data?.role ? data?.role : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Address</th>
-						<td>{data?.address ? data?.address : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Bio</th>
-						<td>{data?.bio ? data?.bio : <span>not set</span>}</td>
+						<th>Service</th>
+						<td>{data?.service?.name}</td>
 					</tr>
 
 					<tr>
-						<th>Logged in at</th>
+						<th>Staff</th>
+						<td>{`${data?.staff?.firstName} ${data?.staff?.lastName}`}</td>
+					</tr>
+					<tr>
+						<th>Title</th>
+						<td>{data?.title}</td>
+					</tr>
+					<tr>
+						<th>Duration</th>
+						<td>{data?.duration}</td>
+					</tr>
+					<tr>
+						<th>Status</th>
+						<td>{data?.status}</td>
+					</tr>
+					<tr>
+						<th>Start date</th>
+						<td>{data?.startDate}</td>
+					</tr>
+					<tr>
+						<th>End date</th>
+						<td>{data?.endDate}</td>
+					</tr>
+					<tr>
+						<th>Note</th>
+						<td>{data?.note ? data?.note : <span>not set</span>}</td>
+					</tr>
+					<tr>
+						<th>Created at</th>
 						<td>
-							{data?.loggedInAt ? (
-								moment(data?.loggedInAt).format(formatDateTime)
+							{data?.createdAt ? (
+								moment(data?.createdAt).format(formatDateTime)
 							) : (
 								<span>not set</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Logged in ip</th>
+						<th>Updated at</th>
 						<td>
-							{data?.loggedInIP ? data?.loggedInIP : <span>not set</span>}
+							{data?.updatedAt ? (
+								moment(data?.updatedAt).format(formatDateTime)
+							) : (
+								<span>not set</span>
+							)}
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete user"
+				title="Delete appointment"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this user?
+				Do you want to delete this appointment?
 			</Modals>
 		</>
 	);
 };
 
-export default UserViewDetails;
+export default AppointmentViewDetails;

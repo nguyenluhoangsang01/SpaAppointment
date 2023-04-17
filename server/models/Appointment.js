@@ -3,22 +3,24 @@ import { APPOINTMENT_STATUS } from "../constants.js";
 
 const appointmentSchema = new Schema(
 	{
-		datetime: {
-			type: String,
-			required: true,
-		},
 		duration: {
 			type: Number,
 			required: true,
 		},
-		notes: String,
-		services: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Service",
-				required: true,
-			},
-		],
+		endDate: {
+			type: String,
+			required: true,
+		},
+		note: String,
+		service: {
+			type: Schema.Types.ObjectId,
+			ref: "Service",
+			required: true,
+		},
+		startDate: {
+			type: String,
+			required: true,
+		},
 		status: {
 			type: String,
 			enum: Object.values(APPOINTMENT_STATUS),
