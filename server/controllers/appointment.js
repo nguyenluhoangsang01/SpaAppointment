@@ -83,7 +83,6 @@ export const create = async (req, res, next) => {
 		serviceId,
 		staffId,
 		startDate,
-		status,
 		title,
 		emailTo,
 	} = req.body;
@@ -102,14 +101,6 @@ export const create = async (req, res, next) => {
 			"Duration must be numeric and greater than 0",
 			400,
 			"duration"
-		);
-	if (!status) return sendError(res, "Status can't be blank", 400, "status");
-	if (validate({ status }, statusAppointmentConstraint))
-		return sendError(
-			res,
-			`${status} is not included in the list`,
-			400,
-			"status"
 		);
 	if (!startDate)
 		return sendError(res, "Start date can't be blank", 400, "startDate");

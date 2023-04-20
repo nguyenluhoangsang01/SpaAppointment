@@ -38,7 +38,6 @@ const ServiceViewDetails = lazy(() =>
 const ServiceUpdate = lazy(() => import("../views/Service/ServiceUpdate"));
 const SignIn = lazy(() => import("../views/SignIn"));
 const SignUp = lazy(() => import("../views/SignUp"));
-const Transaction = lazy(() => import("../views/Transaction"));
 const User = lazy(() => import("../views/User"));
 const UserViewDetails = lazy(() => import("../views/User/UserViewDetails"));
 const UserUpdate = lazy(() => import("../views/User/UserUpdate"));
@@ -192,10 +191,6 @@ export const routes = [
 		element: <SignUp />,
 	},
 	{
-		path: "/transactions",
-		element: <Transaction />,
-	},
-	{
 		path: "/users",
 		element: <User />,
 	},
@@ -267,10 +262,6 @@ export const accountRoutes = [
 	{
 		path: "/change-password",
 		name: "Change password",
-	},
-	{
-		path: "/transactions",
-		name: "Transaction",
 	},
 	{
 		path: "",

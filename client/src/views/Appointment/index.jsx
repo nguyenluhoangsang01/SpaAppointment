@@ -19,11 +19,7 @@ import {
 	selectService,
 } from "../../redux/slice/service";
 import { getAllUsersReducerAsync, selectUser } from "../../redux/slice/user";
-import {
-	SELECT_APPOINTMENT_STATUS,
-	formatDateTime,
-	layout,
-} from "../../utils/constants";
+import { formatDateTime, layout } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
 const Appointment = () => {
@@ -212,7 +208,6 @@ const Appointment = () => {
 						title: "",
 						duration: "",
 						note: "",
-						status: "",
 					}}
 				>
 					<Form.Item
@@ -270,19 +265,6 @@ const Appointment = () => {
 						]}
 					>
 						<InputNumber placeholder="Duration" />
-					</Form.Item>
-
-					<Form.Item
-						label="Status"
-						name="status"
-						rules={[
-							{
-								required: true,
-								message: "Status can't be blank",
-							},
-						]}
-					>
-						<Select options={SELECT_APPOINTMENT_STATUS} />
 					</Form.Item>
 
 					<Form.Item
