@@ -84,6 +84,7 @@ const Navbar = () => {
 				}`}
 			>
 				{navbarRoutes
+					.filter((route) => user && route)
 					.filter((route) =>
 						user?.role !== "Admin" ? route.name !== "Users" : route
 					)

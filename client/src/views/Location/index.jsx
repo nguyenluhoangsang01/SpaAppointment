@@ -10,26 +10,26 @@ import { useNavigate } from "react-router-dom";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
 import {
-	getAllGiftCardsReducerAsync,
-	selectGiftCard,
-} from "../../redux/slice/giftCard";
+	getAllLocationsReducerAsync,
+	selectLocation,
+} from "../../redux/slice/location";
 import { axiosConfig } from "../../utils/helpers";
 
 const { Search } = Input;
 
-const GiftCard = () => {
+const Location = () => {
 	// Router
 	const navigate = useNavigate();
 	// Redux
 	const dispatch = useDispatch();
 	const { user, accessToken } = useSelector(selectAuth);
-	const { giftCards } = useSelector(selectGiftCard);
+	const { locations } = useSelector(selectLocation);
 	// Cookies
 	const refreshToken = Cookies.get("refreshToken");
 	// State
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
-	const [giftCardId, setGiftCardId] = useState(null);
+	const [selectedLocationId, setSelectedLocationId] = useState(null);
 	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
@@ -41,11 +41,11 @@ const GiftCard = () => {
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
-		dispatch(getAllGiftCardsReducerAsync(accessToken, refreshToken));
+		dispatch(getAllLocationsReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
 	const handleViewDetails = (id) => {
-		navigate(`/gift-cards/${id}/view-details`);
+		navigate(`/locations/${id}/view-details`);
 	};
 
 	const handleUpdate = (id) => {
@@ -54,7 +54,7 @@ const GiftCard = () => {
 
 	const handleDelete = (id) => {
 		setOpen(true);
-		setGiftCardId(id);
+		setSelectedLocationId(id);
 	};
 
 	const columns = [
@@ -64,25 +64,14 @@ const GiftCard = () => {
 			key: "_id",
 		},
 		{
-			title: "Promotion",
-			dataIndex: "promotion",
-			key: "promotion",
-			render: (text, record) => <span>{record.promotion.name}</span>,
+			title: "Full name",
+			dataIndex: "fullName",
+			key: "fullName",
 		},
 		{
-			title: "Value",
-			dataIndex: "value",
-			key: "value",
-		},
-		{
-			title: "Status",
-			dataIndex: "status",
-			key: "status",
-		},
-		{
-			title: "Code",
-			dataIndex: "code",
-			key: "code",
+			title: "Short name",
+			dataIndex: "shortName",
+			key: "shortName",
 		},
 		{
 			title: "Actions",
@@ -115,7 +104,7 @@ const GiftCard = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/gift-card/${giftCardId}`,
+				`/location/${selectedLocationId}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -124,7 +113,7 @@ const GiftCard = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				dispatch(getAllGiftCardsReducerAsync(accessToken, refreshToken));
+				dispatch(getAllLocationsReducerAsync(accessToken, refreshToken));
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -146,7 +135,7 @@ const GiftCard = () => {
 		<>
 			<div className="flex justify-end mb-4">
 				<Button
-					onClick={() => navigate("/gift-cards/create")}
+					onClick={() => navigate("/locations/create")}
 					className="bg-[green] text-white"
 					disabled={user?.role !== "Admin"}
 				>
@@ -167,27 +156,25 @@ const GiftCard = () => {
 			<Table
 				rowKey="_id"
 				columns={columns}
-				dataSource={[...giftCards]
-					.filter((giftCard) =>
-						searchTerm
-							? giftCard?.promotion?.name.includes(searchTerm)
-							: giftCard
+				dataSource={[...locations]
+					.filter((location) =>
+						searchTerm ? location?.fullName.includes(searchTerm) : location
 					)
 					.reverse()}
-				loading={!giftCards}
+				loading={!locations}
 			/>
 
 			<Modals
-				title="Delete gift card"
+				title="Delete location"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this gift card?
+				Do you want to delete this location?
 			</Modals>
 		</>
 	);
 };
 
-export default GiftCard;
+export default Location;

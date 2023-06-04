@@ -1,14 +1,14 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Image, Input } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dropzone from "../../components/Dropzone";
 import RenderFile from "../../components/RenderFile";
 import { selectAuth } from "../../redux/slice/auth";
-import { layout, ROLES } from "../../utils/constants";
+import { ROLES, layout } from "../../utils/constants";
 
 const SignUp = () => {
 	// State
@@ -151,161 +151,182 @@ const SignUp = () => {
 	};
 
 	return (
-		<Form
-			name="sign-up"
-			layout="vertical"
-			onFinish={onFinish}
-			ref={formRef}
-			{...layout}
-			initialValues={{
-				address: "",
-				avatar: null,
-				confirmPassword: "",
-				email: "",
-				firstName: "",
-				lastName: "",
-				password: "",
-				phone: "",
-				role: ROLES.Customer,
-			}}
-		>
-			<Form.Item
-				label="First name"
-				name="firstName"
-				rules={[
-					{
-						required: true,
-						message: "First name can't be blank",
-					},
-				]}
+		<div className="relative">
+			<div className="mb-8">
+				<Image
+					src="https://www.picktime.com/webassets/2021/img/picktime-hero-new.svg"
+					alt="Spa Appointment App"
+					preview={false}
+				/>
+			</div>
+
+			<Form
+				name="sign-up"
+				layout="vertical"
+				onFinish={onFinish}
+				ref={formRef}
+				{...layout}
+				initialValues={{
+					address: "",
+					avatar: null,
+					confirmPassword: "",
+					email: "",
+					firstName: "",
+					lastName: "",
+					password: "",
+					phone: "",
+					role: ROLES.Customer,
+				}}
 			>
-				<Input placeholder="First name" />
-			</Form.Item>
-
-			<Form.Item
-				label="Last name"
-				name="lastName"
-				rules={[
-					{
-						required: true,
-						message: "Last name can't be blank",
-					},
-				]}
-			>
-				<Input placeholder="Last name" />
-			</Form.Item>
-
-			<Form.Item
-				label="Email"
-				name="email"
-				rules={[
-					{
-						required: true,
-						message: "Email can't be blank",
-					},
-					{
-						type: "email",
-						message: "Email isn't a valid email",
-					},
-				]}
-			>
-				<Input placeholder="Email" />
-			</Form.Item>
-
-			<Form.Item
-				label="Phone number"
-				name="phone"
-				rules={[
-					{
-						required: true,
-						message: "Phone number can't be blank",
-					},
-					{
-						pattern:
-							/^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/,
-						message: "Phone must be a valid phone number",
-					},
-				]}
-			>
-				<Input placeholder="Phone number" />
-			</Form.Item>
-
-			<Form.Item
-				label="Password"
-				name="password"
-				rules={[
-					{
-						required: true,
-						message: "Password can't be blank",
-					},
-					{
-						min: 8,
-						message: "Password is too short (minimum is 8 characters)",
-					},
-					{
-						pattern:
-							/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-						message:
-							"Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
-					},
-				]}
-			>
-				<Input.Password placeholder="Password" />
-			</Form.Item>
-
-			<Form.Item
-				label="Confirm password"
-				name="confirmPassword"
-				rules={[
-					{
-						required: true,
-						message: "Confirm password can't be blank",
-					},
-				]}
-			>
-				<Input.Password placeholder="Confirm password" />
-			</Form.Item>
-
-			<Form.Item
-				label="Address"
-				name="address"
-				rules={[
-					{
-						required: true,
-						message: "Address can't be blank",
-					},
-				]}
-			>
-				<Input placeholder="Address" />
-			</Form.Item>
-
-			<Form.Item label="Avatar">
-				<Dropzone setAvatar={setAvatar} />
-			</Form.Item>
-			{avatar && (
-				<Form.Item name="avatar">
-					<RenderFile
-						avatar={{
-							format: avatar.type.split("/")[1],
-							name: avatar.name,
-							size: avatar.size,
-						}}
-					/>
-				</Form.Item>
-			)}
-
-			<Form.Item>
-				<Button
-					type="primary"
-					htmlType="submit"
-					className="bg-black flex items-center gap-2"
-					disabled={isLoading}
+				<Form.Item
+					label="First name"
+					name="firstName"
+					rules={[
+						{
+							required: true,
+							message: "First name can't be blank",
+						},
+					]}
 				>
-					{isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
-					<span>Sign up</span>
-				</Button>
-			</Form.Item>
-		</Form>
+					<Input placeholder="First name" />
+				</Form.Item>
+
+				<Form.Item
+					label="Last name"
+					name="lastName"
+					rules={[
+						{
+							required: true,
+							message: "Last name can't be blank",
+						},
+					]}
+				>
+					<Input placeholder="Last name" />
+				</Form.Item>
+
+				<Form.Item
+					label="Email"
+					name="email"
+					rules={[
+						{
+							required: true,
+							message: "Email can't be blank",
+						},
+						{
+							type: "email",
+							message: "Email isn't a valid email",
+						},
+					]}
+				>
+					<Input placeholder="Email" />
+				</Form.Item>
+
+				<Form.Item
+					label="Phone number"
+					name="phone"
+					rules={[
+						{
+							required: true,
+							message: "Phone number can't be blank",
+						},
+						{
+							pattern:
+								/^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/,
+							message: "Phone must be a valid phone number",
+						},
+					]}
+				>
+					<Input placeholder="Phone number" />
+				</Form.Item>
+
+				<Form.Item
+					label="Password"
+					name="password"
+					rules={[
+						{
+							required: true,
+							message: "Password can't be blank",
+						},
+						{
+							min: 8,
+							message: "Password is too short (minimum is 8 characters)",
+						},
+						{
+							pattern:
+								/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+							message:
+								"Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+						},
+					]}
+				>
+					<Input.Password placeholder="Password" />
+				</Form.Item>
+
+				<Form.Item
+					label="Confirm password"
+					name="confirmPassword"
+					rules={[
+						{
+							required: true,
+							message: "Confirm password can't be blank",
+						},
+					]}
+				>
+					<Input.Password placeholder="Confirm password" />
+				</Form.Item>
+
+				<Form.Item
+					label="Address"
+					name="address"
+					rules={[
+						{
+							required: true,
+							message: "Address can't be blank",
+						},
+					]}
+				>
+					<Input placeholder="Address" />
+				</Form.Item>
+
+				<Form.Item label="Avatar">
+					<Dropzone setAvatar={setAvatar} />
+				</Form.Item>
+				{avatar && (
+					<Form.Item name="avatar">
+						<RenderFile
+							avatar={{
+								format: avatar.type.split("/")[1],
+								name: avatar.name,
+								size: avatar.size,
+							}}
+						/>
+					</Form.Item>
+				)}
+
+				<Form.Item>
+					<p>
+						Already have an account?{" "}
+						<Link to="/sign-in" className="cursor-pointer text-green-700">
+							<u>Login here</u>
+						</Link>
+					</p>
+				</Form.Item>
+
+				<Form.Item>
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="bg-black flex items-center gap-2"
+						disabled={isLoading}
+					>
+						{isLoading && (
+							<AiOutlineLoading3Quarters className="animate-spin" />
+						)}
+						<span>Sign up</span>
+					</Button>
+				</Form.Item>
+			</Form>
+		</div>
 	);
 };
 

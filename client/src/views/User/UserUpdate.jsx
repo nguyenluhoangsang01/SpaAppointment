@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { selectAuth } from "../../redux/slice/auth";
-import { SELECT_ROLES, layout } from "../../utils/constants";
+import { layout } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
 const UserUpdate = () => {
@@ -217,10 +217,6 @@ const UserUpdate = () => {
 					]}
 				>
 					<Input placeholder="Phone number" />
-				</Form.Item>
-
-				<Form.Item label="Role" name="role">
-					<Select options={SELECT_ROLES} />
 				</Form.Item>
 
 				<Form.Item

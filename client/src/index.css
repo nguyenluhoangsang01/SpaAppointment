@@ -79,3 +79,13 @@
 .fc-toolbar-chunk button {
 	text-transform: capitalize !important;
 }
+
+.ant-input-group-addon > button {
+	justify-content: center !important;
+	background: #000 !important;
+}
+
+.ant-input-group-addon > button:hover {
+	opacity: 0.8;
+	transition: all;
+}

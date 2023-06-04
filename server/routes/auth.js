@@ -1,6 +1,11 @@
 import express from "express";
 import multer from "multer";
-import { login, logout, register } from "../controllers/auth.js";
+import {
+	forgotPassword,
+	login,
+	logout,
+	register,
+} from "../controllers/auth.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 // Config multer
@@ -24,5 +29,10 @@ router.post("/login", login);
 // @desc Logout
 // @access Private
 router.post("/logout", verifyToken, logout);
+
+// @route PATCH api/auth/forgot-password
+// @desc change password
+// @access Public
+router.patch("/forgot-password", forgotPassword);
 
 export default router;

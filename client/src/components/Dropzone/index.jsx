@@ -1,7 +1,9 @@
-import React, { memo, useCallback } from "react";
+import React, { forwardRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const Dropzone = ({ setAvatar }) => {
+const Dropzone = forwardRef((props, ref) => {
+	const { setAvatar } = props;
+
 	const onDrop = useCallback(
 		(acceptedFile) => {
 			setAvatar(acceptedFile[0]);
@@ -25,7 +27,7 @@ const Dropzone = ({ setAvatar }) => {
 				isDragReject ? "!border-red-500" : ""
 			} ${isDragActive ? "border-green-500" : ""}`}
 		>
-			<input {...getInputProps()} />
+			<input {...getInputProps()} ref={ref} />
 
 			{isDragReject ? (
 				<p>Sorry, This app only supports images</p>
@@ -36,6 +38,6 @@ const Dropzone = ({ setAvatar }) => {
 			)}
 		</div>
 	);
-};
+});
 
-export default memo(Dropzone);
+export default Dropzone;

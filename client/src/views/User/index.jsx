@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Input, Table } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -11,6 +11,8 @@ import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
 import { getAllUsersReducerAsync, selectUser } from "../../redux/slice/user";
 import { axiosConfig } from "../../utils/helpers";
+
+const { Search } = Input;
 
 const User = () => {
 	// Router
@@ -25,6 +27,7 @@ const User = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [deleteUserId, setDeleteUserId] = useState(null);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -141,12 +144,30 @@ const User = () => {
 		setOpen(false);
 	};
 
+	const onSearch = (value) => {
+		setSearchTerm(value);
+	};
+
 	return (
 		<>
+			<Search
+				placeholder="Enter the email you want to search for"
+				allowClear
+				onSearch={onSearch}
+				enterButton
+			/>
+
+			<br />
+			<br />
+
 			<Table
 				rowKey="_id"
 				columns={columns}
-				dataSource={[...users].reverse()}
+				dataSource={[...users]
+					.filter((user) =>
+						searchTerm ? user?.email.includes(searchTerm) : user
+					)
+					.reverse()}
 				loading={!users}
 			/>
 

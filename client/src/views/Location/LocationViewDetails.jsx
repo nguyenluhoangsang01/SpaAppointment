@@ -11,7 +11,7 @@ import { selectAuth } from "../../redux/slice/auth";
 import { formatDateTime } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
-const AppointmentViewDetails = () => {
+const LocationViewDetails = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
@@ -23,7 +23,7 @@ const AppointmentViewDetails = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	// Title
-	const title = data?.title;
+	const title = data?.fullName;
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -37,7 +37,7 @@ const AppointmentViewDetails = () => {
 		(async () => {
 			try {
 				const { data } = await axios.get(
-					`/appointment/${id}`,
+					`/location/${id}`,
 					axiosConfig(accessToken, refreshToken)
 				);
 
@@ -53,7 +53,7 @@ const AppointmentViewDetails = () => {
 	if (!data) return <Loading />;
 
 	const handleUpdate = () => {
-		navigate(`/appointments/${id}/update`);
+		navigate(`/locations/${id}/update`);
 	};
 
 	const onOk = async () => {
@@ -61,7 +61,7 @@ const AppointmentViewDetails = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/appointment/${id}`,
+				`/location/${id}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -70,7 +70,7 @@ const AppointmentViewDetails = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				navigate("/appointments");
+				navigate("/locations");
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -91,18 +91,10 @@ const AppointmentViewDetails = () => {
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Button
-					className="bg-[yellow]"
-					onClick={handleUpdate}
-					disabled={id === user._id}
-				>
+				<Button className="bg-[yellow]" onClick={handleUpdate}>
 					Update
 				</Button>
-				<Button
-					className="bg-[red] text-white"
-					onClick={() => setOpen(true)}
-					disabled={id === user._id}
-				>
+				<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
 					Delete
 				</Button>
 			</div>
@@ -110,40 +102,12 @@ const AppointmentViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Service</th>
-						<td>{data?.service?.name}</td>
+						<th>Full name</th>
+						<td>{data?.fullName ? data?.fullName : <span>not set</span>}</td>
 					</tr>
 					<tr>
-						<th>Location</th>
-						<td>{data?.location?.fullName}</td>
-					</tr>
-					<tr>
-						<th>Staff</th>
-						<td>{`${data?.staff?.firstName} ${data?.staff?.lastName}`}</td>
-					</tr>
-					<tr>
-						<th>Title</th>
-						<td>{data?.title}</td>
-					</tr>
-					<tr>
-						<th>Duration</th>
-						<td>{data?.duration}</td>
-					</tr>
-					<tr>
-						<th>Status</th>
-						<td>{data?.status}</td>
-					</tr>
-					<tr>
-						<th>Start date</th>
-						<td>{data?.startDate}</td>
-					</tr>
-					<tr>
-						<th>End date</th>
-						<td>{data?.endDate}</td>
-					</tr>
-					<tr>
-						<th>Note</th>
-						<td>{data?.note ? data?.note : <span>not set</span>}</td>
+						<th>Short name</th>
+						<td>{data?.shortName ? data?.shortName : <span>not set</span>}</td>
 					</tr>
 					<tr>
 						<th>Created at</th>
@@ -169,16 +133,16 @@ const AppointmentViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Delete appointment"
+				title="Delete location"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this appointment?
+				Do you want to delete this location?
 			</Modals>
 		</>
 	);
 };
 
-export default AppointmentViewDetails;
+export default LocationViewDetails;

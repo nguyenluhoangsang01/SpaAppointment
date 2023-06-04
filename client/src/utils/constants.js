@@ -11,6 +11,7 @@ const AppointmentUpdate = lazy(() =>
 	import("../views/Appointment/AppointmentUpdate")
 );
 const ChangePassword = lazy(() => import("../views/ChangePassword"));
+const ForgotPassword = lazy(() => import("../views/ForgotPassword"));
 const GiftCard = lazy(() => import("../views/GiftCard"));
 const GiftCardCreate = lazy(() => import("../views/GiftCard/GiftCardCreate"));
 const GiftCardViewDetails = lazy(() =>
@@ -36,6 +37,12 @@ const ServiceViewDetails = lazy(() =>
 	import("../views/Service/ServiceViewDetails")
 );
 const ServiceUpdate = lazy(() => import("../views/Service/ServiceUpdate"));
+const Location = lazy(() => import("../views/Location"));
+const LocationCreate = lazy(() => import("../views/Location/LocationCreate"));
+const LocationViewDetails = lazy(() =>
+	import("../views/Location/LocationViewDetails")
+);
+const LocationUpdate = lazy(() => import("../views/Location/LocationUpdate"));
 const SignIn = lazy(() => import("../views/SignIn"));
 const SignUp = lazy(() => import("../views/SignUp"));
 const User = lazy(() => import("../views/User"));
@@ -44,9 +51,7 @@ const UserUpdate = lazy(() => import("../views/User/UserUpdate"));
 
 export const ROLES = {
 	Admin: "Admin",
-	Staff: "Staff",
 	Customer: "Customer",
-	Receptionist: "Receptionist",
 };
 
 export const SELECT_ROLES = [
@@ -55,16 +60,8 @@ export const SELECT_ROLES = [
 		label: "Admin",
 	},
 	{
-		value: "Staff",
-		label: "Staff",
-	},
-	{
 		value: "Customer",
 		label: "Customer",
-	},
-	{
-		value: "Receptionist",
-		label: "Receptionist",
 	},
 ];
 
@@ -133,6 +130,10 @@ export const routes = [
 	{
 		path: "/change-password",
 		element: <ChangePassword />,
+	},
+	{
+		path: "/forgot-password",
+		element: <ForgotPassword />,
 	},
 	{
 		path: "/gift-cards",
@@ -214,6 +215,22 @@ export const routes = [
 		path: "/services/:id/update",
 		element: <ServiceUpdate />,
 	},
+	{
+		path: "/locations",
+		element: <Location />,
+	},
+	{
+		path: "/locations/create",
+		element: <LocationCreate />,
+	},
+	{
+		path: "/locations/:id/view-details",
+		element: <LocationViewDetails />,
+	},
+	{
+		path: "/locations/:id/update",
+		element: <LocationUpdate />,
+	},
 ];
 
 export const navbarRoutes = [
@@ -228,6 +245,10 @@ export const navbarRoutes = [
 	{
 		path: "/services",
 		name: "Services",
+	},
+	{
+		path: "/locations",
+		name: "Locations",
 	},
 	{
 		path: "/promotions",

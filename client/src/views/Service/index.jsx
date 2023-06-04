@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Input, Table } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import {
 } from "../../redux/slice/service";
 import { axiosConfig } from "../../utils/helpers";
 
+const { Search } = Input;
+
 const Service = () => {
 	// Router
 	const navigate = useNavigate();
@@ -28,6 +30,7 @@ const Service = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [deleteServiceId, setDeleteServiceId] = useState(null);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -129,6 +132,10 @@ const Service = () => {
 		setOpen(false);
 	};
 
+	const onSearch = (value) => {
+		setSearchTerm(value);
+	};
+
 	return (
 		<>
 			<div className="flex justify-end mb-4">
@@ -141,10 +148,24 @@ const Service = () => {
 				</Button>
 			</div>
 
+			<Search
+				placeholder="Enter the name you want to search for"
+				allowClear
+				onSearch={onSearch}
+				enterButton
+			/>
+
+			<br />
+			<br />
+
 			<Table
 				rowKey="_id"
 				columns={columns}
-				dataSource={[...services].reverse()}
+				dataSource={[...services]
+					.filter((service) =>
+						searchTerm ? service?.name.includes(searchTerm) : service
+					)
+					.reverse()}
 				loading={!services}
 			/>
 

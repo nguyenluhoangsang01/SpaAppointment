@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Input, Table } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import {
 } from "../../redux/slice/promotion";
 import { axiosConfig } from "../../utils/helpers";
 
+const { Search } = Input;
+
 const Promotion = () => {
 	// Router
 	const navigate = useNavigate();
@@ -28,6 +30,7 @@ const Promotion = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [promotionId, setPromotionId] = useState(null);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -50,6 +53,10 @@ const Promotion = () => {
 	const handleDelete = (id) => {
 		setPromotionId(id);
 		setOpen(true);
+	};
+
+	const onSearch = (value) => {
+		setSearchTerm(value);
 	};
 
 	const columns = [
@@ -161,10 +168,24 @@ const Promotion = () => {
 				</Button>
 			</div>
 
+			<Search
+				placeholder="Enter the name you want to search for"
+				allowClear
+				onSearch={onSearch}
+				enterButton
+			/>
+
+			<br />
+			<br />
+
 			<Table
 				rowKey="_id"
 				columns={columns}
-				dataSource={[...promotions].reverse()}
+				dataSource={[...promotions]
+					.filter((promotion) =>
+						searchTerm ? promotion?.name.includes(searchTerm) : promotion
+					)
+					.reverse()}
 				loading={!promotions}
 			/>
 

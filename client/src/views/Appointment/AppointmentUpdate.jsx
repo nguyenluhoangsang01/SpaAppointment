@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { selectAuth } from "../../redux/slice/auth";
+import { selectLocation } from "../../redux/slice/location";
 import { selectService } from "../../redux/slice/service";
 import { selectUser } from "../../redux/slice/user";
 import {
@@ -24,6 +25,7 @@ const AppointmentUpdate = () => {
 	// Redux
 	const { user, accessToken, refreshToken } = useSelector(selectAuth);
 	const { services } = useSelector(selectService);
+	const { locations } = useSelector(selectLocation);
 	const { users } = useSelector(selectUser);
 	// Router
 	const navigate = useNavigate();
@@ -67,6 +69,11 @@ const AppointmentUpdate = () => {
 		label: service.name,
 	}));
 
+	const SELECT_LOCATIONS = locations.map((location) => ({
+		value: location._id,
+		label: location.fullName,
+	}));
+
 	const SELECT_STAFF = users
 		.filter((user) => user.role === "Staff")
 		.map((user) => ({
@@ -82,7 +89,6 @@ const AppointmentUpdate = () => {
 				`/appointment/${id}`,
 				{
 					...values,
-
 					startDate: moment(values.start).format(formatDateTime),
 					endDate: moment(values.end).format(formatDateTime),
 				},
@@ -101,6 +107,17 @@ const AppointmentUpdate = () => {
 				if (data.name === "serviceId") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: [data.message] },
+						{ name: "locationId", errors: null },
+						{ name: "staffId", errors: null },
+						{ name: "title", errors: null },
+						{ name: "duration", errors: null },
+						{ name: "note", errors: null },
+						{ name: "status", errors: null },
+					]);
+				} else if (data.name === "locationId") {
+					formRef.current.setFields([
+						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: [data.message] },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -110,6 +127,7 @@ const AppointmentUpdate = () => {
 				} else if (data.name === "staffId") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: [data.message] },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -119,6 +137,7 @@ const AppointmentUpdate = () => {
 				} else if (data.name === "title") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: [data.message] },
 						{ name: "duration", errors: null },
@@ -128,6 +147,7 @@ const AppointmentUpdate = () => {
 				} else if (data.name === "duration") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: [data.message] },
@@ -137,6 +157,7 @@ const AppointmentUpdate = () => {
 				} else if (data.name === "note") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -146,6 +167,7 @@ const AppointmentUpdate = () => {
 				} else if (data.name === "status") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -155,6 +177,7 @@ const AppointmentUpdate = () => {
 				} else {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -165,6 +188,8 @@ const AppointmentUpdate = () => {
 			}
 		}
 	};
+
+	console.log(data?.location?._id);
 
 	return (
 		<>
@@ -179,6 +204,7 @@ const AppointmentUpdate = () => {
 				initialValues={{
 					...data,
 					serviceId: data?.service?._id,
+					locationId: data?.location?._id,
 					staffId: data?.staff?._id,
 					startDate: moment(data.startDate, formatDateTime),
 					endDate: moment(data.endDate, formatDateTime),
@@ -195,6 +221,19 @@ const AppointmentUpdate = () => {
 					]}
 				>
 					<Select options={SELECT_SERVICES} />
+				</Form.Item>
+
+				<Form.Item
+					label="Location"
+					name="locationId"
+					rules={[
+						{
+							required: true,
+							message: "Location can't be blank",
+						},
+					]}
+				>
+					<Select options={SELECT_LOCATIONS} />
 				</Form.Item>
 
 				<Form.Item

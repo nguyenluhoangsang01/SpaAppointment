@@ -13,7 +13,12 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modals from "../../components/Modals";
+import { getAllAppointmentsReducerAsync } from "../../redux/slice/appointment";
 import { selectAuth } from "../../redux/slice/auth";
+import {
+	getAllLocationsReducerAsync,
+	selectLocation,
+} from "../../redux/slice/location";
 import {
 	getAllServicesReducerAsync,
 	selectService,
@@ -28,12 +33,13 @@ const Appointment = () => {
 	const { user, accessToken } = useSelector(selectAuth);
 	const { services } = useSelector(selectService);
 	const { users } = useSelector(selectUser);
+	const { locations } = useSelector(selectLocation);
 	// Cookies
 	const refreshToken = Cookies.get("refreshToken");
 	// State
 	const [open, setOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [datetime, setDatetime] = useState({ start: "", end: "" });
+	const [info, setInfo] = useState(null);
 	// Ref
 	const formRef = useRef(null);
 	// Router
@@ -44,8 +50,10 @@ const Appointment = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		dispatch(getAllServicesReducerAsync(accessToken, refreshToken));
 		dispatch(getAllUsersReducerAsync(accessToken, refreshToken));
+		dispatch(getAllServicesReducerAsync(accessToken, refreshToken));
+		dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
+		dispatch(getAllLocationsReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
 	const SELECT_SERVICES = services.map((service) => ({
@@ -60,15 +68,18 @@ const Appointment = () => {
 			label: `${user.firstName} ${user.lastName}`,
 		}));
 
+	const SELECT_LOCATIONS = locations.map((location) => ({
+		value: location._id,
+		label: location.fullName,
+	}));
+
 	const onCancel = () => {
 		setOpen(false);
 	};
 
 	const handleSelect = (info) => {
-		const { start, end } = info;
-
 		setOpen(true);
-		setDatetime({ start, end });
+		setInfo(info);
 	};
 
 	const onFinish = async (values) => {
@@ -79,8 +90,8 @@ const Appointment = () => {
 				"/appointment",
 				{
 					...values,
-					startDate: moment(datetime.start).format(formatDateTime),
-					endDate: moment(datetime.end).format(formatDateTime),
+					startDate: moment(info.start).format(formatDateTime),
+					endDate: moment(info.end).format(formatDateTime),
 					emailTo: user?.email,
 				},
 				axiosConfig(accessToken, refreshToken)
@@ -99,6 +110,17 @@ const Appointment = () => {
 				if (data.name === "serviceId") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: [data.message] },
+						{ name: "locationId", errors: null },
+						{ name: "staffId", errors: null },
+						{ name: "title", errors: null },
+						{ name: "duration", errors: null },
+						{ name: "note", errors: null },
+						{ name: "status", errors: null },
+					]);
+				} else if (data.name === "locationId") {
+					formRef.current.setFields([
+						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: [data.message] },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -108,6 +130,7 @@ const Appointment = () => {
 				} else if (data.name === "staffId") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: [data.message] },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -117,6 +140,7 @@ const Appointment = () => {
 				} else if (data.name === "title") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: [data.message] },
 						{ name: "duration", errors: null },
@@ -126,6 +150,7 @@ const Appointment = () => {
 				} else if (data.name === "duration") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: [data.message] },
@@ -135,6 +160,7 @@ const Appointment = () => {
 				} else if (data.name === "note") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -144,6 +170,7 @@ const Appointment = () => {
 				} else if (data.name === "status") {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -153,6 +180,7 @@ const Appointment = () => {
 				} else {
 					formRef.current.setFields([
 						{ name: "serviceId", errors: null },
+						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
 						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
@@ -178,15 +206,15 @@ const Appointment = () => {
 			<FullCalendar
 				editable
 				selectable
-				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+				select={handleSelect}
 				headerToolbar={{
 					start: "today prev next",
 					center: "title",
 					end: "dayGridMonth dayGridWeek dayGridDay",
 				}}
-				initialView="dayGridMonth"
+				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 				views={["dayGridMonth", "dayGridWeek", "dayGridDay"]}
-				select={handleSelect}
+				initialView="dayGridMonth"
 			/>
 
 			<Modals
@@ -221,6 +249,19 @@ const Appointment = () => {
 						]}
 					>
 						<Select options={SELECT_SERVICES} />
+					</Form.Item>
+
+					<Form.Item
+						label="Location"
+						name="locationId"
+						rules={[
+							{
+								required: true,
+								message: "Location can't be blank",
+							},
+						]}
+					>
+						<Select options={SELECT_LOCATIONS} />
 					</Form.Item>
 
 					<Form.Item

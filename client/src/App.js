@@ -31,7 +31,10 @@ function App() {
 
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
-			<Toaster toastOptions={{ duration: 5000 }} />
+			<Toaster
+				toastOptions={{ duration: 5000 }}
+				position="top-right"
+			/>
 
 			<ScrollToTop />
 

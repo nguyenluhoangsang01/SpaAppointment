@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Input, Table } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import {
 import { selectAuth } from "../../redux/slice/auth";
 import { axiosConfig } from "../../utils/helpers";
 
+const { Search } = Input;
+
 const AppointmentView = () => {
 	// Router
 	const navigate = useNavigate();
@@ -28,6 +30,7 @@ const AppointmentView = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [appointmentId, setAppointmentId] = useState("");
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -65,15 +68,19 @@ const AppointmentView = () => {
 			title: "Service",
 			dataIndex: "service",
 			key: "service",
-			render: (text, record) => <span>{text?.name}</span>,
+			render: (text) => <span>{text?.name}</span>,
+		},
+		{
+			title: "Location",
+			dataIndex: "location",
+			key: "location",
+			render: (text) => <span>{text?.fullName}</span>,
 		},
 		{
 			title: "Staff",
 			dataIndex: "staff",
 			key: "staff",
-			render: (text, record) => (
-				<span>{`${text?.firstName} ${text?.lastName}`}</span>
-			),
+			render: (text) => <span>{`${text?.firstName} ${text?.lastName}`}</span>,
 		},
 		{
 			title: "Start date",
@@ -141,15 +148,32 @@ const AppointmentView = () => {
 		setOpen(false);
 	};
 
+	const onSearch = (value) => {
+		setSearchTerm(value);
+	};
+
 	return (
 		<>
+			<Search
+				placeholder="Enter the title you want to search for"
+				allowClear
+				onSearch={onSearch}
+				enterButton
+			/>
+
+			<br />
+			<br />
+
 			<Table
-				rowKey="_id"
 				columns={columns}
 				dataSource={[...appointments]
 					.filter((appointment) => appointment?.user?._id === user?._id)
+					.filter((appointment) =>
+						searchTerm ? appointment?.title.includes(searchTerm) : appointment
+					)
 					.reverse()}
 				loading={!appointments}
+				rowKey={(record) => record._id}
 			/>
 
 			<Modals

@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import appointmentRoutes from "./routes/appointment.js";
 import authRoutes from "./routes/auth.js";
 import giftCardRoutes from "./routes/giftCard.js";
+import locationRoutes from "./routes/location.js";
 import promotionRoutes from "./routes/promotion.js";
 import reviewRoutes from "./routes/review.js";
 import serviceRoutes from "./routes/service.js";
@@ -76,6 +77,7 @@ app.use("/api/promotion", promotionRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/location", locationRoutes);
 
 // Route not found
 app.use("/*", (_req, res) => {

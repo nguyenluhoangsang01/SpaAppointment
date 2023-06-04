@@ -40,6 +40,11 @@ const appointmentSchema = new Schema(
 			ref: "User",
 			required: true,
 		},
+		location: {
+			type: Schema.Types.ObjectId,
+			ref: "Location",
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );

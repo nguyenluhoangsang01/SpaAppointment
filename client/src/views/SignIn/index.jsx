@@ -1,10 +1,10 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Image, Input } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import validate from "validate.js";
 import { selectAuth, signInReducer } from "../../redux/slice/auth";
 import { layout, phoneRegex } from "../../utils/constants";
@@ -85,52 +85,72 @@ const SignIn = () => {
 	};
 
 	return (
-		<Form
-			name="sign-in"
-			layout="vertical"
-			onFinish={onFinish}
-			ref={formRef}
-			{...layout}
-			initialValues={{ email: "", phone: "", password: "" }}
-		>
-			<Form.Item
-				label="Email / phone"
-				name="emailOrPhone"
-				rules={[
-					{
-						required: true,
-						message: "Email / phone can't be blank",
-					},
-				]}
-			>
-				<Input placeholder="Email or phone" />
-			</Form.Item>
+		<div className="relative">
+			<div className="mb-8">
+				<Image
+					src="https://www.picktime.com/webassets/2021/img/picktime-hero-new.svg"
+					alt="Spa Appointment App"
+					preview={false}
+				/>
+			</div>
 
-			<Form.Item
-				label="Password"
-				name="password"
-				rules={[
-					{
-						required: true,
-						message: "Password can't be blank",
-					},
-				]}
+			<Form
+				name="sign-in"
+				layout="vertical"
+				onFinish={onFinish}
+				ref={formRef}
+				{...layout}
+				initialValues={{ email: "", phone: "", password: "" }}
 			>
-				<Input.Password placeholder="Password" />
-			</Form.Item>
-
-			<Form.Item>
-				<Button
-					type="primary"
-					htmlType="submit"
-					className="bg-black flex items-center gap-2"
-					disabled={isLoading}
+				<Form.Item
+					label="Email / phone"
+					name="emailOrPhone"
+					rules={[
+						{
+							required: true,
+							message: "Email / phone can't be blank",
+						},
+					]}
 				>
-					{isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
-					<span>Sign in</span>
-				</Button>
-			</Form.Item>
-		</Form>
+					<Input placeholder="Email or phone" />
+				</Form.Item>
+
+				<Form.Item
+					label="Password"
+					name="password"
+					rules={[
+						{
+							required: true,
+							message: "Password can't be blank",
+						},
+					]}
+				>
+					<Input.Password placeholder="Password" />
+				</Form.Item>
+
+				<Form.Item className="cursor-pointer">
+					<Link to="/forgot-password">
+						<i>
+							<u>Forgotten your password?</u>
+						</i>
+					</Link>
+				</Form.Item>
+
+				<Form.Item>
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="bg-black flex items-center gap-2"
+						disabled={isLoading}
+					>
+						{isLoading && (
+							<AiOutlineLoading3Quarters className="animate-spin" />
+						)}
+						<span>Sign in</span>
+					</Button>
+				</Form.Item>
+			</Form>
+		</div>
 	);
 };
 

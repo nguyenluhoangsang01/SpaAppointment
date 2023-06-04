@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 import appointmentReducer from "./slice/appointment";
 import authReducer from "./slice/auth";
 import giftCardReducer from "./slice/giftCard";
+import locationReducer from "./slice/location";
 import promotionReducer from "./slice/promotion";
 import serviceReducer from "./slice/service";
 import userReducer from "./slice/user";
@@ -45,6 +46,10 @@ const appointmentPersistConfig = {
 	key: "appointment",
 	storage,
 };
+const locationPersistConfig = {
+	key: "location",
+	storage,
+};
 
 const rootReducer = combineReducers({
 	auth: persistReducer(authPersistConfig, authReducer),
@@ -53,6 +58,7 @@ const rootReducer = combineReducers({
 	promotion: persistReducer(promotionPersistConfig, promotionReducer),
 	giftCard: persistReducer(giftCardPersistConfig, giftCardReducer),
 	appointment: persistReducer(appointmentPersistConfig, appointmentReducer),
+	location: persistReducer(locationPersistConfig, locationReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

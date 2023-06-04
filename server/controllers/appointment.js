@@ -8,6 +8,7 @@ import {
 	statusAppointmentConstraint,
 } from "../constants.js";
 import Appointment from "../models/Appointment.js";
+import Location from "../models/Location.js";
 import Service from "../models/Service.js";
 import User from "../models/User.js";
 import sendError from "../utils/sendError.js";
@@ -28,6 +29,10 @@ export const getAll = async (req, res, next) => {
 			})
 			.populate({
 				path: "service",
+				select: "-__v",
+			})
+			.populate({
+				path: "location",
 				select: "-__v",
 			})
 			.select("-__v");
@@ -63,6 +68,10 @@ export const getById = async (req, res, next) => {
 				path: "service",
 				select: "-__v",
 			})
+			.populate({
+				path: "location",
+				select: "-__v",
+			})
 			.select("-__v");
 		if (!appointment) return sendError(res, "Appointment not found", 404);
 
@@ -85,12 +94,15 @@ export const create = async (req, res, next) => {
 		startDate,
 		title,
 		emailTo,
+		locationId,
 	} = req.body;
 
 	validateDatetime();
 
 	if (!serviceId)
 		return sendError(res, "Service can't be blank", 400, "serviceId");
+	if (!locationId)
+		return sendError(res, "Location can't be blank", 400, "locationId");
 	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
 	if (!title) return sendError(res, "Title can't be blank", 400, "title");
 	if (!duration && duration !== 0)
@@ -134,10 +146,21 @@ export const create = async (req, res, next) => {
 				"service"
 			);
 
+		// Get location by id
+		const location = await Location.findById(locationId);
+		if (!location)
+			return sendError(
+				res,
+				"Location isn't included in the list",
+				404,
+				"location"
+			);
+
 		const newAppointment = new Appointment({
 			...req.body,
 			service: serviceId,
 			staff: staffId,
+			location: locationId,
 			user: userId,
 		});
 		await newAppointment.save();
@@ -274,6 +297,7 @@ export const create = async (req, res, next) => {
 																					<tr>
 																						<td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; padding: 10px; text-align: center; background-color: #FFC26D;" valign="top" align="center" bgcolor="#FFC26D">
 																							<p>Title: ${title}</p>
+																							<p>Location: ${location.fullName}</p>
 																							<p>Duration: ${duration}</p>
 																							<p>Staff name: ${staff.firstName} ${staff.lastName}</p>
 																							<p>Start: ${startDate}</p>
@@ -307,6 +331,7 @@ export const create = async (req, res, next) => {
 			</html>`,
 		};
 
+		// Send to
 		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				console.log(error);
@@ -328,13 +353,23 @@ export const updateById = async (req, res, next) => {
 	// Get user id from request
 	const { userId } = req;
 	// Get data from request body
-	const { duration, endDate, serviceId, staffId, startDate, status, title } =
-		req.body;
+	const {
+		duration,
+		endDate,
+		serviceId,
+		staffId,
+		startDate,
+		status,
+		title,
+		locationId,
+	} = req.body;
 
 	validateDatetime();
 
 	if (!serviceId)
 		return sendError(res, "Service can't be blank", 400, "serviceId");
+	if (!locationId)
+		return sendError(res, "Location can't be blank", 400, "locationId");
 	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
 	if (!title) return sendError(res, "Title can't be blank", 400, "title");
 	if (!duration && duration !== 0)
@@ -388,9 +423,24 @@ export const updateById = async (req, res, next) => {
 				"service"
 			);
 
+		// Get location by id
+		const location = await Location.findById(locationId);
+		if (!location)
+			return sendError(
+				res,
+				"Location isn't included in the list",
+				404,
+				"location"
+			);
+
 		await Appointment.findByIdAndUpdate(
 			id,
-			{ ...req.body, services: serviceId, staff: staffId },
+			{
+				...req.body,
+				services: serviceId,
+				staff: staffId,
+				location: locationId,
+			},
 			{ new: true }
 		);
 

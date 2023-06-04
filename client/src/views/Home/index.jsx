@@ -1,10 +1,27 @@
 import { Button, Image } from "antd";
-import React from "react";
+import Cookies from "js-cookie";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { selectAuth } from "../../redux/slice/auth";
+import { getAllUsersReducerAsync } from "../../redux/slice/user";
 
 const Home = () => {
 	// Router
 	const navigate = useNavigate();
+	// Redux
+	const dispatch = useDispatch();
+	const { user, accessToken } = useSelector(selectAuth);
+	// Cookies
+	const refreshToken = Cookies.get("refreshToken");
+
+	useEffect(() => {
+		if (!user) navigate("/sign-in");
+	}, [navigate, user]);
+
+	useEffect(() => {
+		dispatch(getAllUsersReducerAsync(accessToken, refreshToken));
+	}, [accessToken, dispatch, refreshToken]);
 
 	return (
 		<div className="bg-[#F7C0C3]">
