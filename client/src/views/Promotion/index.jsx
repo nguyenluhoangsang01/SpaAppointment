@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "antd";
+import { Button, Input, Table, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -37,10 +37,6 @@ const Promotion = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
-	}, [navigate, user?.role]);
-
-	useEffect(() => {
 		dispatch(getAllPromotionsReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
@@ -60,11 +56,6 @@ const Promotion = () => {
 	};
 
 	const columns = [
-		{
-			title: "#",
-			dataIndex: "_id",
-			key: "_id",
-		},
 		{
 			title: "Service",
 			dataIndex: "service",
@@ -95,6 +86,7 @@ const Promotion = () => {
 			title: "Value",
 			dataIndex: "value",
 			key: "value",
+			render: (text) => <span>{text} VND</span>,
 		},
 		{
 			title: "Active",
@@ -106,23 +98,32 @@ const Promotion = () => {
 			title: "Actions",
 			dataIndex: "-",
 			key: "-",
+			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Button onClick={() => handleViewDetails(record?._id)}>
-						<IoEyeSharp />
-					</Button>
-					<Button
-						onClick={() => handleUpdate(record?._id)}
-						disabled={user?.role !== "Admin"}
-					>
-						<BsPencilFill />
-					</Button>
-					<Button
-						onClick={() => handleDelete(record?._id)}
-						disabled={user?.role !== "Admin"}
-					>
-						<BsTrashFill />
-					</Button>
+					<Tooltip title="View details">
+						<Button onClick={() => handleViewDetails(record?._id)}>
+							<IoEyeSharp />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Update">
+						<Button
+							onClick={() => handleUpdate(record?._id)}
+							disabled={user?.role !== "Admin"}
+						>
+							<BsPencilFill />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Delete">
+						<Button
+							onClick={() => handleDelete(record?._id)}
+							disabled={user?.role !== "Admin"}
+						>
+							<BsTrashFill />
+						</Button>
+					</Tooltip>
 				</div>
 			),
 		},
@@ -169,7 +170,7 @@ const Promotion = () => {
 			</div>
 
 			<Search
-				placeholder="Enter the name you want to search for"
+				placeholder="Enter search term you want to search for"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -183,7 +184,15 @@ const Promotion = () => {
 				columns={columns}
 				dataSource={[...promotions]
 					.filter((promotion) =>
-						searchTerm ? promotion?.name.includes(searchTerm) : promotion
+						searchTerm
+							? promotion?.service?.name.includes(searchTerm) ||
+							  promotion?.name.includes(searchTerm) ||
+							  promotion?.type.includes(searchTerm) ||
+							  promotion?.startDate.includes(searchTerm) ||
+							  promotion?.endDate.includes(searchTerm) ||
+							  promotion?.value.toString().includes(searchTerm) ||
+							  promotion?.active.includes(searchTerm)
+							: promotion
 					)
 					.reverse()}
 				loading={!promotions}

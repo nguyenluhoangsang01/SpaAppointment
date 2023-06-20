@@ -48,6 +48,13 @@ const SignUp = lazy(() => import("../views/SignUp"));
 const User = lazy(() => import("../views/User"));
 const UserViewDetails = lazy(() => import("../views/User/UserViewDetails"));
 const UserUpdate = lazy(() => import("../views/User/UserUpdate"));
+const Schedule = lazy(() => import("../views/Schedule"));
+const ScheduleView = lazy(() => import("../views/Schedule/ScheduleView"));
+const ScheduleViewDetails = lazy(() =>
+	import("../views/Schedule/ScheduleViewDetails")
+);
+const ScheduleUpdate = lazy(() => import("../views/Schedule/ScheduleUpdate"));
+const Statistical = lazy(() => import("../views/Statistical"));
 
 export const ROLES = {
 	Admin: "Admin",
@@ -58,6 +65,10 @@ export const SELECT_ROLES = [
 	{
 		value: "Admin",
 		label: "Admin",
+	},
+	{
+		value: "Staff",
+		label: "Staff",
 	},
 	{
 		value: "Customer",
@@ -73,6 +84,17 @@ export const SELECT_TYPES = [
 	{
 		value: "Fixed",
 		label: "Fixed",
+	},
+];
+
+export const SELECT_TYPES_SCHEDULE = [
+	{
+		value: "Doing",
+		label: "Doing",
+	},
+	{
+		value: "On vacation",
+		label: "On vacation",
 	},
 ];
 
@@ -231,6 +253,30 @@ export const routes = [
 		path: "/locations/:id/update",
 		element: <LocationUpdate />,
 	},
+	{
+		path: "/schedule",
+		element: <Schedule />,
+	},
+	{
+		path: "/schedule/view-schedule",
+		element: <ScheduleView />,
+	},
+	{
+		path: "/schedule/:id/view-details",
+		element: <ScheduleViewDetails />,
+	},
+	{
+		path: "/schedule/view-schedule/:id/update",
+		element: <ScheduleUpdate />,
+	},
+	{
+		path: "/schedule/:id/update",
+		element: <ScheduleUpdate />,
+	},
+	{
+		path: "/statistical",
+		element: <Statistical />,
+	},
 ];
 
 export const navbarRoutes = [
@@ -285,6 +331,14 @@ export const accountRoutes = [
 		name: "Change password",
 	},
 	{
+		path: "/schedule",
+		name: "Schedule",
+	},
+	{
+		path: "/statistical",
+		name: "Statistical",
+	},
+	{
 		path: "",
 		name: "Sign out",
 	},
@@ -295,7 +349,7 @@ export const layout = {
 		span: 8,
 	},
 	wrapperCol: {
-		span: 8,
+		span: 24,
 	},
 };
 export const tailLayout = {

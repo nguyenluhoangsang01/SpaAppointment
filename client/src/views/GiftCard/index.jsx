@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "antd";
+import { Button, Input, Table, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -37,10 +37,6 @@ const GiftCard = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
-	}, [navigate, user?.role]);
-
-	useEffect(() => {
 		dispatch(getAllGiftCardsReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
@@ -59,11 +55,6 @@ const GiftCard = () => {
 
 	const columns = [
 		{
-			title: "#",
-			dataIndex: "_id",
-			key: "_id",
-		},
-		{
 			title: "Promotion",
 			dataIndex: "promotion",
 			key: "promotion",
@@ -73,11 +64,7 @@ const GiftCard = () => {
 			title: "Value",
 			dataIndex: "value",
 			key: "value",
-		},
-		{
-			title: "Status",
-			dataIndex: "status",
-			key: "status",
+			render: (text) => <span>{text} VND</span>,
 		},
 		{
 			title: "Code",
@@ -85,26 +72,45 @@ const GiftCard = () => {
 			key: "code",
 		},
 		{
+			title: "Status",
+			dataIndex: "status",
+			key: "status",
+		},
+		{
+			title: "Expiration date",
+			dataIndex: "expirationDate",
+			key: "expirationDate",
+		},
+		{
 			title: "Actions",
 			dataIndex: "-",
 			key: "-",
+			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Button onClick={() => handleViewDetails(record?._id)}>
-						<IoEyeSharp />
-					</Button>
-					<Button
-						onClick={() => handleUpdate(record?._id)}
-						disabled={user?.role !== "Admin"}
-					>
-						<BsPencilFill />
-					</Button>
-					<Button
-						onClick={() => handleDelete(record?._id)}
-						disabled={user?.role !== "Admin"}
-					>
-						<BsTrashFill />
-					</Button>
+					<Tooltip title="View details">
+						<Button onClick={() => handleViewDetails(record?._id)}>
+							<IoEyeSharp />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Update">
+						<Button
+							onClick={() => handleUpdate(record?._id)}
+							disabled={user?.role !== "Admin"}
+						>
+							<BsPencilFill />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Delete">
+						<Button
+							onClick={() => handleDelete(record?._id)}
+							disabled={user?.role !== "Admin"}
+						>
+							<BsTrashFill />
+						</Button>
+					</Tooltip>
 				</div>
 			),
 		},

@@ -57,10 +57,16 @@ const userSchema = new Schema(
 				ref: "Service",
 			},
 		],
+		countAppointment: {
+			type: Number,
+			default: 0,
+		},
+		countPrice: {
+			type: Number,
+			default: 0,
+		},
 	},
-	{
-		timestamps: true,
-	}
+	{ timestamps: true }
 );
 
 export default model("User", userSchema);

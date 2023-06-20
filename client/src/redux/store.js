@@ -15,6 +15,7 @@ import authReducer from "./slice/auth";
 import giftCardReducer from "./slice/giftCard";
 import locationReducer from "./slice/location";
 import promotionReducer from "./slice/promotion";
+import scheduleReducer from "./slice/schedule";
 import serviceReducer from "./slice/service";
 import userReducer from "./slice/user";
 
@@ -50,6 +51,10 @@ const locationPersistConfig = {
 	key: "location",
 	storage,
 };
+const schedulePersistConfig = {
+	key: "schedule",
+	storage,
+};
 
 const rootReducer = combineReducers({
 	auth: persistReducer(authPersistConfig, authReducer),
@@ -59,6 +64,7 @@ const rootReducer = combineReducers({
 	giftCard: persistReducer(giftCardPersistConfig, giftCardReducer),
 	appointment: persistReducer(appointmentPersistConfig, appointmentReducer),
 	location: persistReducer(locationPersistConfig, locationReducer),
+	schedule: persistReducer(schedulePersistConfig, scheduleReducer),
 });
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

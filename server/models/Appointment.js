@@ -26,10 +26,6 @@ const appointmentSchema = new Schema(
 			enum: Object.values(APPOINTMENT_STATUS),
 			default: APPOINTMENT_STATUS.Booked,
 		},
-		title: {
-			type: String,
-			required: true,
-		},
 		staff: {
 			type: Schema.Types.ObjectId,
 			ref: "User",

@@ -25,13 +25,17 @@ const Default = () => {
 									: "Home"}
 							</Heading>
 
-							<div
-								className="text-sm italic underline cursor-pointer flex items-center gap-2 mb-8"
-								onClick={() => navigate(-1)}
-							>
-								<BiArrowBack />
-								<span>Back to home page</span>
-							</div>
+							{pathname !== "/sign-in" &&
+								pathname !== "/sign-up" &&
+								pathname !== "/forgot-password" && (
+									<div
+										className="text-sm italic underline cursor-pointer flex items-center gap-2 mb-8"
+										onClick={() => navigate("/")}
+									>
+										<BiArrowBack />
+										<span>Back to home page</span>
+									</div>
+								)}
 						</div>
 					)}
 

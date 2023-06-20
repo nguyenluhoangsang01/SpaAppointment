@@ -1,6 +1,7 @@
-import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Button, DatePicker, Form, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
+import Cookies from "js-cookie";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -10,8 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { selectAuth } from "../../redux/slice/auth";
 import { selectLocation } from "../../redux/slice/location";
+import { selectSchedule } from "../../redux/slice/schedule";
 import { selectService } from "../../redux/slice/service";
-import { selectUser } from "../../redux/slice/user";
 import {
 	SELECT_APPOINTMENT_STATUS,
 	formatDateTime,
@@ -23,17 +24,19 @@ const AppointmentUpdate = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
-	const { user, accessToken, refreshToken } = useSelector(selectAuth);
+	const { user, accessToken } = useSelector(selectAuth);
 	const { services } = useSelector(selectService);
 	const { locations } = useSelector(selectLocation);
-	const { users } = useSelector(selectUser);
+	const { schedule } = useSelector(selectSchedule);
+	// Cookies
+	const refreshToken = Cookies.get("refreshToken");
 	// Router
 	const navigate = useNavigate();
 	// State
 	const [data, setData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	// Title
-	const title = data?.title;
+	const title = data?.service?.name;
 	// Ref
 	const formRef = useRef(null);
 
@@ -74,12 +77,10 @@ const AppointmentUpdate = () => {
 		label: location.fullName,
 	}));
 
-	const SELECT_STAFF = users
-		.filter((user) => user.role === "Staff")
-		.map((user) => ({
-			value: user._id,
-			label: `${user.firstName} ${user.lastName}`,
-		}));
+	const SELECT_STAFF = schedule.map((user) => ({
+		value: user.staff._id,
+		label: `${user.staff.firstName} ${user.staff.lastName}`,
+	}));
 
 	const onFinish = async (values) => {
 		setIsLoading(true);
@@ -89,8 +90,8 @@ const AppointmentUpdate = () => {
 				`/appointment/${id}`,
 				{
 					...values,
-					startDate: moment(values.start).format(formatDateTime),
-					endDate: moment(values.end).format(formatDateTime),
+					startDate: moment(values.startDate.$d).format(formatDateTime),
+					endDate: moment(values.endDate.$d).format(formatDateTime),
 				},
 				axiosConfig(accessToken, refreshToken)
 			);
@@ -109,7 +110,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: [data.message] },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -119,7 +119,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: [data.message] },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -129,17 +128,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: [data.message] },
-						{ name: "title", errors: null },
-						{ name: "duration", errors: null },
-						{ name: "note", errors: null },
-						{ name: "status", errors: null },
-					]);
-				} else if (data.name === "title") {
-					formRef.current.setFields([
-						{ name: "serviceId", errors: null },
-						{ name: "locationId", errors: null },
-						{ name: "staffId", errors: null },
-						{ name: "title", errors: [data.message] },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -149,7 +137,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: [data.message] },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -159,7 +146,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: [data.message] },
 						{ name: "status", errors: null },
@@ -169,7 +155,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: [data.message] },
@@ -179,7 +164,6 @@ const AppointmentUpdate = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -189,14 +173,12 @@ const AppointmentUpdate = () => {
 		}
 	};
 
-	console.log(data?.location?._id);
-
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">Update: {title}</h1>
 
 			<Form
-				name="create"
+				name="update"
 				layout="vertical"
 				onFinish={onFinish}
 				ref={formRef}
@@ -247,19 +229,6 @@ const AppointmentUpdate = () => {
 					]}
 				>
 					<Select options={SELECT_STAFF} />
-				</Form.Item>
-
-				<Form.Item
-					label="Title"
-					name="title"
-					rules={[
-						{
-							required: true,
-							message: "Title can't be blank",
-						},
-					]}
-				>
-					<Input placeholder="Title" />
 				</Form.Item>
 
 				<Form.Item

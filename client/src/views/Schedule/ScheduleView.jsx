@@ -1,7 +1,6 @@
-import { Button, Input, Table, Tooltip } from "antd";
+import { Button, Table, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
@@ -9,40 +8,41 @@ import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modals from "../../components/Modals";
-import {
-	getAllAppointmentsReducerAsync,
-	selectAppointment,
-} from "../../redux/slice/appointment";
 import { selectAuth } from "../../redux/slice/auth";
+import {
+	getAllScheduleReducerAsync,
+	selectSchedule,
+} from "../../redux/slice/schedule";
 import { axiosConfig } from "../../utils/helpers";
 
-const { Search } = Input;
-
-const AppointmentView = () => {
+const ScheduleView = () => {
 	// Router
 	const navigate = useNavigate();
 	// Redux
 	const dispatch = useDispatch();
 	const { user, accessToken } = useSelector(selectAuth);
-	const { appointments } = useSelector(selectAppointment);
+	const { schedule } = useSelector(selectSchedule);
 	// Cookies
 	const refreshToken = Cookies.get("refreshToken");
 	// State
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
-	const [appointmentId, setAppointmentId] = useState("");
-	const [searchTerm, setSearchTerm] = useState("");
+	const [scheduleId, setScheduleId] = useState(null);
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
 	}, [navigate, user]);
 
 	useEffect(() => {
-		dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
+		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+	}, [navigate, user?.role]);
+
+	useEffect(() => {
+		dispatch(getAllScheduleReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
 	const handleViewDetails = (id) => {
-		navigate(`/appointments/${id}/view-details`);
+		navigate(`/schedule/${id}/view-details`);
 	};
 
 	const handleUpdate = (id) => {
@@ -51,27 +51,33 @@ const AppointmentView = () => {
 
 	const handleDelete = (id) => {
 		setOpen(true);
-		setAppointmentId(id);
+		setScheduleId(id);
 	};
 
 	const columns = [
 		{
-			title: "Service",
-			dataIndex: "service",
-			key: "service",
-			render: (text) => <span>{text?.name}</span>,
+			title: "First name",
+			dataIndex: "firstName",
+			key: "firstName",
+			render: (text, record) => <span>{record?.staff?.firstName}</span>,
 		},
 		{
-			title: "Location",
-			dataIndex: "location",
-			key: "location",
-			render: (text) => <span>{text?.fullName}</span>,
+			title: "Last name",
+			dataIndex: "lastName",
+			key: "lastName",
+			render: (text, record) => <span>{record?.staff?.lastName}</span>,
 		},
 		{
-			title: "Staff",
-			dataIndex: "staff",
-			key: "staff",
-			render: (text) => <span>{`${text?.firstName} ${text?.lastName}`}</span>,
+			title: "Email",
+			dataIndex: "email",
+			key: "email",
+			render: (text, record) => <span>{record?.staff?.email}</span>,
+		},
+		{
+			title: "Phone",
+			dataIndex: "phone",
+			key: "phone",
+			render: (text, record) => <span>{record?.staff?.phone}</span>,
 		},
 		{
 			title: "Start date",
@@ -84,20 +90,14 @@ const AppointmentView = () => {
 			key: "endDate",
 		},
 		{
-			title: "Status",
-			dataIndex: "status",
-			key: "status",
-		},
-		{
-			title: "Duration (h)",
-			dataIndex: "duration",
-			key: "duration",
+			title: "Type",
+			dataIndex: "type",
+			key: "type",
 		},
 		{
 			title: "Actions",
 			dataIndex: "-",
 			key: "-",
-			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
 					<Tooltip title="View details">
@@ -105,20 +105,13 @@ const AppointmentView = () => {
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
-
 					<Tooltip title="Update">
 						<Button onClick={() => handleUpdate(record?._id)}>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
-
 					<Tooltip title="Delete">
-						<Button
-							onClick={() => handleDelete(record?._id)}
-							disabled={moment().isBefore(
-								moment(record.startDate.split("- ")[1]).add(3, "days")
-							)}
-						>
+						<Button onClick={() => handleDelete(record?._id)}>
 							<BsTrashFill />
 						</Button>
 					</Tooltip>
@@ -132,12 +125,12 @@ const AppointmentView = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/appointment/${appointmentId}`,
+				`/schedule/${scheduleId}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
 			if (data.success) {
-				dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
+				dispatch(getAllScheduleReducerAsync(accessToken, refreshToken));
 				toast.success(data.message);
 				setConfirmLoading(false);
 				setOpen(false);
@@ -154,48 +147,32 @@ const AppointmentView = () => {
 		setOpen(false);
 	};
 
-	const onSearch = (value) => {
-		setSearchTerm(value);
-	};
+	console.log();
 
 	return (
 		<>
-			<Search
-				placeholder="Enter the service or status you want to search for"
-				allowClear
-				onSearch={onSearch}
-				enterButton
-			/>
-
-			<br />
-			<br />
-
 			<Table
 				columns={columns}
-				dataSource={[...appointments]
-					.filter((appointment) => appointment?.user?._id === user?._id)
-					.filter((appointment) =>
-						searchTerm
-							? appointment?.service?.name.includes(searchTerm) ||
-							  appointment?.status.includes(searchTerm)
-							: appointment
+				dataSource={[...schedule]
+					.filter((item) =>
+						user?.role !== "Admin" ? item?.staff?._id === user?._id : item
 					)
 					.reverse()}
-				loading={!appointments}
+				loading={!schedule}
 				rowKey={(record) => record._id}
 			/>
 
 			<Modals
-				title="Delete appointment"
+				title="Delete schedule"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this appointment?
+				Do you want to delete this schedule?
 			</Modals>
 		</>
 	);
 };
 
-export default AppointmentView;
+export default ScheduleView;

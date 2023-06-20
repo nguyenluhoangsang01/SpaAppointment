@@ -2,7 +2,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Button, Form, Input, InputNumber, Select } from "antd";
+import { Button, Form, InputNumber, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -20,10 +20,14 @@ import {
 	selectLocation,
 } from "../../redux/slice/location";
 import {
+	getAllScheduleReducerAsync,
+	selectSchedule,
+} from "../../redux/slice/schedule";
+import {
 	getAllServicesReducerAsync,
 	selectService,
 } from "../../redux/slice/service";
-import { getAllUsersReducerAsync, selectUser } from "../../redux/slice/user";
+import { getAllUsersReducerAsync } from "../../redux/slice/user";
 import { formatDateTime, layout } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
@@ -32,8 +36,8 @@ const Appointment = () => {
 	const dispatch = useDispatch();
 	const { user, accessToken } = useSelector(selectAuth);
 	const { services } = useSelector(selectService);
-	const { users } = useSelector(selectUser);
 	const { locations } = useSelector(selectLocation);
+	const { schedule } = useSelector(selectSchedule);
 	// Cookies
 	const refreshToken = Cookies.get("refreshToken");
 	// State
@@ -54,6 +58,7 @@ const Appointment = () => {
 		dispatch(getAllServicesReducerAsync(accessToken, refreshToken));
 		dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
 		dispatch(getAllLocationsReducerAsync(accessToken, refreshToken));
+		dispatch(getAllScheduleReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
 	const SELECT_SERVICES = services.map((service) => ({
@@ -61,12 +66,10 @@ const Appointment = () => {
 		label: service.name,
 	}));
 
-	const SELECT_STAFF = users
-		.filter((user) => user.role === "Staff")
-		.map((user) => ({
-			value: user._id,
-			label: `${user.firstName} ${user.lastName}`,
-		}));
+	const SELECT_STAFF = schedule.map((user) => ({
+		value: user.staff._id,
+		label: `${user.staff.firstName} ${user.staff.lastName}`,
+	}));
 
 	const SELECT_LOCATIONS = locations.map((location) => ({
 		value: location._id,
@@ -112,7 +115,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: [data.message] },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -122,7 +124,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: [data.message] },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -132,17 +133,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: [data.message] },
-						{ name: "title", errors: null },
-						{ name: "duration", errors: null },
-						{ name: "note", errors: null },
-						{ name: "status", errors: null },
-					]);
-				} else if (data.name === "title") {
-					formRef.current.setFields([
-						{ name: "serviceId", errors: null },
-						{ name: "locationId", errors: null },
-						{ name: "staffId", errors: null },
-						{ name: "title", errors: [data.message] },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -152,7 +142,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: [data.message] },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -162,7 +151,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: [data.message] },
 						{ name: "status", errors: null },
@@ -172,7 +160,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: [data.message] },
@@ -182,7 +169,6 @@ const Appointment = () => {
 						{ name: "serviceId", errors: null },
 						{ name: "locationId", errors: null },
 						{ name: "staffId", errors: null },
-						{ name: "title", errors: null },
 						{ name: "duration", errors: null },
 						{ name: "note", errors: null },
 						{ name: "status", errors: null },
@@ -233,7 +219,6 @@ const Appointment = () => {
 					initialValues={{
 						serviceId: "",
 						staffId: "",
-						title: "",
 						duration: "",
 						note: "",
 					}}
@@ -278,19 +263,6 @@ const Appointment = () => {
 					</Form.Item>
 
 					<Form.Item
-						label="Title"
-						name="title"
-						rules={[
-							{
-								required: true,
-								message: "Title can't be blank",
-							},
-						]}
-					>
-						<Input placeholder="Title" />
-					</Form.Item>
-
-					<Form.Item
 						label="Duration"
 						name="duration"
 						rules={[
@@ -305,20 +277,11 @@ const Appointment = () => {
 							},
 						]}
 					>
-						<InputNumber placeholder="Duration" />
+						<InputNumber placeholder="Duration" style={{ width: "100%" }} />
 					</Form.Item>
 
-					<Form.Item
-						label="Note"
-						name="note"
-						rules={[
-							{
-								required: true,
-								message: "Note can't be blank",
-							},
-						]}
-					>
-						<TextArea placeholder="Note" />
+					<Form.Item label="Note" name="note">
+						<TextArea placeholder="Note" rows={8} />
 					</Form.Item>
 
 					<Form.Item>

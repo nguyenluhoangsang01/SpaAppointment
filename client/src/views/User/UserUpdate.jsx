@@ -1,4 +1,5 @@
-import { Button, Form, Input } from "antd";
+import Cookies from "js-cookie";
+import { Button, Form, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,14 +9,16 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { selectAuth } from "../../redux/slice/auth";
-import { layout } from "../../utils/constants";
+import { SELECT_ROLES, layout } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
 const UserUpdate = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
-	const { user, accessToken, refreshToken } = useSelector(selectAuth);
+	const { user, accessToken } = useSelector(selectAuth);
+	// Cookies
+	const refreshToken = Cookies.get("refreshToken");
 	// Router
 	const navigate = useNavigate();
 	// State
@@ -218,6 +221,21 @@ const UserUpdate = () => {
 				>
 					<Input placeholder="Phone number" />
 				</Form.Item>
+
+				{user?.role === "Admin" && (
+					<Form.Item
+						label="Roles"
+						name="role"
+						rules={[
+							{
+								required: true,
+								message: "Roles can't be blank",
+							},
+						]}
+					>
+						<Select options={SELECT_ROLES} />
+					</Form.Item>
+				)}
 
 				<Form.Item
 					label="Address"

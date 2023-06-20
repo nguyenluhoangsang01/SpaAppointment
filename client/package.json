@@ -9,6 +9,8 @@
 		"@fullcalendar/react": "^6.1.5",
 		"@fullcalendar/timegrid": "^6.1.5",
 		"@reduxjs/toolkit": "^1.9.3",
+		"@syncfusion/ej2-react-charts": "^21.2.10",
+		"@syncfusion/ej2-react-grids": "^21.2.10",
 		"@testing-library/jest-dom": "^5.14.1",
 		"@testing-library/react": "^13.0.0",
 		"@testing-library/user-event": "^13.2.1",

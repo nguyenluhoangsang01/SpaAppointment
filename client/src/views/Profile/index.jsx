@@ -94,16 +94,6 @@ const Profile = () => {
 
 	const appointmentColumns = [
 		{
-			title: "#",
-			dataIndex: "_id",
-			key: "_id",
-		},
-		{
-			title: "Title",
-			dataIndex: "title",
-			key: "title",
-		},
-		{
 			title: "Service",
 			dataIndex: "service",
 			key: "service",

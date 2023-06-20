@@ -102,7 +102,7 @@ const ServiceViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Name</th>
+						<th className="w-48">Name</th>
 						<td>{data?.name ? data?.name : <span>not set</span>}</td>
 					</tr>
 					<tr>

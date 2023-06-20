@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import axios from "axios";
+import Cookies from "js-cookie";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -15,7 +16,9 @@ const AppointmentViewDetails = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
-	const { user, accessToken, refreshToken } = useSelector(selectAuth);
+	const { user, accessToken } = useSelector(selectAuth);
+	// Cookies
+	const refreshToken = Cookies.get("refreshToken");
 	// Router
 	const navigate = useNavigate();
 	// State
@@ -23,7 +26,7 @@ const AppointmentViewDetails = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	// Title
-	const title = data?.title;
+	const title = data?.service?.name;
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
@@ -70,7 +73,7 @@ const AppointmentViewDetails = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				navigate("/appointments");
+				navigate("/appointments/view-appointments");
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -101,7 +104,12 @@ const AppointmentViewDetails = () => {
 				<Button
 					className="bg-[red] text-white"
 					onClick={() => setOpen(true)}
-					disabled={id === user._id}
+					disabled={
+						id === user._id ||
+						moment().isBefore(
+							moment(data?.startDate?.split("- ")[1]).add(3, "days")
+						)
+					}
 				>
 					Delete
 				</Button>
@@ -120,10 +128,6 @@ const AppointmentViewDetails = () => {
 					<tr>
 						<th>Staff</th>
 						<td>{`${data?.staff?.firstName} ${data?.staff?.lastName}`}</td>
-					</tr>
-					<tr>
-						<th>Title</th>
-						<td>{data?.title}</td>
 					</tr>
 					<tr>
 						<th>Duration</th>

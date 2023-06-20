@@ -12,7 +12,7 @@ import { selectAuth } from "../../redux/slice/auth";
 import { formatDateTime } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
-const UserViewDetails = () => {
+const ScheduleViewDetails = () => {
 	// Get id from params
 	const { id } = useParams();
 	// Redux
@@ -26,14 +26,14 @@ const UserViewDetails = () => {
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	// Title
-	const title = `${data?.firstName} ${data?.lastName}`;
+	const title = `${user?.firstName} ${user?.lastName}`;
 
 	useEffect(() => {
 		if (!user) navigate("/sign-in");
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ const UserViewDetails = () => {
 		(async () => {
 			try {
 				const { data } = await axios.get(
-					`/user/details/${id}`,
+					`/schedule/${id}`,
 					axiosConfig(accessToken, refreshToken)
 				);
 
@@ -60,7 +60,7 @@ const UserViewDetails = () => {
 	if (!data) return <Loading />;
 
 	const handleUpdate = () => {
-		navigate(`/users/${id}/update`);
+		navigate(`/schedule/${id}/update`);
 	};
 
 	const onOk = async () => {
@@ -68,7 +68,7 @@ const UserViewDetails = () => {
 
 		try {
 			const { data } = await axios.delete(
-				`/user/${id}`,
+				`/schedule/${id}`,
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -77,7 +77,7 @@ const UserViewDetails = () => {
 				setConfirmLoading(false);
 				setOpen(false);
 
-				navigate("/users");
+				navigate("/schedule/view-schedule");
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -101,14 +101,14 @@ const UserViewDetails = () => {
 				<Button
 					className="bg-[yellow]"
 					onClick={handleUpdate}
-					disabled={id === user?._id}
+					disabled={id === user._id}
 				>
 					Update
 				</Button>
 				<Button
 					className="bg-[red] text-white"
 					onClick={() => setOpen(true)}
-					disabled={id === user?._id}
+					disabled={id === user._id}
 				>
 					Delete
 				</Button>
@@ -118,63 +118,66 @@ const UserViewDetails = () => {
 				<tbody>
 					<tr>
 						<th>First name</th>
-						<td>{data?.firstName ? data?.firstName : <span>not set</span>}</td>
+						<td>{data?.staff?.firstName}</td>
 					</tr>
 					<tr>
 						<th>Last name</th>
-						<td>{data?.lastName ? data?.lastName : <span>not set</span>}</td>
+						<td>{data?.staff?.lastName}</td>
 					</tr>
 					<tr>
 						<th>Email</th>
-						<td>{data?.email ? data?.email : <span>not set</span>}</td>
+						<td>{data?.staff?.email}</td>
 					</tr>
 					<tr>
 						<th>Phone</th>
-						<td>{data?.phone ? data?.phone : <span>not set</span>}</td>
+						<td>{data?.staff?.phone}</td>
 					</tr>
 					<tr>
-						<th>Role</th>
-						<td>{data?.role ? data?.role : <span>not set</span>}</td>
+						<th>Start date</th>
+						<td>{data?.startDate}</td>
 					</tr>
 					<tr>
-						<th>Address</th>
-						<td>{data?.address ? data?.address : <span>not set</span>}</td>
+						<th>End date</th>
+						<td>{data?.endDate}</td>
 					</tr>
 					<tr>
-						<th>Bio</th>
-						<td>{data?.bio ? data?.bio : <span>not set</span>}</td>
+						<th>Type</th>
+						<td>{data?.type}</td>
 					</tr>
-
 					<tr>
-						<th>Logged in at</th>
+						<th>Created at</th>
 						<td>
-							{data?.loggedInAt ? (
-								moment(data?.loggedInAt).format(formatDateTime)
+							{data?.createdAt ? (
+								moment(data?.createdAt).format(formatDateTime)
 							) : (
 								<span>not set</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Logged in ip</th>
+						<th>Updated at</th>
 						<td>
-							{data?.loggedInIP ? data?.loggedInIP : <span>not set</span>}
+							{data?.updatedAt ? (
+								moment(data?.updatedAt).format(formatDateTime)
+							) : (
+								<span>not set</span>
+							)}
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete user"
+				title="Delete schedule"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this user?
+				Do you want to delete this schedule?
 			</Modals>
 		</>
 	);
 };
 
-export default UserViewDetails;
+export default ScheduleViewDetails;

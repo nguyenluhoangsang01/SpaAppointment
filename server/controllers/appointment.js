@@ -1,3 +1,4 @@
+import moment from "moment";
 import nodemailer from "nodemailer";
 import validate from "validate.js";
 import {
@@ -92,7 +93,6 @@ export const create = async (req, res, next) => {
 		serviceId,
 		staffId,
 		startDate,
-		title,
 		emailTo,
 		locationId,
 	} = req.body;
@@ -104,7 +104,6 @@ export const create = async (req, res, next) => {
 	if (!locationId)
 		return sendError(res, "Location can't be blank", 400, "locationId");
 	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
-	if (!title) return sendError(res, "Title can't be blank", 400, "title");
 	if (!duration && duration !== 0)
 		return sendError(res, "Duration can't be blank", 400, "duration");
 	if (validate({ duration }, durationConstraint))
@@ -130,12 +129,6 @@ export const create = async (req, res, next) => {
 		const user = await User.findById(userId);
 		if (!user) return sendError(res, "User not found", 404);
 
-		// Get staff by id
-		const staff = await User.findById(staffId);
-		if (!staff)
-			return sendError(res, "Staff isn't included in the list", 404, "staff");
-		if (staff.role !== ROLES.Staff) return sendError(res, "User isn't a staff");
-
 		// Get service by id
 		const service = await Service.findById(serviceId);
 		if (!service)
@@ -155,6 +148,13 @@ export const create = async (req, res, next) => {
 				404,
 				"location"
 			);
+
+		// Get staff by id
+		const staff = await User.findById(staffId);
+		if (!staff)
+			return sendError(res, "Staff isn't included in the list", 404, "staff");
+		if (staff.role !== ROLES.Staff && staff.role !== ROLES.Admin)
+			return sendError(res, "User isn't a staff or admin");
 
 		const newAppointment = new Appointment({
 			...req.body,
@@ -296,7 +296,6 @@ export const create = async (req, res, next) => {
 																					<br/>
 																					<tr>
 																						<td style="font-family: sans-serif; font-size: 14px; vertical-align: top; border-radius: 5px; padding: 10px; text-align: center; background-color: #FFC26D;" valign="top" align="center" bgcolor="#FFC26D">
-																							<p>Title: ${title}</p>
 																							<p>Location: ${location.fullName}</p>
 																							<p>Duration: ${duration}</p>
 																							<p>Staff name: ${staff.firstName} ${staff.lastName}</p>
@@ -340,6 +339,16 @@ export const create = async (req, res, next) => {
 			}
 		});
 
+		// Update count appointment
+		await User.findByIdAndUpdate(
+			userId,
+			{
+				countAppointment: user.countAppointment + 1,
+				countPrice: user.countPrice + service.price,
+			},
+			{ new: true }
+		);
+
 		// Sen success notification
 		return sendSuccess(res, "Appointment created successfully", null, 201);
 	} catch (error) {
@@ -360,7 +369,6 @@ export const updateById = async (req, res, next) => {
 		staffId,
 		startDate,
 		status,
-		title,
 		locationId,
 	} = req.body;
 
@@ -371,7 +379,6 @@ export const updateById = async (req, res, next) => {
 	if (!locationId)
 		return sendError(res, "Location can't be blank", 400, "locationId");
 	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
-	if (!title) return sendError(res, "Title can't be blank", 400, "title");
 	if (!duration && duration !== 0)
 		return sendError(res, "Duration can't be blank", 400, "duration");
 	if (validate({ duration }, durationConstraint))
@@ -411,7 +418,8 @@ export const updateById = async (req, res, next) => {
 		const staff = await User.findById(staffId);
 		if (!staff)
 			return sendError(res, "Staff isn't included in the list", 404, "staff");
-		if (staff.role !== ROLES.Staff) return sendError(res, "User isn't a staff");
+		if (staff.role !== ROLES.Staff && staff.role !== ROLES.Admin)
+			return sendError(res, "User isn't a staff or admin");
 
 		// Get service by id
 		const service = await Service.findById(serviceId);
@@ -437,9 +445,17 @@ export const updateById = async (req, res, next) => {
 			id,
 			{
 				...req.body,
-				services: serviceId,
+				service: serviceId,
 				staff: staffId,
 				location: locationId,
+			},
+			{ new: true }
+		);
+
+		await User.findByIdAndUpdate(
+			userId,
+			{
+				countPrice: user.countPrice + service.price,
 			},
 			{ new: true }
 		);
@@ -475,6 +491,14 @@ export const deleteById = async (req, res, next) => {
 		// Get appointment by id
 		const appointment = await Appointment.findByIdAndDelete(id);
 		if (!appointment) return sendError(res, "Appointment not found", 404);
+
+		const appointmentStartDate = appointment.startDate.split("- ")[1];
+		// Three days after
+		const threeDaysAfter = moment(appointmentStartDate).add(3, "days");
+
+		// Check if current time before appointment date about times
+		if (moment().isBefore(threeDaysAfter))
+			return sendError(res, `Can't cancel this appointment`, 400);
 
 		// Send success notification
 		return sendSuccess(res, "Delete appointment successfully");

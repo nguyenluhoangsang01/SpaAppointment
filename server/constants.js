@@ -2,7 +2,6 @@ export const ROLES = {
 	Admin: "Admin",
 	Staff: "Staff",
 	Customer: "Customer",
-	Receptionist: "Receptionist",
 };
 
 export const APPOINTMENT_STATUS = {
@@ -39,6 +38,11 @@ export const TRANSACTION_STATUS = {
 export const PROMOTION_TYPE = {
 	Percentage: "Percentage",
 	Fixed: "Fixed",
+};
+
+export const SCHEDULE_TYPE = {
+	Doing: "Doing",
+	OnVacation: "On vacation",
 };
 
 export const ACCESS_TOKEN_EXPIRES_IN = "7d";
@@ -169,5 +173,10 @@ export const statusAppointmentConstraint = {
 	status: {
 		presence: { allowEmpty: false },
 		inclusion: { within: APPOINTMENT_STATUS },
+	},
+};
+export const typeConstraint = {
+	status: {
+		inclusion: { within: SCHEDULE_TYPE },
 	},
 };

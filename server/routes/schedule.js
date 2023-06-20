@@ -6,39 +6,39 @@ import {
 	getAll,
 	getById,
 	updateById,
-} from "../controllers/appointment.js";
+} from "../controllers/schedule.js";
 import verifyToken from "../middleware/verifyToken.js";
 
 // Config router
 const router = express.Router();
 
-// @route GET api/appointment
-// @desc Get all appointments
+// @route GET api/schedule
+// @desc Get all schedule
 // @access Private
-router.get("/", verifyToken, getAll, create);
+router.get("/", verifyToken, getAll);
 
-// @route GET api/appointment/:id
-// @desc Get appointment by id
+// @route GET api/schedule/:id
+// @desc Get schedule
 // @access Private
 router.get("/:id", verifyToken, getById);
 
-// @route POST api/appointment
-// @desc Create a new appointment
+// route POST api/schedule
+// @desc Create a new schedule
 // @access Private
 router.post("/", verifyToken, create);
 
-// @route PATCH api/appointment/:id
-// @desc Update appointment by id
+// @route PATCH api/schedule/:id
+// @desc Update schedule by id
 // @access Private
 router.patch("/:id", verifyToken, updateById);
 
-// @route DELETE api/appointment
-// @desc Delete all appointments
+// @route DELETE api/schedule
+// @desc Delete all schedule
 // @access Private
 router.delete("/", verifyToken, deleteAll);
 
-// @route DELETE api/appointment/:id
-// @desc Delete appointment by id
+// @route DELETE api/schedule/:id
+// @desc Delete schedule by id
 // @access Private
 router.delete("/:id", verifyToken, deleteById);
 

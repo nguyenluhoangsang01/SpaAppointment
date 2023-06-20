@@ -25,9 +25,7 @@ const serviceSchema = new Schema(
 			required: true,
 		},
 	},
-	{
-		timestamps: true,
-	}
+	{ timestamps: true }
 );
 
 export default model("Service", serviceSchema);

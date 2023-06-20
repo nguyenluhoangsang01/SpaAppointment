@@ -1,7 +1,7 @@
 import { Image } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
@@ -32,6 +32,14 @@ const Navbar = () => {
 	};
 	const userDropdownRef = useOutsideClick(handleClickOutSide);
 
+	useEffect(() => {
+		window.addEventListener("keyup", (event) => {
+			if (event.key === "Escape") {
+				setIsClicked(false);
+			}
+		});
+	}, []);
+
 	const handleSignOut = async () => {
 		setIsLoading(true);
 
@@ -47,6 +55,8 @@ const Navbar = () => {
 				toast.success(data.message);
 
 				setIsLoading(false);
+
+				setIsClicked(false);
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
@@ -55,6 +65,10 @@ const Navbar = () => {
 				setIsLoading(false);
 			}
 		}
+	};
+
+	const handleClickLink = () => {
+		setIsClicked(false);
 	};
 
 	return (
@@ -127,28 +141,35 @@ const Navbar = () => {
 							ref={userDropdownRef}
 							className="absolute top-[56px] right-0 flex flex-col bg-[#000] min-w-[200px]"
 						>
-							{accountRoutes.map((route) =>
-								route.path !== "" ? (
-									<Link
-										key={route.name}
-										to={route.path}
-										className="hover:bg-white hover:text-black transition px-4 h-[40px] flex items-center"
-									>
-										{route.name}
-									</Link>
-								) : (
-									<button
-										key={route.name}
-										onClick={handleSignOut}
-										className="px-4 flex items-center gap-2 hover:bg-white hover:text-black transition h-[40px]"
-									>
-										{isLoading && (
-											<AiOutlineLoading3Quarters className="animate-spin" />
-										)}
-										<span>{route.name}</span>
-									</button>
+							{accountRoutes
+								.filter((route) =>
+									user?.role === "Staff" || user?.role === "Admin"
+										? route
+										: route.name !== "Schedule"
 								)
-							)}
+								.map((route) =>
+									route.path !== "" ? (
+										<Link
+											key={route.name}
+											to={route.path}
+											className="hover:bg-white hover:text-black transition px-4 h-[40px] flex items-center"
+											onClick={handleClickLink}
+										>
+											{route.name}
+										</Link>
+									) : (
+										<button
+											key={route.name}
+											onClick={handleSignOut}
+											className="px-4 flex items-center gap-2 hover:bg-white hover:text-black transition h-[40px]"
+										>
+											{isLoading && (
+												<AiOutlineLoading3Quarters className="animate-spin" />
+											)}
+											<span>{route.name}</span>
+										</button>
+									)
+								)}
 						</div>
 					)}
 				</div>

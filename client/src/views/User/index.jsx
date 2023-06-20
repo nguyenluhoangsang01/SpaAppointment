@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "antd";
+import { Button, Input, Table, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -56,11 +56,6 @@ const User = () => {
 
 	const columns = [
 		{
-			title: "#",
-			dataIndex: "_id",
-			key: "_id",
-		},
-		{
 			title: "First name",
 			dataIndex: "firstName",
 			key: "firstName",
@@ -94,23 +89,32 @@ const User = () => {
 			title: "Actions",
 			dataIndex: "-",
 			key: "-",
+			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Button onClick={() => handleViewDetails(record?._id)}>
-						<IoEyeSharp />
-					</Button>
-					<Button
-						onClick={() => handleUpdate(record?._id)}
-						disabled={user?._id === record?._id}
-					>
-						<BsPencilFill />
-					</Button>
-					<Button
-						disabled={user?._id === record?._id}
-						onClick={() => handleDelete(record?._id)}
-					>
-						<BsTrashFill />
-					</Button>
+					<Tooltip title="View details">
+						<Button onClick={() => handleViewDetails(record?._id)}>
+							<IoEyeSharp />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Update">
+						<Button
+							onClick={() => handleUpdate(record?._id)}
+							disabled={user?._id === record?._id}
+						>
+							<BsPencilFill />
+						</Button>
+					</Tooltip>
+
+					<Tooltip title="Delete">
+						<Button
+							disabled={user?._id === record?._id}
+							onClick={() => handleDelete(record?._id)}
+						>
+							<BsTrashFill />
+						</Button>
+					</Tooltip>
 				</div>
 			),
 		},
@@ -151,7 +155,7 @@ const User = () => {
 	return (
 		<>
 			<Search
-				placeholder="Enter the email you want to search for"
+				placeholder="Enter search term you want to search for"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -165,7 +169,14 @@ const User = () => {
 				columns={columns}
 				dataSource={[...users]
 					.filter((user) =>
-						searchTerm ? user?.email.includes(searchTerm) : user
+						searchTerm
+							? user?.firstName.includes(searchTerm) ||
+							  user?.lastName.includes(searchTerm) ||
+							  user?.email.includes(searchTerm) ||
+							  user?.phone.includes(searchTerm) ||
+							  user?.role.includes(searchTerm) ||
+							  user?.address.includes(searchTerm)
+							: user
 					)
 					.reverse()}
 				loading={!users}
