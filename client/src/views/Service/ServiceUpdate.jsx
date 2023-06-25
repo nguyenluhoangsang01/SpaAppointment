@@ -168,7 +168,7 @@ const ServiceUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Duration"
+					label="Duration (h)"
 					name="duration"
 					rules={[
 						{

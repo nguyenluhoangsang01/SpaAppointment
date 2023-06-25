@@ -156,6 +156,8 @@ export const create = async (req, res, next) => {
 		if (staff.role !== ROLES.Staff && staff.role !== ROLES.Admin)
 			return sendError(res, "User isn't a staff or admin");
 
+		console.log(service);
+
 		const newAppointment = new Appointment({
 			...req.body,
 			service: serviceId,
@@ -349,6 +351,30 @@ export const create = async (req, res, next) => {
 			{ new: true }
 		);
 
+		await Service.findByIdAndUpdate(
+			serviceId,
+			{
+				countServices: service.countServices + 1,
+			},
+			{ new: true }
+		);
+
+		await User.findByIdAndUpdate(
+			staffId,
+			{
+				countStaff: staff.countStaff + 1,
+			},
+			{ new: true }
+		);
+
+		await Location.findByIdAndUpdate(
+			locationId,
+			{
+				countLocation: location.countLocation + 1,
+			},
+			{ new: true }
+		);
+
 		// Sen success notification
 		return sendSuccess(res, "Appointment created successfully", null, 201);
 	} catch (error) {
@@ -456,6 +482,30 @@ export const updateById = async (req, res, next) => {
 			userId,
 			{
 				countPrice: user.countPrice + service.price,
+			},
+			{ new: true }
+		);
+
+		await Service.findByIdAndUpdate(
+			serviceId,
+			{
+				countServices: service.countServices + 1,
+			},
+			{ new: true }
+		);
+
+		await User.findByIdAndUpdate(
+			staffId,
+			{
+				countStaff: staff.countStaff + 1,
+			},
+			{ new: true }
+		);
+
+		await Location.findByIdAndUpdate(
+			locationId,
+			{
+				countLocation: location.countLocation + 1,
 			},
 			{ new: true }
 		);

@@ -24,6 +24,10 @@ const serviceSchema = new Schema(
 			type: Number,
 			required: true,
 		},
+		countServices: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{ timestamps: true }
 );
