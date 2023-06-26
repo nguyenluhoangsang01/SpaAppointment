@@ -5,7 +5,7 @@ import { selectAuth } from "../../redux/slice/auth";
 import axios from "axios";
 import { axiosConfig } from "../../utils/helpers";
 import Loading from "../../components/Loading";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Tooltip } from "antd";
 import { layout } from "../../utils/constants";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -138,17 +138,19 @@ const LocationUpdate = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Update</span>
-					</Button>
+					<Tooltip title="Update">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Update</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 		</>

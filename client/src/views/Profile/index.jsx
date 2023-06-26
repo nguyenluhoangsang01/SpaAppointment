@@ -1,4 +1,4 @@
-import { Button, Form, Image, Input, Table } from "antd";
+import { Button, Form, Image, Input, Table, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -237,29 +237,37 @@ const Profile = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Update</span>
-					</Button>
+					<Tooltip title="Update">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Update</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 
-			<Table
-				className="pt-10"
-				rowKey="_id"
-				columns={appointmentColumns}
-				dataSource={[...appointments]
-					.filter((appointment) => appointment?.user?._id === user?._id)
-					.reverse()}
-				loading={!appointments}
-			/>
+			<div>
+				<h2 className="mt-8 font-bold uppercase text-[20px]">
+					Booked appointments
+				</h2>
+
+				<Table
+					className="pt-10"
+					rowKey="_id"
+					columns={appointmentColumns}
+					dataSource={[...appointments]
+						.filter((appointment) => appointment?.user?._id === user?._id)
+						.reverse()}
+					loading={!appointments}
+				/>
+			</div>
 		</div>
 	);
 };

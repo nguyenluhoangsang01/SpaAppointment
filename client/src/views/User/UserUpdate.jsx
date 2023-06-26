@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -255,17 +255,19 @@ const UserUpdate = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Update</span>
-					</Button>
+					<Tooltip title="Update">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Update</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 		</>

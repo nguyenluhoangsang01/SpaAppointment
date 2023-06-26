@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
@@ -94,12 +94,12 @@ const ChangePassword = () => {
 				<Form.Item
 					label="Current password"
 					name="currentPassword"
-					// rules={[
-					// 	{
-					// 		required: true,
-					// 		message: "Current password can't be blank",
-					// 	},
-					// ]}
+					rules={[
+						{
+							required: true,
+							message: "Current password can't be blank",
+						},
+					]}
 				>
 					<Input.Password placeholder="Current password" />
 				</Form.Item>
@@ -109,22 +109,22 @@ const ChangePassword = () => {
 				<Form.Item
 					label="New password"
 					name="newPassword"
-					// rules={[
-					// 	{
-					// 		required: true,
-					// 		message: "New password can't be blank",
-					// 	},
-					// 	{
-					// 		min: 8,
-					// 		message: "New password is too short (minimum is 8 characters)",
-					// 	},
-					// 	{
-					// 		pattern:
-					// 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-					// 		message:
-					// 			"New password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
-					// 	},
-					// ]}
+					rules={[
+						{
+							required: true,
+							message: "New password can't be blank",
+						},
+						{
+							min: 8,
+							message: "New password is too short (minimum is 8 characters)",
+						},
+						{
+							pattern:
+								/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+							message:
+								"New password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+						},
+					]}
 				>
 					<Input.Password placeholder="New password" />
 				</Form.Item>
@@ -132,28 +132,30 @@ const ChangePassword = () => {
 				<Form.Item
 					label="Confirm new password"
 					name="confirmPassword"
-					// rules={[
-					// 	{
-					// 		required: true,
-					// 		message: "Confirm new password can't be blank",
-					// 	},
-					// ]}
+					rules={[
+						{
+							required: true,
+							message: "Confirm new password can't be blank",
+						},
+					]}
 				>
 					<Input.Password placeholder="Confirm new password" />
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Update</span>
-					</Button>
+					<Tooltip title="Update">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Update</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</div>
 		</Form>

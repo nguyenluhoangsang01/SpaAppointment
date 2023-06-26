@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Select } from "antd";
+import { Button, DatePicker, Form, Select, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -164,17 +164,19 @@ const ScheduleUpdate = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Update</span>
-					</Button>
+					<Tooltip title="Update">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Update</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 		</>

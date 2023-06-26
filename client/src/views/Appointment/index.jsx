@@ -2,7 +2,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Button, Form, InputNumber, Select } from "antd";
+import { Button, Form, InputNumber, Select, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -66,10 +66,12 @@ const Appointment = () => {
 		label: service.name,
 	}));
 
-	const SELECT_STAFF = schedule.map((user) => ({
-		value: user.staff._id,
-		label: `${user.staff.firstName} ${user.staff.lastName}`,
-	}));
+	const SELECT_STAFF = schedule
+		?.filter((item) => item?.staff?._id !== user?._id)
+		?.map((user) => ({
+			value: user.staff._id,
+			label: `${user.staff.firstName} ${user.staff.lastName}`,
+		}));
 
 	const SELECT_LOCATIONS = locations.map((location) => ({
 		value: location._id,
@@ -181,12 +183,14 @@ const Appointment = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Button
-					onClick={() => navigate("/appointments/view-appointments")}
-					className="bg-[green] text-white"
-				>
-					View all appointments
-				</Button>
+				<Tooltip title="View all appointments">
+					<Button
+						onClick={() => navigate("/appointments/view-appointments")}
+						className="bg-[green] text-white"
+					>
+						View all appointments
+					</Button>
+				</Tooltip>
 			</div>
 
 			<FullCalendar
@@ -285,17 +289,19 @@ const Appointment = () => {
 					</Form.Item>
 
 					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							className="bg-black flex items-center gap-2"
-							disabled={isLoading}
-						>
-							{isLoading && (
-								<AiOutlineLoading3Quarters className="animate-spin" />
-							)}
-							<span>Create</span>
-						</Button>
+						<Tooltip title="Create">
+							<Button
+								type="primary"
+								htmlType="submit"
+								className="bg-black flex items-center gap-2"
+								disabled={isLoading}
+							>
+								{isLoading && (
+									<AiOutlineLoading3Quarters className="animate-spin" />
+								)}
+								<span>Create</span>
+							</Button>
+						</Tooltip>
 					</Form.Item>
 				</Form>
 			</Modals>

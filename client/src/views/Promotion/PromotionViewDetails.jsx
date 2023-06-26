@@ -7,7 +7,7 @@ import { axiosConfig } from "../../utils/helpers";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { toast } from "react-hot-toast";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 
 const PromotionViewDetails = () => {
 	// Get id from params
@@ -93,12 +93,16 @@ const PromotionViewDetails = () => {
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Button className="bg-[yellow]" onClick={handleUpdate}>
-					Update
-				</Button>
-				<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
-					Delete
-				</Button>
+				<Tooltip title="Update">
+					<Button className="bg-[yellow]" onClick={handleUpdate}>
+						Update
+					</Button>
+				</Tooltip>
+				<Tooltip title="Delete">
+					<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
+						Delete
+					</Button>
+				</Tooltip>
 			</div>
 
 			<table className="view-details">

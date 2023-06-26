@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -94,25 +94,29 @@ const AppointmentViewDetails = () => {
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Button
-					className="bg-[yellow]"
-					onClick={handleUpdate}
-					disabled={id === user._id}
-				>
-					Update
-				</Button>
-				<Button
-					className="bg-[red] text-white"
-					onClick={() => setOpen(true)}
-					disabled={
-						id === user._id ||
-						moment().isBefore(
-							moment(data?.startDate?.split("- ")[1]).add(3, "days")
-						)
-					}
-				>
-					Delete
-				</Button>
+				<Tooltip title="Update">
+					<Button
+						className="bg-[yellow]"
+						onClick={handleUpdate}
+						disabled={id === user._id}
+					>
+						Update
+					</Button>
+				</Tooltip>
+				<Tooltip title="Delete">
+					<Button
+						className="bg-[red] text-white"
+						onClick={() => setOpen(true)}
+						disabled={
+							id === user._id ||
+							moment().isBefore(
+								moment(data?.startDate?.split("- ")[1]).add(3, "days")
+							)
+						}
+					>
+						Delete
+					</Button>
+				</Tooltip>
 			</div>
 
 			<table className="view-details">

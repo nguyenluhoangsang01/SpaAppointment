@@ -1,4 +1,4 @@
-import { Button, Form, Image, Input } from "antd";
+import { Button, Form, Image, Input, Tooltip } from "antd";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -91,17 +91,19 @@ const ForgotPassword = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Send link</span>
-					</Button>
+					<Tooltip title="Send link">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Send link</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 		</div>

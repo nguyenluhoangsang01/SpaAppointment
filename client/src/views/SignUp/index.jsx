@@ -1,4 +1,4 @@
-import { Button, Form, Image, Input } from "antd";
+import { Button, Form, Image, Input, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -313,17 +313,19 @@ const SignUp = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="bg-black flex items-center gap-2"
-						disabled={isLoading}
-					>
-						{isLoading && (
-							<AiOutlineLoading3Quarters className="animate-spin" />
-						)}
-						<span>Sign up</span>
-					</Button>
+					<Tooltip title="Sign up">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-black flex items-center gap-2"
+							disabled={isLoading}
+						>
+							{isLoading && (
+								<AiOutlineLoading3Quarters className="animate-spin" />
+							)}
+							<span>Sign up</span>
+						</Button>
+					</Tooltip>
 				</Form.Item>
 			</Form>
 		</div>

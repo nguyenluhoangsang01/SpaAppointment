@@ -2,7 +2,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Button, Form, Select } from "antd";
+import { Button, Form, Select, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -107,12 +107,14 @@ const Schedule = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Button
-					onClick={() => navigate("/schedule/view-schedule")}
-					className="bg-[green] text-white"
-				>
-					View all schedule
-				</Button>
+				<Tooltip title="View all schedule">
+					<Button
+						onClick={() => navigate("/schedule/view-schedule")}
+						className="bg-[green] text-white"
+					>
+						View all schedule
+					</Button>
+				</Tooltip>
 			</div>
 
 			<FullCalendar
@@ -149,17 +151,19 @@ const Schedule = () => {
 					</Form.Item>
 
 					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							className="bg-black flex items-center gap-2"
-							disabled={isLoading}
-						>
-							{isLoading && (
-								<AiOutlineLoading3Quarters className="animate-spin" />
-							)}
-							<span>Create</span>
-						</Button>
+						<Tooltip title="Create">
+							<Button
+								type="primary"
+								htmlType="submit"
+								className="bg-black flex items-center gap-2"
+								disabled={isLoading}
+							>
+								{isLoading && (
+									<AiOutlineLoading3Quarters className="animate-spin" />
+								)}
+								<span>Create</span>
+							</Button>
+						</Tooltip>
 					</Form.Item>
 				</Form>
 			</Modals>

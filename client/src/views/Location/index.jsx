@@ -134,13 +134,15 @@ const Location = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Button
-					onClick={() => navigate("/locations/create")}
-					className="bg-[green] text-white"
-					disabled={user?.role !== "Admin"}
-				>
-					Create
-				</Button>
+				<Tooltip title="Create">
+					<Button
+						onClick={() => navigate("/locations/create")}
+						className="bg-[green] text-white"
+						disabled={user?.role !== "Admin"}
+					>
+						Create
+					</Button>
+				</Tooltip>
 			</div>
 
 			<Search

@@ -1,4 +1,4 @@
-import { Button, Image } from "antd";
+import { Button, Image, Tooltip } from "antd";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,12 +37,14 @@ const Home = () => {
 						spa appointment
 					</h1>
 
-					<Button
-						className="bg-white"
-						onClick={() => navigate("/appointments")}
-					>
-						Make an appointment now
-					</Button>
+					<Tooltip title="Make an appointment now">
+						<Button
+							className="bg-white"
+							onClick={() => navigate("/appointments")}
+						>
+							Make an appointment now
+						</Button>
+					</Tooltip>
 				</div>
 			</div>
 		</div>

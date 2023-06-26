@@ -55,6 +55,7 @@ const ScheduleViewDetails = lazy(() =>
 );
 const ScheduleUpdate = lazy(() => import("../views/Schedule/ScheduleUpdate"));
 const Statistical = lazy(() => import("../views/Statistical"));
+const Notification = lazy(() => import("../views/Notification"));
 
 export const ROLES = {
 	Admin: "Admin",
@@ -277,6 +278,10 @@ export const routes = [
 		path: "/statistical",
 		element: <Statistical />,
 	},
+	{
+		path: "/notification",
+		element: <Notification />,
+	},
 ];
 
 export const navbarRoutes = [
@@ -323,12 +328,12 @@ export const authRoutes = [
 
 export const accountRoutes = [
 	{
-		path: "/profile",
-		name: "Profile",
+		path: "/notification",
+		name: "Notification",
 	},
 	{
-		path: "/change-password",
-		name: "Change password",
+		path: "/profile",
+		name: "Profile",
 	},
 	{
 		path: "/schedule",
@@ -337,6 +342,10 @@ export const accountRoutes = [
 	{
 		path: "/statistical",
 		name: "Statistical",
+	},
+	{
+		path: "/change-password",
+		name: "Change password",
 	},
 	{
 		path: "",

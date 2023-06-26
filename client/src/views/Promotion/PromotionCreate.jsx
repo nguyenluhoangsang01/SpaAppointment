@@ -6,6 +6,7 @@ import {
 	Input,
 	InputNumber,
 	Select,
+	Tooltip,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
@@ -332,15 +333,19 @@ const PromotionCreate = () => {
 			</Form.Item>
 
 			<Form.Item>
-				<Button
-					type="primary"
-					htmlType="submit"
-					className="bg-black flex items-center gap-2"
-					disabled={isLoading}
-				>
-					{isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
-					<span>Create</span>
-				</Button>
+				<Tooltip title="Create">
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="bg-black flex items-center gap-2"
+						disabled={isLoading}
+					>
+						{isLoading && (
+							<AiOutlineLoading3Quarters className="animate-spin" />
+						)}
+						<span>Create</span>
+					</Button>
+				</Tooltip>
 			</Form.Item>
 		</Form>
 	);

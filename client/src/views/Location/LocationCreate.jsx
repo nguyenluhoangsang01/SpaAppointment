@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
@@ -108,15 +108,19 @@ const LocationCreate = () => {
 			</Form.Item>
 
 			<Form.Item>
-				<Button
-					type="primary"
-					htmlType="submit"
-					className="bg-black flex items-center gap-2"
-					disabled={isLoading}
-				>
-					{isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
-					<span>Create</span>
-				</Button>
+				<Tooltip title="Create">
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="bg-black flex items-center gap-2"
+						disabled={isLoading}
+					>
+						{isLoading && (
+							<AiOutlineLoading3Quarters className="animate-spin" />
+						)}
+						<span>Create</span>
+					</Button>
+				</Tooltip>
 			</Form.Item>
 		</Form>
 	);

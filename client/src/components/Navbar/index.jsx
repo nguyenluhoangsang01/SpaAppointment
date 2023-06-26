@@ -1,4 +1,4 @@
-import { Image } from "antd";
+import { Badge, Image } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdOutlineMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { selectAppointment } from "../../redux/slice/appointment";
 import { selectAuth, signOutReducer } from "../../redux/slice/auth";
 import { accountRoutes, authRoutes, navbarRoutes } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
@@ -20,6 +21,7 @@ const Navbar = () => {
 	// Redux
 	const dispatch = useDispatch();
 	const { user, accessToken } = useSelector(selectAuth);
+	const { appointments } = useSelector(selectAppointment);
 	// Cookies
 	const refreshToken = Cookies.get("refreshToken");
 	// Custom hooks
@@ -70,6 +72,11 @@ const Navbar = () => {
 	const handleClickLink = () => {
 		setIsClicked(false);
 	};
+
+	const lengthOfNotification = appointments?.filter(
+		(appointment) =>
+			appointment?.staff?._id === user?._id && appointment?.status === "Booked"
+	).length;
 
 	return (
 		<nav className="h-14 bg-[#000] w-full z-50 shadow fixed md:flex md:items-center md:justify-between text-white">
@@ -123,14 +130,26 @@ const Navbar = () => {
 						className="md:px-2 cursor-pointer font-bold uppercase text-sm gap-2 truncate hover:underline transition flex items-center justify-center"
 						onClick={handleUserDropdownClick}
 					>
-						<Image
-							src={user.avatar}
-							alt={`${user.firstName} ${user.lastName}`}
-							preview={false}
-							width={35}
-							height={35}
-							className="rounded-full"
-						/>
+						<Badge
+							count={lengthOfNotification ? lengthOfNotification : 0}
+							offset={[0, 8]}
+							size="small"
+							style={{
+								backgroundColor: "#F7C0C3",
+								color: "#000",
+								fontWeight: 600,
+							}}
+						>
+							<Image
+								src={user.avatar}
+								alt={`${user.firstName} ${user.lastName}`}
+								preview={false}
+								width={35}
+								height={35}
+								className="rounded-full"
+							/>
+						</Badge>
+
 						<span className="flex items-center justify-center">
 							{user.lastName}
 						</span>
@@ -145,7 +164,7 @@ const Navbar = () => {
 								.filter((route) =>
 									user?.role === "Staff" || user?.role === "Admin"
 										? route
-										: route.name !== "Schedule"
+										: route.name !== "Schedule" && route.name !== "Notification"
 								)
 								.map((route) =>
 									route.path !== "" ? (
