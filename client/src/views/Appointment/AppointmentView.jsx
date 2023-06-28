@@ -56,63 +56,64 @@ const AppointmentView = () => {
 
 	const columns = [
 		{
-			title: "Service",
+			title: "Dịch vụ",
 			dataIndex: "service",
 			key: "service",
 			render: (text) => <span>{text?.name}</span>,
 		},
 		{
-			title: "Location",
+			title: "Vị trí",
 			dataIndex: "location",
 			key: "location",
 			render: (text) => <span>{text?.fullName}</span>,
 		},
 		{
-			title: "Staff",
+			title: "Nhân viên",
 			dataIndex: "staff",
 			key: "staff",
 			render: (text) => <span>{`${text?.firstName} ${text?.lastName}`}</span>,
 		},
 		{
-			title: "Start date",
+			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
 		},
 		{
-			title: "End date",
+			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
 		},
 		{
-			title: "Status",
+			title: "Trạng thái",
 			dataIndex: "status",
 			key: "status",
 		},
 		{
-			title: "Duration (h)",
+			title: "Khoảng thời gian (giờ)",
 			dataIndex: "duration",
 			key: "duration",
+			render: (text) => <span className="flex justify-center">{text} (giờ)</span>,
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button onClick={() => handleUpdate(record?._id)}>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							onClick={() => handleDelete(record?._id)}
 							disabled={moment().isBefore(
@@ -161,7 +162,7 @@ const AppointmentView = () => {
 	return (
 		<>
 			<Search
-				placeholder="Enter the service or status you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -186,13 +187,13 @@ const AppointmentView = () => {
 			/>
 
 			<Modals
-				title="Delete appointment"
+				title="Xóa cuộc hẹn"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this appointment?
+				Bạn có muốn xóa cuộc hẹn này?
 			</Modals>
 		</>
 	);

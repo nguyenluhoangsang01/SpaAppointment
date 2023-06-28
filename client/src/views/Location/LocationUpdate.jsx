@@ -21,7 +21,7 @@ const LocationUpdate = () => {
 	const [data, setData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	// Title
-	const title = data?.name;
+	const title = data?.fullName;
 	// Ref
 	const formRef = useRef(null);
 
@@ -30,7 +30,7 @@ const LocationUpdate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -101,7 +101,7 @@ const LocationUpdate = () => {
 
 	return (
 		<>
-			<h1 className="font-bold uppercase mb-8 text-2xl">Update: {title}</h1>
+			<h1 className="font-bold uppercase mb-8 text-2xl">Cập nhật: {title}</h1>
 
 			<Form
 				name="sign-up"
@@ -112,33 +112,33 @@ const LocationUpdate = () => {
 				initialValues={{ ...data }}
 			>
 				<Form.Item
-					label="Full name"
+					label="Tên đầy đủ"
 					name="fullName"
 					rules={[
 						{
 							required: true,
-							message: "Full name can't be blank",
+							message: "Tên đầy đủ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Full name" />
+					<Input placeholder="Tên đầy đủ" />
 				</Form.Item>
 
 				<Form.Item
-					label="Short name"
+					label="Tên viết tắt"
 					name="shortName"
 					rules={[
 						{
 							required: true,
-							message: "Short name can't be blank",
+							message: "Tên viết tắt không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Short name" />
+					<Input placeholder="Tên viết tắt" />
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -148,7 +148,7 @@ const LocationUpdate = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

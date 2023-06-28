@@ -179,29 +179,29 @@ const SignUp = () => {
 				}}
 			>
 				<Form.Item
-					label="First name"
+					label="Họ"
 					name="firstName"
 					rules={[
 						{
 							required: true,
-							message: "First name can't be blank",
+							message: "Họ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="First name" />
+					<Input placeholder="Họ" />
 				</Form.Item>
 
 				<Form.Item
-					label="Last name"
+					label="Tên"
 					name="lastName"
 					rules={[
 						{
 							required: true,
-							message: "Last name can't be blank",
+							message: "Tên không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Last name" />
+					<Input placeholder="Tên" />
 				</Form.Item>
 
 				<Form.Item
@@ -210,11 +210,11 @@ const SignUp = () => {
 					rules={[
 						{
 							required: true,
-							message: "Email can't be blank",
+							message: "Email không được để trống",
 						},
 						{
 							type: "email",
-							message: "Email isn't a valid email",
+							message: "Email không phải là một email hợp lệ",
 						},
 					]}
 				>
@@ -222,73 +222,73 @@ const SignUp = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Phone number"
+					label="Số điện thoại"
 					name="phone"
 					rules={[
 						{
 							required: true,
-							message: "Phone number can't be blank",
+							message: "Số điện thoại không được để trống",
 						},
 						{
 							pattern:
 								/^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/,
-							message: "Phone must be a valid phone number",
+							message: "Điện thoại phải là số điện thoại hợp lệ",
 						},
 					]}
 				>
-					<Input placeholder="Phone number" />
+					<Input placeholder="Số điện thoại" />
 				</Form.Item>
 
 				<Form.Item
-					label="Password"
+					label="Mật khẩu"
 					name="password"
 					rules={[
 						{
 							required: true,
-							message: "Password can't be blank",
+							message: "Mật khẩu không được để trống",
 						},
 						{
 							min: 8,
-							message: "Password is too short (minimum is 8 characters)",
+							message: "Mật khẩu quá ngắn (tối thiểu 8 ký tự)",
 						},
 						{
 							pattern:
 								/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
 							message:
-								"Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+								"Mật khẩu phải chứa ít nhất một chữ thường, một chữ in hoa, một số và một ký tự đặc biệt",
 						},
 					]}
 				>
-					<Input.Password placeholder="Password" />
+					<Input.Password placeholder="Mật khẩu" />
 				</Form.Item>
 
 				<Form.Item
-					label="Confirm password"
+					label="Xác nhận mật khẩu"
 					name="confirmPassword"
 					rules={[
 						{
 							required: true,
-							message: "Confirm password can't be blank",
+							message: "Xác nhận mật khẩu không được để trống",
 						},
 					]}
 				>
-					<Input.Password placeholder="Confirm password" />
+					<Input.Password placeholder="Xác nhận mật khẩu" />
 				</Form.Item>
 
 				<Form.Item
-					label="Address"
+					label="Địa chỉ"
 					name="address"
 					rules={[
 						{
 							required: true,
-							message: "Address can't be blank",
+							message: "Địa chỉ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Address" />
+					<Input placeholder="Địa chỉ" />
 				</Form.Item>
 
-				<Form.Item label="Avatar">
+				<Form.Item label="Hình ảnh đại diện">
 					<Dropzone setAvatar={setAvatar} />
 				</Form.Item>
 				{avatar && (
@@ -305,15 +305,15 @@ const SignUp = () => {
 
 				<Form.Item>
 					<p>
-						Already have an account?{" "}
+						Đã có tài khoản?{" "}
 						<Link to="/sign-in" className="cursor-pointer text-green-700">
-							<u>Login here</u>
+							<u>Đăng nhập</u>
 						</Link>
 					</p>
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Sign up">
+					<Tooltip title="Đăng ký">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -323,7 +323,7 @@ const SignUp = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Sign up</span>
+							<span>Đăng ký</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

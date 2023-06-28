@@ -1,5 +1,6 @@
 import { Button, Tooltip } from "antd";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
+import { formatDateTime } from "../../utils/constants";
 import { axiosConfig } from "../../utils/helpers";
 
 const GiftCardViewDetails = () => {
@@ -28,7 +30,7 @@ const GiftCardViewDetails = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -89,18 +91,18 @@ const GiftCardViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button className="bg-[yellow]" onClick={handleUpdate}>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
 				<Tooltip title="Delte">
 					<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -108,44 +110,70 @@ const GiftCardViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Promotion</th>
+						<th>Tên khuyến mãi</th>
 						<td>
-							{data?.promotion ? data?.promotion?.name : <span>not set</span>}
-						</td>
-					</tr>
-					<tr>
-						<th>Code</th>
-						<td>{data?.code ? data?.code : <span>not set</span>}</td>
-					</tr>
-					<tr>
-						<th>Expiration date</th>
-						<td>
-							{data?.expirationDate ? (
-								data?.expirationDate
+							{data?.promotion ? (
+								data?.promotion?.name
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Status</th>
-						<td>{data?.status ? data?.status : <span>not set</span>}</td>
+						<th>Mã thẻ quà tặng</th>
+						<td>{data?.code ? data?.code : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Value</th>
-						<td>{data?.value ? data?.value : <span>not set</span>}</td>
+						<th>Ngày hết hạn</th>
+						<td>
+							{data?.expirationDate ? (
+								data?.expirationDate
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
+					</tr>
+					<tr>
+						<th>Trạng thái</th>
+						<td>{data?.status ? data?.status : <span>Chưa cập nhật</span>}</td>
+					</tr>
+					<tr>
+						<th>Giá trị</th>
+						<td>
+							{data?.value ? `${data?.value} VND` : <span>Chưa cập nhật</span>}
+						</td>
+					</tr>
+					<tr>
+						<th>Tạo vào lúc</th>
+						<td>
+							{data?.createdAt ? (
+								moment(data?.createdAt).format(formatDateTime)
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
+					</tr>
+					<tr>
+						<th>Cập nhật vào lúc</th>
+						<td>
+							{data?.updatedAt ? (
+								moment(data?.updatedAt).format(formatDateTime)
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete gift card"
+				title="Xóa thẻ quà tặng"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this gift card?
+				Bạn có muốn xóa thẻ quà tặng này không?
 			</Modals>
 		</>
 	);

@@ -34,7 +34,7 @@ const User = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -56,12 +56,12 @@ const User = () => {
 
 	const columns = [
 		{
-			title: "First name",
+			title: "Họ",
 			dataIndex: "firstName",
 			key: "firstName",
 		},
 		{
-			title: "Last name",
+			title: "Tên",
 			dataIndex: "lastName",
 			key: "lastName",
 		},
@@ -71,34 +71,34 @@ const User = () => {
 			key: "email",
 		},
 		{
-			title: "Phone number",
+			title: "Số điện thoại",
 			dataIndex: "phone",
 			key: "phone",
 		},
 		{
-			title: "Role",
+			title: "Vai trò",
 			dataIndex: "role",
 			key: "role",
 		},
 		{
-			title: "Address",
+			title: "Địa chỉ",
 			dataIndex: "address",
 			key: "address",
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							onClick={() => handleUpdate(record?._id)}
 							disabled={user?._id === record?._id}
@@ -107,7 +107,7 @@ const User = () => {
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							disabled={user?._id === record?._id}
 							onClick={() => handleDelete(record?._id)}
@@ -155,7 +155,7 @@ const User = () => {
 	return (
 		<>
 			<Search
-				placeholder="Enter search term you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -183,13 +183,13 @@ const User = () => {
 			/>
 
 			<Modals
-				title="Delete user"
+				title="Xóa người dùng"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this user?
+				Bạn có muốn xóa người dùng này?
 			</Modals>
 		</>
 	);

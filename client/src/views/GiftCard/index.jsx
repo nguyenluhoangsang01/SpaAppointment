@@ -55,58 +55,61 @@ const GiftCard = () => {
 
 	const columns = [
 		{
-			title: "Promotion",
+			title: "Tên khuyến mãi",
 			dataIndex: "promotion",
 			key: "promotion",
 			render: (text, record) => <span>{record.promotion.name}</span>,
 		},
 		{
-			title: "Value",
+			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
 			render: (text) => <span>{text} VND</span>,
 		},
 		{
-			title: "Code",
+			title: "Mã thẻ quà tặng",
 			dataIndex: "code",
 			key: "code",
+			render: (text) => (
+				<span className="font-bold tracking-wider">{text}</span>
+			),
 		},
 		{
-			title: "Status",
+			title: "Trạng thái",
 			dataIndex: "status",
 			key: "status",
 		},
 		{
-			title: "Expiration date",
+			title: "Ngày hết hạn",
 			dataIndex: "expirationDate",
 			key: "expirationDate",
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							onClick={() => handleUpdate(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							onClick={() => handleDelete(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsTrashFill />
 						</Button>
@@ -151,19 +154,19 @@ const GiftCard = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						onClick={() => navigate("/gift-cards/create")}
 						className="bg-[green] text-white"
-						disabled={user?.role !== "Admin"}
+						disabled={user?.role !== "Quản trị viên"}
 					>
-						Create
+						Tạo
 					</Button>
 				</Tooltip>
 			</div>
 
 			<Search
-				placeholder="Enter the name you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -186,13 +189,13 @@ const GiftCard = () => {
 			/>
 
 			<Modals
-				title="Delete gift card"
+				title="Xóa thẻ quà tặng"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this gift card?
+				Bạn có muốn xóa thẻ quà tặng này không?
 			</Modals>
 		</>
 	);

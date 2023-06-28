@@ -175,7 +175,7 @@ const AppointmentUpdate = () => {
 
 	return (
 		<>
-			<h1 className="font-bold uppercase mb-8 text-2xl">Update: {title}</h1>
+			<h1 className="font-bold uppercase mb-8 text-2xl">Cập nhật: {title}</h1>
 
 			<Form
 				name="update"
@@ -193,12 +193,12 @@ const AppointmentUpdate = () => {
 				}}
 			>
 				<Form.Item
-					label="Service"
+					label="Dịch vụ"
 					name="serviceId"
 					rules={[
 						{
 							required: true,
-							message: "Service can't be blank",
+							message: "Dịch vụ không được để trống",
 						},
 					]}
 				>
@@ -206,12 +206,12 @@ const AppointmentUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Location"
+					label="Vị trí"
 					name="locationId"
 					rules={[
 						{
 							required: true,
-							message: "Location can't be blank",
+							message: "Vị trí không được để trống",
 						},
 					]}
 				>
@@ -219,12 +219,12 @@ const AppointmentUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Staff"
+					label="Nhân viên"
 					name="staffId"
 					rules={[
 						{
 							required: true,
-							message: "Service can't be blank",
+							message: "Nhân viên không được để trống",
 						},
 					]}
 				>
@@ -232,56 +232,67 @@ const AppointmentUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Start date"
+					label="Ngày bắt đầu"
 					name="startDate"
 					rules={[
 						{
 							required: true,
-							message: "Start date can't be blank",
+							message: "Ngày bắt đầu không được để trống",
 						},
 					]}
 				>
-					<DatePicker showTime format={formatDateTime} />
+					<DatePicker
+						showTime
+						format={formatDateTime}
+						placeholder="Ngày bắt đầu"
+					/>
 				</Form.Item>
 
 				<Form.Item
-					label="End date"
+					label="Ngày kết thúc"
 					name="endDate"
 					rules={[
 						{
 							required: true,
-							message: "End date can't be blank",
+							message: "Ngày kết thúc không được để trống",
 						},
 					]}
 				>
-					<DatePicker showTime format={formatDateTime} />
+					<DatePicker
+						showTime
+						format={formatDateTime}
+						placeholder="Ngày kết thúc"
+					/>
 				</Form.Item>
 
 				<Form.Item
-					label="Duration (h)"
+					label="Khoảng thời gian (giờ)"
 					name="duration"
 					rules={[
 						{
 							required: true,
-							message: "Duration can't be blank",
+							message: "Khoảng thời gian không được để trống",
 						},
 						{
 							type: "number",
 							min: 0,
-							message: "Duration must be greater than or equal to 0",
+							message: "Khoảng thời gian phải lớn hơn hoặc bằng 0",
 						},
 					]}
 				>
-					<InputNumber placeholder="Duration" />
+					<InputNumber
+						style={{ width: "100%" }}
+						placeholder="Khoảng thời gian (giờ)"
+					/>
 				</Form.Item>
 
 				<Form.Item
-					label="Status"
+					label="Trạng thái"
 					name="status"
 					rules={[
 						{
 							required: true,
-							message: "Status can't be blank",
+							message: "Trạng thái không được để trống",
 						},
 					]}
 				>
@@ -289,20 +300,20 @@ const AppointmentUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Note"
+					label="Ghi chú"
 					name="note"
 					rules={[
 						{
 							required: true,
-							message: "Note can't be blank",
+							message: "Ghi chú không được để trống",
 						},
 					]}
 				>
-					<TextArea placeholder="Note" />
+					<TextArea placeholder="Ghi chú" rows={8} />
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -312,7 +323,7 @@ const AppointmentUpdate = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

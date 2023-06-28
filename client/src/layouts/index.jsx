@@ -22,10 +22,10 @@ const Default = () => {
 								pathname !== "/forgot-password" && (
 									<div
 										className="text-sm italic underline cursor-pointer flex items-center gap-2 mb-8"
-										onClick={() => navigate("/")}
+										onClick={() => navigate(-1)}
 									>
 										<BiArrowBack />
-										<span>Back to home page</span>
+										<span>Quay về trang trước</span>
 									</div>
 								)}
 						</div>

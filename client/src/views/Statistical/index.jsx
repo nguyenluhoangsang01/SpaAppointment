@@ -69,16 +69,16 @@ const Statistical = () => {
 	const items = [
 		{
 			key: "1",
-			label: `Tab 1`,
+			label: `Cuộc hẹn`,
 			children: (
 				<AccumulationChartComponent
 					id="countAppointment2"
-					title="Tổng số cuộc hẹn đã đặt"
+					title="Cuộc hẹn"
 					tooltip={{
 						enable: true,
 						shared: false,
 						// eslint-disable-next-line no-template-curly-in-string
-						format: "${point.x}: ${point.y} times",
+						format: "${point.x}: ${point.y} lần",
 					}}
 					enableSmartLabels={true}
 					legendSettings={legendSettings}
@@ -106,11 +106,11 @@ const Statistical = () => {
 		},
 		{
 			key: "2",
-			label: `Tab 2`,
+			label: `Doanh thu`,
 			children: (
 				<AccumulationChartComponent
 					id="price2"
-					title="Tổng số tiền người dùng đã bỏ ra"
+					title="Doanh thu"
 					tooltip={{
 						enable: true,
 						shared: false,
@@ -144,7 +144,7 @@ const Statistical = () => {
 
 		{
 			key: "3",
-			label: `Tab 3`,
+			label: `Dịch vụ`,
 			children: (
 				<AccumulationChartComponent
 					id="price3"
@@ -153,7 +153,7 @@ const Statistical = () => {
 						enable: true,
 						shared: false,
 						// eslint-disable-next-line no-template-curly-in-string
-						format: "${point.x}: ${point.y} times",
+						format: "${point.x}: ${point.y} lần",
 					}}
 					enableSmartLabels={true}
 					legendSettings={legendSettings}
@@ -182,16 +182,16 @@ const Statistical = () => {
 
 		{
 			key: "4",
-			label: `Tab 4`,
+			label: `Nhân viên`,
 			children: (
 				<AccumulationChartComponent
 					id="price4"
-					title="Staff"
+					title="Nhân viên"
 					tooltip={{
 						enable: true,
 						shared: false,
 						// eslint-disable-next-line no-template-curly-in-string
-						format: "${point.x}: ${point.y} times",
+						format: "${point.x}: ${point.y} lần",
 					}}
 					enableSmartLabels={true}
 					legendSettings={legendSettings}
@@ -220,16 +220,16 @@ const Statistical = () => {
 
 		{
 			key: "5",
-			label: `Tab 5`,
+			label: `Vị trí`,
 			children: (
 				<AccumulationChartComponent
 					id="price5"
-					title="Location"
+					title="Vị trí"
 					tooltip={{
 						enable: true,
 						shared: false,
 						// eslint-disable-next-line no-template-curly-in-string
-						format: "${point.x}: ${point.y} times",
+						format: "${point.x}: ${point.y} lần",
 					}}
 					enableSmartLabels={true}
 					legendSettings={legendSettings}

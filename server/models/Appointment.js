@@ -24,7 +24,7 @@ const appointmentSchema = new Schema(
 		status: {
 			type: String,
 			enum: Object.values(APPOINTMENT_STATUS),
-			default: APPOINTMENT_STATUS.Booked,
+			default: APPOINTMENT_STATUS["Đã đặt"],
 		},
 		staff: {
 			type: Schema.Types.ObjectId,

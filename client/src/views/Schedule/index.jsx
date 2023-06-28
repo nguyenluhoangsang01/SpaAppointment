@@ -1,3 +1,4 @@
+import allLocales from "@fullcalendar/core/locales-all";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
@@ -39,7 +40,7 @@ const Schedule = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	const onCancel = () => {
@@ -107,12 +108,12 @@ const Schedule = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="View all schedule">
+				<Tooltip title="Xem tất cả lịch trình">
 					<Button
 						onClick={() => navigate("/schedule/view-schedule")}
 						className="bg-[green] text-white"
 					>
-						View all schedule
+						Xem tất cả lịch trình
 					</Button>
 				</Tooltip>
 			</div>
@@ -129,10 +130,12 @@ const Schedule = () => {
 				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 				views={["dayGridMonth", "dayGridWeek", "dayGridDay"]}
 				initialView="dayGridMonth"
+				locales={allLocales}
+				locale={"vi"}
 			/>
 
 			<Modals
-				title="Create new schedule"
+				title="Tạo lịch làm việc mới"
 				open={open}
 				confirmLoading={isLoading}
 				onCancel={onCancel}
@@ -144,14 +147,14 @@ const Schedule = () => {
 					onFinish={onFinish}
 					ref={formRef}
 					{...layout}
-					initialValues={{ type: "On vacation" }}
+					initialValues={{ type: "Đang nghỉ việc" }}
 				>
-					<Form.Item label="Type" name="type">
+					<Form.Item label="Loại làm việc" name="type">
 						<Select options={SELECT_TYPES_SCHEDULE} />
 					</Form.Item>
 
 					<Form.Item>
-						<Tooltip title="Create">
+						<Tooltip title="Tạo">
 							<Button
 								type="primary"
 								htmlType="submit"
@@ -161,7 +164,7 @@ const Schedule = () => {
 								{isLoading && (
 									<AiOutlineLoading3Quarters className="animate-spin" />
 								)}
-								<span>Create</span>
+								<span>Tạo</span>
 							</Button>
 						</Tooltip>
 					</Form.Item>

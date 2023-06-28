@@ -33,7 +33,7 @@ const UserViewDetails = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -94,26 +94,26 @@ const UserViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button
 						className="bg-[yellow]"
 						onClick={handleUpdate}
 						disabled={id === user?._id}
 					>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button
 						className="bg-[red] text-white"
 						onClick={() => setOpen(true)}
 						disabled={id === user?._id}
 					>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -121,61 +121,60 @@ const UserViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>First name</th>
-						<td>{data?.firstName ? data?.firstName : <span>not set</span>}</td>
+						<th>Họ</th>
+						<td>{data?.firstName ? data?.firstName : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Last name</th>
-						<td>{data?.lastName ? data?.lastName : <span>not set</span>}</td>
+						<th>Tên</th>
+						<td>{data?.lastName ? data?.lastName : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
 						<th>Email</th>
-						<td>{data?.email ? data?.email : <span>not set</span>}</td>
+						<td>{data?.email ? data?.email : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Phone</th>
-						<td>{data?.phone ? data?.phone : <span>not set</span>}</td>
+						<th>Số điện thoại</th>
+						<td>{data?.phone ? data?.phone : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Role</th>
-						<td>{data?.role ? data?.role : <span>not set</span>}</td>
+						<th>Vai trò</th>
+						<td>{data?.role ? data?.role : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Address</th>
-						<td>{data?.address ? data?.address : <span>not set</span>}</td>
+						<th>Địa chỉ</th>
+						<td>{data?.address ? data?.address : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Bio</th>
-						<td>{data?.bio ? data?.bio : <span>not set</span>}</td>
+						<th>Giới thiệu</th>
+						<td>{data?.bio ? data?.bio : <span>Chưa cập nhật</span>}</td>
 					</tr>
-
 					<tr>
-						<th>Logged in at</th>
+						<th>Đăng nhập vào lúc</th>
 						<td>
 							{data?.loggedInAt ? (
 								moment(data?.loggedInAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Logged in ip</th>
+						<th>Đã đăng nhập tại ip</th>
 						<td>
-							{data?.loggedInIP ? data?.loggedInIP : <span>not set</span>}
+							{data?.loggedInIP ? data?.loggedInIP : <span>Chưa cập nhật</span>}
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete user"
+				title="Xóa người dùng"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this user?
+				Bạn có muốn xóa người dùng này?
 			</Modals>
 		</>
 	);

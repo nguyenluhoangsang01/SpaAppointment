@@ -37,12 +37,12 @@ export const getAll = async (req, res, next) => {
 				select: "-__v",
 			})
 			.select("-__v");
-		if (!appointments) return sendError(res, "Appointment not found", 404);
+		if (!appointments) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Send success notification
 		return sendSuccess(
 			res,
-			"Retrieving appointments successfully",
+			"Truy xuất cuộc hẹn thành công",
 			appointments
 		);
 	} catch (error) {
@@ -74,10 +74,10 @@ export const getById = async (req, res, next) => {
 				select: "-__v",
 			})
 			.select("-__v");
-		if (!appointment) return sendError(res, "Appointment not found", 404);
+		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving appointment successfully", appointment);
+		return sendSuccess(res, "Truy xuất cuộc hẹn thành công", appointment);
 	} catch (error) {
 		next(error);
 	}
@@ -100,41 +100,41 @@ export const create = async (req, res, next) => {
 	validateDatetime();
 
 	if (!serviceId)
-		return sendError(res, "Service can't be blank", 400, "serviceId");
+		return sendError(res, "Dịch vụ không được để trống", 400, "serviceId");
 	if (!locationId)
-		return sendError(res, "Location can't be blank", 400, "locationId");
-	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
+		return sendError(res, "Vị trí không được để trống", 400, "locationId");
+	if (!staffId) return sendError(res, "Nhân viên không được để trống", 400, "staffId");
 	if (!duration && duration !== 0)
-		return sendError(res, "Duration can't be blank", 400, "duration");
+		return sendError(res, "Khoảng thời gian không được để trống", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration must be numeric and greater than 0",
+			"Khoảng thời gian phải lớn hơn hoặc bằng 0",
 			400,
 			"duration"
 		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu phải là một ngày hợp lệ", 400, "startDate");
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(res, "Ngày kết thúc phải là một ngày hợp lệ", 400, "endDate");
 	if (!emailTo)
-		return sendError(res, "Email to can't be blank", 400, "emailTo");
+		return sendError(res, "Email đến không được để trống", 400, "emailTo");
 
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Get service by id
 		const service = await Service.findById(serviceId);
 		if (!service)
 			return sendError(
 				res,
-				"Service isn't included in the list",
+				"Dịch vụ không có trong danh sách",
 				404,
 				"service"
 			);
@@ -144,7 +144,7 @@ export const create = async (req, res, next) => {
 		if (!location)
 			return sendError(
 				res,
-				"Location isn't included in the list",
+				"Vị trí không được bao gồm trong danh sách",
 				404,
 				"location"
 			);
@@ -152,11 +152,9 @@ export const create = async (req, res, next) => {
 		// Get staff by id
 		const staff = await User.findById(staffId);
 		if (!staff)
-			return sendError(res, "Staff isn't included in the list", 404, "staff");
+			return sendError(res, "Nhân viên không có trong danh sách", 404, "staff");
 		if (staff.role !== ROLES.Staff && staff.role !== ROLES.Admin)
-			return sendError(res, "User isn't a staff or admin");
-
-		console.log(service);
+			return sendError(res, "Người dùng không phải là nhân viên hoặc quản trị viên");
 
 		const newAppointment = new Appointment({
 			...req.body,
@@ -376,7 +374,7 @@ export const create = async (req, res, next) => {
 		);
 
 		// Sen success notification
-		return sendSuccess(res, "Appointment created successfully", null, 201);
+		return sendSuccess(res, "Đã tạo cuộc hẹn thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -401,58 +399,58 @@ export const updateById = async (req, res, next) => {
 	validateDatetime();
 
 	if (!serviceId)
-		return sendError(res, "Service can't be blank", 400, "serviceId");
+		return sendError(res, "Dịch vụ không được để trống", 400, "serviceId");
 	if (!locationId)
-		return sendError(res, "Location can't be blank", 400, "locationId");
-	if (!staffId) return sendError(res, "Staff can't be blank", 400, "staffId");
+		return sendError(res, "Vị trí không được để trống", 400, "locationId");
+	if (!staffId) return sendError(res, "Nhân viên không được để trống", 400, "staffId");
 	if (!duration && duration !== 0)
-		return sendError(res, "Duration can't be blank", 400, "duration");
+		return sendError(res, "Khoảng thời gian không được để trống", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration must be numeric and greater than 0",
+			"Khoảng thời gian phải là số và lớn hơn 0",
 			400,
 			"duration"
 		);
-	if (!status) return sendError(res, "Status can't be blank", 400, "status");
+	if (!status) return sendError(res, "Trạng thái không được để trống", 400, "status");
 	if (validate({ status }, statusAppointmentConstraint))
 		return sendError(
 			res,
-			`${status} is not included in the list`,
+			`${status} không được bao gồm trong danh sách`,
 			400,
 			"status"
 		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu phải là một ngày hợp lệ", 400, "startDate");
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(res, "Ngày kết thúc phải là một ngày hợp lệ", 400, "endDate");
 
 	try {
 		// Get appointment by id
 		const appointment = await Appointment.findById(id);
-		if (!appointment) return sendError(res, "Appointment not found", 404);
+		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Get staff by id
 		const staff = await User.findById(staffId);
 		if (!staff)
-			return sendError(res, "Staff isn't included in the list", 404, "staff");
+			return sendError(res, "Nhân viên không có trong danh sách", 404, "staff");
 		if (staff.role !== ROLES.Staff && staff.role !== ROLES.Admin)
-			return sendError(res, "User isn't a staff or admin");
+			return sendError(res, "Người dùng không phải là nhân viên hoặc quản trị viên");
 
 		// Get service by id
 		const service = await Service.findById(serviceId);
 		if (!service)
 			return sendError(
 				res,
-				"Service isn't included in the list",
+				"Dịch vụ không có trong danh sách",
 				404,
 				"service"
 			);
@@ -462,7 +460,7 @@ export const updateById = async (req, res, next) => {
 		if (!location)
 			return sendError(
 				res,
-				"Location isn't included in the list",
+				"Vị trí không được bao gồm trong danh sách",
 				404,
 				"location"
 			);
@@ -511,7 +509,7 @@ export const updateById = async (req, res, next) => {
 		);
 
 		// Send success notification
-		return sendSuccess(res, "Edited appointment successfully");
+		return sendSuccess(res, "Đã chỉnh sửa cuộc hẹn thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -521,13 +519,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all appointments
 		const appointments = await Appointment.find();
-		if (!appointments) return sendError(res, "Appointment not found", 404);
+		if (!appointments) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Delete all appointments
 		await Appointment.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all appointments successfully");
+		return sendSuccess(res, "Xóa tất cả các cuộc hẹn thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -540,7 +538,7 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get appointment by id
 		const appointment = await Appointment.findByIdAndDelete(id);
-		if (!appointment) return sendError(res, "Appointment not found", 404);
+		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		const appointmentStartDate = appointment.startDate.split("- ")[1];
 		// Three days after
@@ -548,10 +546,10 @@ export const deleteById = async (req, res, next) => {
 
 		// Check if current time before appointment date about times
 		if (moment().isBefore(threeDaysAfter))
-			return sendError(res, `Can't cancel this appointment`, 400);
+			return sendError(res, `Không thể hủy cuộc hẹn này`, 400);
 
 		// Send success notification
-		return sendSuccess(res, "Delete appointment successfully");
+		return sendSuccess(res, "Xóa tất cuộc hẹn thành công");
 	} catch (error) {
 		next(error);
 	}

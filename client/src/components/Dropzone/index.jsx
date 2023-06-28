@@ -30,11 +30,13 @@ const Dropzone = forwardRef((props, ref) => {
 			<input {...getInputProps()} ref={ref} />
 
 			{isDragReject ? (
-				<p>Sorry, This app only supports images</p>
+				<p>Xin lỗi, ứng dụng này chỉ hỗ trợ hình ảnh</p>
 			) : isDragActive ? (
-				<p>Drop file here to upload</p>
+				<p>Thả tập tin vào đây để tải lên</p>
 			) : (
-				<p>You can drag and drop file here to add them</p>
+				<p>
+					Bạn có thể kéo và thả tệp hình ảnh vào đây để làm hình ảnh đại diện
+				</p>
 			)}
 		</div>
 	);

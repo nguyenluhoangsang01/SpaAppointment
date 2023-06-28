@@ -38,7 +38,7 @@ const ScheduleUpdate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -118,7 +118,7 @@ const ScheduleUpdate = () => {
 
 	return (
 		<>
-			<h1 className="font-bold uppercase mb-8 text-2xl">Update: {title}</h1>
+			<h1 className="font-bold uppercase mb-8 text-2xl">Cập nhật: {title}</h1>
 
 			<Form
 				name="update"
@@ -133,38 +133,46 @@ const ScheduleUpdate = () => {
 					endDate: moment(data.endDate, formatDateTime),
 				}}
 			>
-				<Form.Item label="Type" name="type">
+				<Form.Item label="Loại làm việc" name="type">
 					<Select options={SELECT_TYPES_SCHEDULE} />
 				</Form.Item>
 
 				<Form.Item
-					label="Start date"
+					label="Ngày bắt đầu"
 					name="startDate"
 					rules={[
 						{
 							required: true,
-							message: "Start date can't be blank",
+							message: "Ngày bắt đầu không được để trống",
 						},
 					]}
 				>
-					<DatePicker showTime format={formatDateTime} />
+					<DatePicker
+						showTime
+						format={formatDateTime}
+						placeholder="Ngày bắt đầu"
+					/>
 				</Form.Item>
 
 				<Form.Item
-					label="End date"
+					label="Ngày kết thúc"
 					name="endDate"
 					rules={[
 						{
 							required: true,
-							message: "End date can't be blank",
+							message: "Ngày kết thúc không được để trống",
 						},
 					]}
 				>
-					<DatePicker showTime format={formatDateTime} />
+					<DatePicker
+						showTime
+						format={formatDateTime}
+						placeholder="Ngày kết thúc"
+					/>
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -174,7 +182,7 @@ const ScheduleUpdate = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

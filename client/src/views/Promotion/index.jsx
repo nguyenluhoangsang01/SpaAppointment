@@ -57,69 +57,71 @@ const Promotion = () => {
 
 	const columns = [
 		{
-			title: "Service",
+			title: "Dịch vụ",
 			dataIndex: "service",
 			key: "service",
 			render: (text, record) => <span>{record.name}</span>,
 		},
 		{
-			title: "Name",
+			title: "Tên",
 			dataIndex: "name",
 			key: "name",
 		},
 		{
-			title: "Type",
+			title: "Loại khuyến mãi",
 			dataIndex: "type",
 			key: "type",
 		},
 		{
-			title: "Start date",
+			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
 		},
 		{
-			title: "End date",
+			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
 		},
 		{
-			title: "Value",
+			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
 			render: (text) => <span>{text} VND</span>,
 		},
 		{
-			title: "Active",
+			title: "Trạng thái",
 			dataIndex: "isActive",
 			key: "isActive",
-			render: (text, record) => <span>{text ? "Active" : "Inactive"}</span>,
+			render: (text) => (
+				<span>{text ? "Đang hoạt động" : "Chưa hoạt động"}</span>
+			),
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							onClick={() => handleUpdate(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							onClick={() => handleDelete(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsTrashFill />
 						</Button>
@@ -160,19 +162,19 @@ const Promotion = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						onClick={() => navigate("/promotions/create")}
 						className="bg-[green] text-white"
-						disabled={user?.role !== "Admin"}
+						disabled={user?.role !== "Quản trị viên"}
 					>
-						Create
+						Tạo
 					</Button>
 				</Tooltip>
 			</div>
 
 			<Search
-				placeholder="Enter search term you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -201,13 +203,13 @@ const Promotion = () => {
 			/>
 
 			<Modals
-				title="Delete promotion"
+				title="Xóa khuyến mãi"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this promotion?
+				Bạn có muốn xóa khuyến mãi này?
 			</Modals>
 		</>
 	);

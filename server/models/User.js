@@ -7,12 +7,6 @@ const userSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		appointments: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Appointment",
-			},
-		],
 		avatar: {
 			type: String,
 			default: "https://i.pravatar.cc/300",
@@ -49,14 +43,8 @@ const userSchema = new Schema(
 		role: {
 			type: String,
 			enum: Object.values(ROLES),
-			default: ROLES.Customer,
+			default: ROLES["Khách hàng"],
 		},
-		services: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Service",
-			},
-		],
 		countAppointment: {
 			type: Number,
 			default: 0,
@@ -68,7 +56,7 @@ const userSchema = new Schema(
 		countStaff: {
 			type: Number,
 			default: 0,
-		}
+		},
 	},
 	{ timestamps: true }
 );

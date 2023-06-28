@@ -17,10 +17,10 @@ export const getAll = async (req, res, next) => {
 		const promotions = await Promotion.find()
 			.select("-__v")
 			.populate("service", "-__v");
-		if (!promotions) return sendError(res, "Promotion not found", 404);
+		if (!promotions) return sendError(res, "Không tìm thấy khuyến mãi", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving promotions successfully", promotions);
+		return sendSuccess(res, "Truy xuất khuyến mãi thành công", promotions);
 	} catch (error) {
 		next(error);
 	}
@@ -35,10 +35,10 @@ export const getById = async (req, res, next) => {
 		const promotion = await Promotion.findById(id)
 			.select("-__v")
 			.populate("service", "-__v");
-		if (!promotion) return sendError(res, "Promotion not found", 404);
+		if (!promotion) return sendError(res, "Không tìm thấy khuyến mãi", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving promotion successfully", promotion);
+		return sendSuccess(res, "Truy xuất khuyến mãi thành công", promotion);
 	} catch (error) {
 		next(error);
 	}
@@ -59,36 +59,58 @@ export const create = async (req, res, next) => {
 
 	validateDatetime();
 
-	if (!service) return sendError(res, "Service can't be blank", 400, "service");
-	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!service)
+		return sendError(res, "Dịch vụ không được để trống", 400, "service");
+	if (!name) return sendError(res, "Tên không được để trống", 400, "name");
 	if (!description)
-		return sendError(res, "Description can't be blank", 400, "description");
-	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+		return sendError(res, "Mô tả không được để trống", 400, "description");
+	if (!type)
+		return sendError(res, "Loại khuyến mãi không được để trống", 400, "type");
 	if (validate({ type }, promotionTypesConstraint))
-		return sendError(res, `${type} is not included in the list`, 400, "type");
+		return sendError(
+			res,
+			`${type} không được bao gồm trong danh sách`,
+			400,
+			"type"
+		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(
+			res,
+			"Ngày bắt đầu phải là một ngày hợp lệ",
+			400,
+			"startDate"
+		);
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(
+			res,
+			"Ngày kết thúc phải là một ngày hợp lệ",
+			400,
+			"endDate"
+		);
 	if (!value && value !== 0)
-		return sendError(res, "Value can't be blank", 400, "value");
+		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))
 		return sendError(
 			res,
-			"Value must be numeric and greater than or equal to 1",
+			"Giá trị phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"value"
 		);
 	if (!maxUses && maxUses !== 0)
-		return sendError(res, "Max uses can't be blank", 400, "maxUses");
+		return sendError(
+			res,
+			"Số lần sử dụng tối đa không được để trống",
+			400,
+			"maxUses"
+		);
 	if (validate({ maxUses }, maxUsesConstraint))
 		return sendError(
 			res,
-			"Max uses must be numeric and greater than or equal to 1",
+			"Số lần sử dụng tối đa phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"maxUses"
 		);
@@ -99,7 +121,7 @@ export const create = async (req, res, next) => {
 		if (isNameExists)
 			return sendError(
 				res,
-				`Promotion with this name (${isNameExists.name}) already exists`,
+				`Tên khuyến mãi (${isNameExists.name}) đã tồn tại`,
 				409,
 				"name"
 			);
@@ -108,7 +130,7 @@ export const create = async (req, res, next) => {
 		await newPromotion.save();
 
 		// Send success notification
-		return sendSuccess(res, "Promotion created successfully", null, 201);
+		return sendSuccess(res, "Tạo khuyến mãi thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -131,36 +153,58 @@ export const updateById = async (req, res, next) => {
 
 	validateDatetime();
 
-	if (!service) return sendError(res, "Service can't be blank", 400, "service");
-	if (!name) return sendError(res, "Name can't be blank", 400, "name");
+	if (!service)
+		return sendError(res, "Dịch vụ không được để trống", 400, "service");
+	if (!name) return sendError(res, "Tên không được để trống", 400, "name");
 	if (!description)
-		return sendError(res, "Description can't be blank", 400, "description");
-	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+		return sendError(res, "Mô tả không được để trống", 400, "description");
+	if (!type)
+		return sendError(res, "Loại khuyến mãi không được để trống", 400, "type");
 	if (validate({ type }, promotionTypesConstraint))
-		return sendError(res, `${type} is not included in the list`, 400, "type");
+		return sendError(
+			res,
+			`${type} không được bao gồm trong danh sách`,
+			400,
+			"type"
+		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(
+			res,
+			"Ngày bắt đầu phải là một ngày hợp lệ",
+			400,
+			"startDate"
+		);
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(
+			res,
+			"Ngày kết thúc phải là một ngày hợp lệ",
+			400,
+			"endDate"
+		);
 	if (!value && value !== 0)
-		return sendError(res, "Value can't be blank", 400, "value");
+		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))
 		return sendError(
 			res,
-			"Value must be numeric and greater than or equal to 0",
+			"Giá trị phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"value"
 		);
 	if (!maxUses && maxUses !== 0)
-		return sendError(res, "Max uses can't be blank", 400, "maxUses");
+		return sendError(
+			res,
+			"Số lần sử dụng tối đa không được để trống",
+			400,
+			"maxUses"
+		);
 	if (validate({ maxUses }, maxUsesConstraint))
 		return sendError(
 			res,
-			"Max uses must be numeric and greater than or equal to 1",
+			"Số lần sử dụng tối đa phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"maxUses"
 		);
@@ -168,7 +212,7 @@ export const updateById = async (req, res, next) => {
 	try {
 		// Get promotion by id
 		const promotion = await Promotion.findById(id);
-		if (!promotion) return sendError(res, "Promotion not found", 404);
+		if (!promotion) return sendError(res, "Không tìm thấy khuyến mãi", 404);
 
 		// Check name exists or not in database
 		const isNameExists = await Promotion.findOne({
@@ -177,7 +221,7 @@ export const updateById = async (req, res, next) => {
 		if (isNameExists)
 			return sendError(
 				res,
-				`Promotion with this name (${isNameExists.name}) already exists`,
+				`Tên khuyến mãi (${isNameExists.name}) đã tồn tại`,
 				409,
 				"name"
 			);
@@ -185,7 +229,7 @@ export const updateById = async (req, res, next) => {
 		await Promotion.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
 		// Send success notification
-		return sendSuccess(res, "Edited promotion successfully");
+		return sendSuccess(res, "Chỉnh sửa khuyến mãi thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -195,13 +239,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all promotions
 		const promotions = await Promotion.find();
-		if (!promotions) return sendError(res, "Promotion not found", 404);
+		if (!promotions) return sendError(res, "Không tìm thấy khuyến mãi", 404);
 
 		// Delete all promotions
 		await Promotion.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all promotions successfully");
+		return sendSuccess(res, "Xóa tất cả khuyến mãi thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -214,10 +258,10 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get promotion by id
 		const promotion = await Promotion.findByIdAndDelete(id);
-		if (!promotion) return sendError(res, "Promotion not found", 404);
+		if (!promotion) return sendError(res, "Không tìm thấy khuyến mãi", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete promotion successfully");
+		return sendSuccess(res, "Xóa khuyến mãi thành công");
 	} catch (error) {
 		next(error);
 	}

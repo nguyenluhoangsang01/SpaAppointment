@@ -44,8 +44,8 @@ export const create = async (req, res, next) => {
 	// Get data from request body
 	const { description, duration, name, price } = req.body;
 
-	if (!name) return sendError(res, "Name can't be blank", 400, "name");
-	if (!price && price !== 0) return sendError(res, "Price can't be blank", 400, "price");
+	if (!name) return sendError(res, "Tên không được để trống", 400, "name");
+	if (!price && price !== 0) return sendError(res, "Giá không được để trống", 400, "price");
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
@@ -54,16 +54,16 @@ export const create = async (req, res, next) => {
 			"price"
 		);
 	if (!duration  && duration !== 0)
-		return sendError(res, "Duration can't be blank", 400, "duration");
+		return sendError(res, "Khoảng thời gian không được để trống", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration must be numeric and greater than 0",
+			"Khoảng thời gian phải là số và lớn hơn 0",
 			400,
 			"duration"
 		);
 	if (!description)
-		return sendError(res, "Description can't be blank", 400, "description");
+		return sendError(res, "Mô tả không được để trống", 400, "description");
 
 	try {
 		// Check name exists or not in database
@@ -111,8 +111,8 @@ export const updateById = async (req, res, next) => {
 	// Get data from request body
 	const { description, duration, name, price } = req.body;
 
-	if (!name) return sendError(res, "Name can't be blank", 400, "name");
-	if (!price && price !== 0) return sendError(res, "Price can't be blank", 400, "price");
+	if (!name) return sendError(res, "Tên không được để trống", 400, "name");
+	if (!price && price !== 0) return sendError(res, "Giá không được để trống", 400, "price");
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
@@ -121,16 +121,16 @@ export const updateById = async (req, res, next) => {
 			"price"
 		);
 	if (!duration && duration !== 0)
-		return sendError(res, "Duration can't be blank", 400, "duration");
+		return sendError(res, "Khoảng thời gian không được để trống", 400, "duration");
 	if (validate({ duration }, durationConstraint))
 		return sendError(
 			res,
-			"Duration must be numeric and greater than 0",
+			"Khoảng thời gian phải là số và lớn hơn 0",
 			400,
 			"duration"
 		);
 	if (!description)
-		return sendError(res, "Description can't be blank", 400, "description");
+		return sendError(res, "Mô tả không được để trống", 400, "description");
 
 	try {
 		// Get service by id
@@ -183,7 +183,7 @@ export const deleteAll = async (req, res, next) => {
 		await Service.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all services successfully");
+		return sendSuccess(res, "Xóa tất cả các dịch vụ thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -199,7 +199,7 @@ export const deleteById = async (req, res, next) => {
 		if (!service) return sendError(res, "Service not found", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete service successfully");
+		return sendSuccess(res, "Xóa tất cả các dịch vụ thành công");
 	} catch (error) {
 		next(error);
 	}

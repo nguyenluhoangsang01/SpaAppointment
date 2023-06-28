@@ -34,7 +34,7 @@ const ScheduleView = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -56,13 +56,13 @@ const ScheduleView = () => {
 
 	const columns = [
 		{
-			title: "First name",
+			title: "Họ",
 			dataIndex: "firstName",
 			key: "firstName",
 			render: (text, record) => <span>{record?.staff?.firstName}</span>,
 		},
 		{
-			title: "Last name",
+			title: "Tên",
 			dataIndex: "lastName",
 			key: "lastName",
 			render: (text, record) => <span>{record?.staff?.lastName}</span>,
@@ -74,43 +74,43 @@ const ScheduleView = () => {
 			render: (text, record) => <span>{record?.staff?.email}</span>,
 		},
 		{
-			title: "Phone",
+			title: "Số điện thoại",
 			dataIndex: "phone",
 			key: "phone",
 			render: (text, record) => <span>{record?.staff?.phone}</span>,
 		},
 		{
-			title: "Start date",
+			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
 		},
 		{
-			title: "End date",
+			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
 		},
 		{
-			title: "Type",
+			title: "Loại làm việc",
 			dataIndex: "type",
 			key: "type",
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button onClick={() => handleUpdate(record?._id)}>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button onClick={() => handleDelete(record?._id)}>
 							<BsTrashFill />
 						</Button>
@@ -147,15 +147,13 @@ const ScheduleView = () => {
 		setOpen(false);
 	};
 
-	console.log();
-
 	return (
 		<>
 			<Table
 				columns={columns}
 				dataSource={[...schedule]
 					.filter((item) =>
-						user?.role !== "Admin" ? item?.staff?._id === user?._id : item
+						user?.role !== "Quản trị viên" ? item?.staff?._id === user?._id : item
 					)
 					.reverse()}
 				loading={!schedule}
@@ -163,13 +161,13 @@ const ScheduleView = () => {
 			/>
 
 			<Modals
-				title="Delete schedule"
+				title="Xóa lịch trình"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this schedule?
+				Bạn có muốn xóa lịch trình này?
 			</Modals>
 		</>
 	);

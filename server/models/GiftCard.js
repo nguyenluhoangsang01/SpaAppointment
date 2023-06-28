@@ -20,7 +20,7 @@ const giftCardSchema = new Schema(
 		status: {
 			type: String,
 			enum: Object.values(GiFT_CARD_STATUS),
-			default: GiFT_CARD_STATUS.Active,
+			default: GiFT_CARD_STATUS["Chưa hoạt động"],
 		},
 		value: {
 			type: Number,

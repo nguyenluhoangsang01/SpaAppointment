@@ -1,13 +1,13 @@
+import { Button, Tooltip } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectAuth } from "../../redux/slice/auth";
-import axios from "axios";
-import { axiosConfig } from "../../utils/helpers";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
-import { toast } from "react-hot-toast";
-import { Button, Tooltip } from "antd";
+import { selectAuth } from "../../redux/slice/auth";
+import { axiosConfig } from "../../utils/helpers";
 
 const PromotionViewDetails = () => {
 	// Get id from params
@@ -28,7 +28,7 @@ const PromotionViewDetails = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -89,18 +89,18 @@ const PromotionViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button className="bg-[yellow]" onClick={handleUpdate}>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -108,60 +108,76 @@ const PromotionViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Service</th>
+						<th>Dịch vụ</th>
 						<td>
-							{data?.service ? data?.service?.name : <span>not set</span>}
+							{data?.service ? data?.service?.name : <span>Chưa cập nhật</span>}
 						</td>
 					</tr>
 					<tr>
-						<th>Name</th>
-						<td>{data?.name ? data?.name : <span>not set</span>}</td>
+						<th>Tên</th>
+						<td>{data?.name ? data?.name : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Description</th>
+						<th>Mô tả</th>
 						<td>
-							{data?.description ? data?.description : <span>not set</span>}
+							{data?.description ? (
+								data?.description
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
 						</td>
 					</tr>
 					<tr>
 						<th>Type</th>
-						<td>{data?.type ? data?.type : <span>not set</span>}</td>
+						<td>{data?.type ? data?.type : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Start date</th>
-						<td>{data?.startDate ? data?.startDate : <span>not set</span>}</td>
+						<th>Ngày bắt đầu</th>
+						<td>
+							{data?.startDate ? data?.startDate : <span>Chưa cập nhật</span>}
+						</td>
 					</tr>
 					<tr>
-						<th>End date</th>
-						<td>{data?.endDate ? data?.endDate : <span>not set</span>}</td>
+						<th>Ngày kết thúc</th>
+						<td>
+							{data?.endDate ? data?.endDate : <span>Chưa cập nhật</span>}
+						</td>
 					</tr>
 					<tr>
-						<th>Value</th>
-						<td>{data?.value ? data?.value : <span>not set</span>}</td>
+						<th>Giá trị</th>
+						<td>
+							{data?.value ? `${data?.value} VND` : <span>Chưa cập nhật</span>}
+						</td>
 					</tr>
 					<tr>
-						<th>Max uses</th>
-						<td>{data?.maxUses ? data?.maxUses : <span>not set</span>}</td>
+						<th>Số lượt sử dụng tối đa</th>
+						<td>
+							{data?.maxUses ? (
+								`${data?.maxUses} lần`
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
 					</tr>
 					<tr>
-						<th>Active</th>
-						<td>{data?.isActive ? "Active" : "Inactive"}</td>
+						<th>Trạng thái</th>
+						<td>{data?.isActive ? "Đang hoạt động" : "Chưa hoạt động"}</td>
 					</tr>
 					<tr>
-						<th>Total uses</th>
+						<th>Số lượt đã sử dụng</th>
 						<td>{data?.totalUses ? data?.totalUses : 0}</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<Modals
-				title="Delete promotion"
+				title="Xóa khuyến mãi"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this promotion?
+				Bạn có muốn xóa khuyến mãi này?
 			</Modals>
 		</>
 	);

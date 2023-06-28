@@ -8,10 +8,10 @@ const verifyAdmin = async (req, res, next) => {
 
 		// Get user by user id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Check if user's role isn't admin
-		if (user.role !== "Admin")
+		if (user.role !== "Quản trị viên")
 			return sendError(
 				res,
 				"Access to this resource on the server is denied",

@@ -33,7 +33,7 @@ const ScheduleViewDetails = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -94,26 +94,26 @@ const ScheduleViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button
 						className="bg-[yellow]"
 						onClick={handleUpdate}
 						disabled={id === user._id}
 					>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button
 						className="bg-[red] text-white"
 						onClick={() => setOpen(true)}
 						disabled={id === user._id}
 					>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -121,11 +121,11 @@ const ScheduleViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>First name</th>
+						<th>Họ</th>
 						<td>{data?.staff?.firstName}</td>
 					</tr>
 					<tr>
-						<th>Last name</th>
+						<th>Tên</th>
 						<td>{data?.staff?.lastName}</td>
 					</tr>
 					<tr>
@@ -133,38 +133,38 @@ const ScheduleViewDetails = () => {
 						<td>{data?.staff?.email}</td>
 					</tr>
 					<tr>
-						<th>Phone</th>
+						<th>Số điện thoại</th>
 						<td>{data?.staff?.phone}</td>
 					</tr>
 					<tr>
-						<th>Start date</th>
+						<th>Ngày bắt đầu</th>
 						<td>{data?.startDate}</td>
 					</tr>
 					<tr>
-						<th>End date</th>
+						<th>Ngày kết thúc</th>
 						<td>{data?.endDate}</td>
 					</tr>
 					<tr>
-						<th>Type</th>
+						<th>Loại làm việc</th>
 						<td>{data?.type}</td>
 					</tr>
 					<tr>
-						<th>Created at</th>
+						<th>Tạo vào lúc</th>
 						<td>
 							{data?.createdAt ? (
 								moment(data?.createdAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Updated at</th>
+						<th>Cập nhật vào lúc</th>
 						<td>
 							{data?.updatedAt ? (
 								moment(data?.updatedAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
@@ -172,13 +172,13 @@ const ScheduleViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Delete schedule"
+				title="Xóa lịch trình"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this schedule?
+				Bạn có muốn xóa lịch trình này?
 			</Modals>
 		</>
 	);

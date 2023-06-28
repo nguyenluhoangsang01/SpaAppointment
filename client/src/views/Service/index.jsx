@@ -55,48 +55,48 @@ const Service = () => {
 
 	const columns = [
 		{
-			title: "Name",
+			title: "Tên",
 			dataIndex: "name",
 			key: "name",
 		},
 		{
-			title: "Price",
+			title: "Giá",
 			dataIndex: "price",
 			key: "price",
 			render: (text) => <span>{text} VND</span>,
 		},
 		{
-			title: "Duration",
+			title: "Khoảng thời gian (giờ)",
 			dataIndex: "duration",
 			key: "duration",
-			render: (text) => <span>{text}h</span>,
+			render: (text) => <span>{text} (giờ)</span>,
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							onClick={() => handleUpdate(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							onClick={() => handleDelete(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsTrashFill />
 						</Button>
@@ -141,19 +141,19 @@ const Service = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						onClick={() => navigate("/services/create")}
 						className="bg-[green] text-white"
-						disabled={user?.role !== "Admin"}
+						disabled={user?.role !== "Quản trị viên"}
 					>
-						Create
+						Tạo
 					</Button>
 				</Tooltip>
 			</div>
 
 			<Search
-				placeholder="Enter the name you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -174,13 +174,13 @@ const Service = () => {
 			/>
 
 			<Modals
-				title="Delete service"
+				title="Xóa dịch vụ"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this service?
+				Bạn có muốn xóa dịch vụ này không?
 			</Modals>
 		</>
 	);

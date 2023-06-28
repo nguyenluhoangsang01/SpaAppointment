@@ -17,10 +17,10 @@ export const getAll = async (req, res, next) => {
 	try {
 		// Get all users
 		const users = await User.find().select("-__v -password");
-		if (!users) return sendError(res, "User not found", 404);
+		if (!users) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving users successfully", users);
+		return sendSuccess(res, "Truy xuất người dùng thành công", users);
 	} catch (error) {
 		next(error);
 	}
@@ -33,10 +33,10 @@ export const getById = async (req, res, next) => {
 	try {
 		// Get user by id
 		const user = await User.findById(id).select("-__v -password");
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving user successfully", user);
+		return sendSuccess(res, "Truy xuất người dùng thành công", user);
 	} catch (error) {
 		next(error);
 	}
@@ -49,10 +49,10 @@ export const getProfile = async (req, res, next) => {
 	try {
 		// Get user by id
 		const user = await User.findById(userId).select("-__v -password");
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving user successfully", user);
+		return sendSuccess(res, "Truy xuất người dùng thành công", user);
 	} catch (error) {
 		next(error);
 	}
@@ -68,15 +68,16 @@ export const updateProfile = async (req, res, next) => {
 
 	// Validate
 	if (!firstName)
-		return sendError(res, "First name can't be blank", 400, "firstName");
+		return sendError(res, "Họ không được để trống", 400, "firstName");
 	if (!lastName)
-		return sendError(res, "Last name can't be blank", 400, "lastName");
-	if (!address) return sendError(res, "Address can't be blank", 400, "address");
+		return sendError(res, "Tên không được để trống", 400, "lastName");
+	if (!address)
+		return sendError(res, "Địa chỉ không được để trống", 400, "address");
 
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Check file exist or not
 		if (file) {
@@ -107,7 +108,7 @@ export const updateProfile = async (req, res, next) => {
 		const userUpdated = await User.findById(user._id).select("-__v -password");
 
 		// Send success notification
-		return sendSuccess(res, "Your profile has been edited successfully", {
+		return sendSuccess(res, "Hồ sơ của bạn đã được chỉnh sửa thành công", {
 			user: userUpdated,
 		});
 	} catch (error) {
@@ -124,25 +125,31 @@ export const updateById = async (req, res, next) => {
 	const { address, email, firstName, lastName, phone, role } = req.body;
 
 	if (!firstName)
-		return sendError(res, "First name can't be blank", 400, "firstName");
+		return sendError(res, "Họ không được để trống", 400, "firstName");
 	if (!lastName)
-		return sendError(res, "Last name can't be blank", 400, "lastName");
-	if (!email) return sendError(res, "Email can't be blank", 400, "email");
+		return sendError(res, "Tên không được để trống", 400, "lastName");
+	if (!email) return sendError(res, "Email không được để trống", 400, "email");
 	if (validate({ email }, emailConstraint))
-		return sendError(res, "Email isn't a valid email", 400, "email");
+		return sendError(res, "Email không phải là một email hợp lệ", 400, "email");
 	if (!phone)
-		return sendError(res, "Phone number can't be blank", 400, "phone");
+		return sendError(res, "Số điện thoại không được để trống", 400, "phone");
 	if (validate({ phone }, phoneConstraint))
-		return sendError(res, "Phone must be a valid phone number", 400, "phone");
-	if (!role) return sendError(res, "Role can't be blank", 400, "role");
+		return sendError(
+			res,
+			"Điện thoại phải là số điện thoại hợp lệ",
+			400,
+			"phone"
+		);
+	if (!role) return sendError(res, "Vai trò không được để trống", 400, "role");
 	if (validate({ role }, roleConstraint))
-		return sendError(res, `${role} isn't included in the list`, 400, "role");
-	if (!address) return sendError(res, "Address can't be blank", 400, "address");
+		return sendError(res, `${role} không có trong danh sách`, 400, "role");
+	if (!address)
+		return sendError(res, "Địa chỉ không được để trống", 400, "address");
 
 	try {
 		// Get user by id
 		const user = await User.findById(id);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Check email exists or not in database
 		const isEmailExists = await User.findOne({
@@ -151,7 +158,7 @@ export const updateById = async (req, res, next) => {
 		if (isEmailExists)
 			return sendError(
 				res,
-				`User with this email (${isEmailExists.email}) already exists`,
+				`Email (${isEmailExists.email}) đã tồn tại`,
 				409,
 				"email"
 			);
@@ -162,7 +169,7 @@ export const updateById = async (req, res, next) => {
 		if (isPhoneExists)
 			return sendError(
 				res,
-				`User with this phone number (${isPhoneExists.phone}) already exists`,
+				`Số điện thoại (${isPhoneExists.phone}) đã tồn tại`,
 				409,
 				"phone"
 			);
@@ -193,7 +200,7 @@ export const updateById = async (req, res, next) => {
 		}
 
 		// Send success notification
-		return sendSuccess(res, "Edited user successfully");
+		return sendSuccess(res, "Chỉnh sửa người dùng thành công", 200, null);
 	} catch (error) {
 		next(error);
 	}
@@ -208,7 +215,7 @@ export const changePassword = async (req, res, next) => {
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Compare current password
 		const isMatchCurrentPassword = bcrypt.compareSync(
@@ -219,23 +226,28 @@ export const changePassword = async (req, res, next) => {
 		if (!currentPassword)
 			return sendError(
 				res,
-				"Current password can't be blank",
+				"Mật khẩu hiện tại không được để trống",
 				400,
 				"currentPassword"
 			);
 		if (!isMatchCurrentPassword)
 			return sendError(
 				res,
-				"Current password you entered is incorrect",
+				"Mật khẩu hiện tại bạn đã nhập không chính xác",
 				400,
 				"currentPassword"
 			);
 		if (!newPassword)
-			return sendError(res, "New password can't be blank", 400, "newPassword");
+			return sendError(
+				res,
+				"Mật khẩu mới không được để trống",
+				400,
+				"newPassword"
+			);
 		if (validate({ newPassword }, newPasswordConstraint))
 			return sendError(
 				res,
-				"New password should be at least 8 characters long and must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+				"Mật khẩu mới phải dài ít nhất 8 ký tự và phải chứa ít nhất một chữ thường, một chữ in hoa, một số và một ký tự đặc biệt",
 				400,
 				"newPassword"
 			);
@@ -243,21 +255,21 @@ export const changePassword = async (req, res, next) => {
 		if (isMatchNewPassword)
 			return sendError(
 				res,
-				"New password must be different from old password",
+				"Mật khẩu mới phải khác mật khẩu cũ",
 				400,
 				"newPassword"
 			);
 		if (!confirmPassword)
 			return sendError(
 				res,
-				"Confirm new password can't be blank",
+				"Xác nhận mật khẩu mới không được để trống",
 				400,
 				"confirmPassword"
 			);
 		if (confirmPassword !== newPassword)
 			return sendError(
 				res,
-				"Confirm new password isn't equal to new password",
+				"Xác nhận mật khẩu mới không bằng mật khẩu mới",
 				400,
 				"confirmPassword"
 			);
@@ -273,7 +285,7 @@ export const changePassword = async (req, res, next) => {
 		);
 
 		// Send success notification
-		return sendSuccess(res, "Your password has been changed");
+		return sendSuccess(res, "Mật khẩu của bạn đã được thay đổi");
 	} catch (error) {
 		next(error);
 	}
@@ -283,13 +295,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all users
 		const users = await User.find();
-		if (!users) return sendError(res, "User not found", 404);
+		if (!users) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Delete all users
 		await User.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all users successfully");
+		return sendSuccess(res, "Xóa tất cả người dùng thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -302,15 +314,15 @@ export const deleteById = async (req, res, next) => {
 	const { userId } = req;
 
 	// Check if 2 IDs are the same
-	if (id === userId) return sendError(res, "Can't delete current user");
+	if (id === userId) return sendError(res, "Không thể xóa người dùng hiện tại");
 
 	try {
 		// Get user by id
 		const user = await User.findByIdAndDelete(id);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete user successfully");
+		return sendSuccess(res, "Xóa người dùng thành công");
 	} catch (error) {
 		next(error);
 	}

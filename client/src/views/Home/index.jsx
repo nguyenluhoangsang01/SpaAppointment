@@ -42,7 +42,7 @@ const Home = () => {
 							className="bg-white"
 							onClick={() => navigate("/appointments")}
 						>
-							Make an appointment now
+							Tạo cuộc hẹn ngay bây giờ
 						</Button>
 					</Tooltip>
 				</div>

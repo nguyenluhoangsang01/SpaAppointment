@@ -87,18 +87,18 @@ const ServiceViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button className="bg-[yellow]" onClick={handleUpdate}>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -106,25 +106,25 @@ const ServiceViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th className="w-48">Name</th>
-						<td>{data?.name ? data?.name : <span>not set</span>}</td>
+						<th>Tên</th>
+						<td>{data?.name ? data?.name : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Price</th>
-						<td>{data?.price ? data?.price : <span>not set</span>}</td>
+						<th>Giá</th>
+						<td>{data?.price ? `${data?.price} VND` : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Duration</th>
-						<td>{data?.duration ? data?.duration : <span>not set</span>}</td>
+						<th>Khoảng thời gian (giờ)</th>
+						<td>{data?.duration ? `${data?.duration} (giờ)` : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Description</th>
+						<th>Mô tả</th>
 						<td>
-							{data?.description ? data?.description : <span>not set</span>}
+							{data?.description ? data?.description : <span>Chưa cập nhật</span>}
 						</td>
 					</tr>
 					<tr>
-						<th>Image</th>
+						<th>Hình ảnh</th>
 						<td>
 							<Image
 								src={data?.image}
@@ -135,22 +135,22 @@ const ServiceViewDetails = () => {
 						</td>
 					</tr>
 					<tr>
-						<th>Created at</th>
+						<th>Tạo vào lúc</th>
 						<td>
 							{data?.createdAt ? (
 								moment(data?.createdAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Updated at</th>
+						<th>Cập nhật vào lúc</th>
 						<td>
 							{data?.updatedAt ? (
 								moment(data?.updatedAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
@@ -158,13 +158,13 @@ const ServiceViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Delete service"
+				title="Xóa dịch vụ"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this service?
+				Bạn có muốn xóa dịch vụ này không?
 			</Modals>
 		</>
 	);

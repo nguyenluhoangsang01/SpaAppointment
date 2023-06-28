@@ -55,41 +55,41 @@ const Location = () => {
 
 	const columns = [
 		{
-			title: "Full name",
+			title: "Tên đầy đủ",
 			dataIndex: "fullName",
 			key: "fullName",
 		},
 		{
-			title: "Short name",
+			title: "Tên viết tắt",
 			dataIndex: "shortName",
 			key: "shortName",
 		},
 		{
-			title: "Actions",
+			title: "",
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
 			render: (text, record) => (
 				<div className="flex items-center justify-between">
-					<Tooltip title="View details">
+					<Tooltip title="Xem chi tiết">
 						<Button onClick={() => handleViewDetails(record?._id)}>
 							<IoEyeSharp />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							onClick={() => handleUpdate(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsPencilFill />
 						</Button>
 					</Tooltip>
 
-					<Tooltip title="Delete">
+					<Tooltip title="Xóa">
 						<Button
 							onClick={() => handleDelete(record?._id)}
-							disabled={user?.role !== "Admin"}
+							disabled={user?.role !== "Quản trị viên"}
 						>
 							<BsTrashFill />
 						</Button>
@@ -134,19 +134,19 @@ const Location = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						onClick={() => navigate("/locations/create")}
 						className="bg-[green] text-white"
-						disabled={user?.role !== "Admin"}
+						disabled={user?.role !== "Quản trị viên"}
 					>
-						Create
+						Tạo
 					</Button>
 				</Tooltip>
 			</div>
 
 			<Search
-				placeholder="Enter the name you want to search for"
+				placeholder="Nhập từ khóa cần tìm"
 				allowClear
 				onSearch={onSearch}
 				enterButton
@@ -167,13 +167,13 @@ const Location = () => {
 			/>
 
 			<Modals
-				title="Delete location"
+				title="Xóa vị trí"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this location?
+				Bạn có muốn xóa vị trí này?
 			</Modals>
 		</>
 	);

@@ -44,7 +44,7 @@ const PromotionCreate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -215,7 +215,7 @@ const PromotionCreate = () => {
 				service: "",
 				name: "",
 				description: "",
-				type: "Percentage",
+				type: "Tỷ lệ phần trăm",
 				startDate: "",
 				endDate: "",
 				value: "",
@@ -224,12 +224,12 @@ const PromotionCreate = () => {
 			}}
 		>
 			<Form.Item
-				label="Service"
+				label="Dịch vụ"
 				name="service"
 				rules={[
 					{
 						required: true,
-						message: "Service can't be blank",
+						message: "Dịch vụ không được để trống",
 					},
 				]}
 			>
@@ -237,103 +237,114 @@ const PromotionCreate = () => {
 			</Form.Item>
 
 			<Form.Item
-				label="Name"
+				label="Tên"
 				name="name"
 				rules={[
 					{
 						required: true,
-						message: "Name can't be blank",
+						message: "Tên không được để trống",
 					},
 				]}
 			>
-				<Input placeholder="Name" />
+				<Input placeholder="Tên" />
 			</Form.Item>
 
 			<Form.Item
-				label="Description"
+				label="Mô tả"
 				name="description"
 				rules={[
 					{
 						required: true,
-						message: "Description can't be blank",
+						message: "Mô tả không được để trống",
 					},
 				]}
 			>
-				<TextArea placeholder="Description" />
+				<TextArea placeholder="Mô tả" rows={8} />
 			</Form.Item>
 
-			<Form.Item label="Type" name="type">
+			<Form.Item label="Loại khuyến mãi" name="type">
 				<Select options={SELECT_TYPES} />
 			</Form.Item>
 
 			<Form.Item
-				label="Start date"
+				label="Ngày bắt đầu"
 				name="startDate"
 				rules={[
 					{
 						required: true,
-						message: "Start date can't be blank",
+						message: "Ngày bắt đầu không được để trống",
 					},
 				]}
 			>
-				<DatePicker showTime format={formatDateTime} />
+				<DatePicker
+					showTime
+					format={formatDateTime}
+					placeholder="Ngày bắt đầu"
+				/>
 			</Form.Item>
 
 			<Form.Item
-				label="End date"
+				label="Ngày kết thúc"
 				name="endDate"
 				rules={[
 					{
 						required: true,
-						message: "End date can't be blank",
+						message: "Ngày kết thúc không được để trống",
 					},
 				]}
 			>
-				<DatePicker showTime format={formatDateTime} />
+				<DatePicker
+					showTime
+					format={formatDateTime}
+					placeholder="Ngày kết thúc"
+				/>
 			</Form.Item>
 
 			<Form.Item
-				label="Value"
+				label="Giá trị"
 				name="value"
 				rules={[
 					{
 						required: true,
-						message: "Value can't be blank",
+						message: "Giá trị không được để trống",
 					},
 					{
 						type: "number",
 						min: 1,
-						message: "Value must be greater than or equal to 1",
+						message: "Giá trị phải lớn hơn hoặc bằng 1",
 					},
 				]}
 			>
-				<InputNumber placeholder="Value" />
+				<InputNumber style={{ width: "100%" }} placeholder="Giá trị" />
 			</Form.Item>
 
 			<Form.Item
-				label="Max uses"
+				label="Số lần sử dụng tối đa"
 				name="maxUses"
 				rules={[
 					{
 						required: true,
-						message: "Max uses can't be blank",
+						message: "Số lần sử dụng tối đa không được để trống",
 					},
 					{
 						type: "number",
 						min: 1,
-						message: "Max uses must be greater than or equal to 1",
+						message: "Số lần sử dụng tối đa phải lớn hơn hoặc bằng 1",
 					},
 				]}
 			>
-				<InputNumber placeholder="Max uses" />
+				<InputNumber
+					style={{ width: "100%" }}
+					placeholder="Số lần sử dụng tối đa"
+				/>
 			</Form.Item>
 
 			<Form.Item name="isActive" valuePropName="checked">
-				<Checkbox>Active</Checkbox>
+				<Checkbox>Kích hoạt</Checkbox>
 			</Form.Item>
 
 			<Form.Item>
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						type="primary"
 						htmlType="submit"
@@ -343,7 +354,7 @@ const PromotionCreate = () => {
 						{isLoading && (
 							<AiOutlineLoading3Quarters className="animate-spin" />
 						)}
-						<span>Create</span>
+						<span>Tạo</span>
 					</Button>
 				</Tooltip>
 			</Form.Item>

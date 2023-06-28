@@ -40,7 +40,7 @@ const promotionSchema = new Schema(
 		type: {
 			type: String,
 			enum: Object.values(PROMOTION_TYPE),
-			default: PROMOTION_TYPE.Percentage,
+			default: PROMOTION_TYPE["Tỷ lệ phần trăm"],
 		},
 		value: {
 			type: Number,

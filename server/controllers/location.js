@@ -6,10 +6,10 @@ export const getALl = async (req, res, next) => {
 	try {
 		// Get all locations
 		const locations = await Location.find().select("-__v");
-		if (!locations) return sendError(res, "Location not found", 404);
+		if (!locations) return sendError(res, "Không tìm thấy vị trí", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving locations successfully", locations);
+		return sendSuccess(res, "Truy xuất vị trí thành công", locations);
 	} catch (error) {
 		next(error);
 	}
@@ -22,10 +22,10 @@ export const getById = async (req, res, next) => {
 	try {
 		// Get location by id
 		const location = await Location.findById(id).select("-__v");
-		if (!location) return sendError(res, "Location not found", 404);
+		if (!location) return sendError(res, "Không tìm thấy vị trí", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving location successfully", location);
+		return sendSuccess(res, "Truy xuất vị trí thành công", location);
 	} catch (error) {
 		next(error);
 	}
@@ -37,9 +37,9 @@ export const create = async (req, res, next) => {
 
 	// Validate
 	if (!fullName)
-		return sendError(res, "Full name can't be blank", 400, "fullName");
+		return sendError(res, "Tên đầy đủ không được để trống", 400, "fullName");
 	if (!shortName)
-		return sendError(res, "Short name can't be blank", 400, "shortName");
+		return sendError(res, "Tên viết tắt không được để trống", 400, "shortName");
 
 	try {
 		// Check full name exists or not in database
@@ -47,7 +47,7 @@ export const create = async (req, res, next) => {
 		if (isFullNameExists)
 			return sendError(
 				res,
-				`Location with this full name (${isFullNameExists.fullName}) already exists`,
+				`Vị trí với tên đầy đủ này (${isFullNameExists.fullName}) đã tồn tại`,
 				409,
 				"fullName"
 			);
@@ -57,7 +57,7 @@ export const create = async (req, res, next) => {
 		if (isShortNameExists)
 			return sendError(
 				res,
-				`Location with this short name (${isShortNameExists.shortName}) already exists`,
+				`Vị trí với tên viết tắt này (${isShortNameExists.shortName}) đã tồn tại`,
 				409,
 				"shortName"
 			);
@@ -66,7 +66,7 @@ export const create = async (req, res, next) => {
 		await newLocation.save();
 
 		// Send success notification
-		return sendSuccess(res, "Location created successfully", null, 201);
+		return sendSuccess(res, "Tạo vị trí thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -80,14 +80,14 @@ export const updateById = async (req, res, next) => {
 
 	// Validate
 	if (!fullName)
-		return sendError(res, "Full name can't be blank", 400, "fullName");
+		return sendError(res, "Tên đầy đủ không được để trống", 400, "fullName");
 	if (!shortName)
-		return sendError(res, "Short name can't be blank", 400, "shortName");
+		return sendError(res, "Tên viết tắt không được để trống", 400, "shortName");
 
 	try {
 		// Get location by id
 		const location = await Location.findById(id);
-		if (!location) return sendError(res, "Location not found", 404);
+		if (!location) return sendError(res, "Không tìm thấy vị trí", 404);
 
 		// Check full name exists or not in database
 		const isFullNameExists = await Location.findOne({
@@ -96,7 +96,7 @@ export const updateById = async (req, res, next) => {
 		if (isFullNameExists)
 			return sendError(
 				res,
-				`Location with this full name (${isFullNameExists.fullName}) already exists`,
+				`Vị trí với tên đầy đủ này (${isFullNameExists.fullName}) đã tồn tại`,
 				409,
 				"fullName"
 			);
@@ -108,7 +108,7 @@ export const updateById = async (req, res, next) => {
 		if (isShortNameExists)
 			return sendError(
 				res,
-				`Location with this short name (${isShortNameExists.shortName}) already exists`,
+				`Vị trí với tên viết tắt này (${isShortNameExists.shortName}) đã tồn tại`,
 				409,
 				"shortName"
 			);
@@ -116,7 +116,7 @@ export const updateById = async (req, res, next) => {
 		await Location.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
 		// Send success notification
-		return sendSuccess(res, "Location created successfully", null, 201);
+		return sendSuccess(res, "Vị trí được tạo thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -126,13 +126,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all locations
 		const locations = await Location.find();
-		if (!locations) return sendError(res, "Location not found", 404);
+		if (!locations) return sendError(res, "Không tìm thấy vị trí", 404);
 
 		// Delete all locations
 		await Location.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all locations successfully");
+		return sendSuccess(res, "Xóa tất cả các vị trí thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -145,10 +145,10 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get location by id
 		const location = await Location.findByIdAndDelete(id);
-		if (!location) return sendError(res, "Location not found", 404);
+		if (!location) return sendError(res, "Không tìm thấy vị trí", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete location successfully");
+		return sendSuccess(res, "Xóa vị trí thành công");
 	} catch (error) {
 		next(error);
 	}

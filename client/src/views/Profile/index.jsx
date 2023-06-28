@@ -94,13 +94,13 @@ const Profile = () => {
 
 	const appointmentColumns = [
 		{
-			title: "Service",
+			title: "Dịch vụ",
 			dataIndex: "service",
 			key: "service",
 			render: (text, record) => <span>{text?.name}</span>,
 		},
 		{
-			title: "Staff",
+			title: "Nhân viên",
 			dataIndex: "staff",
 			key: "staff",
 			render: (text, record) => (
@@ -108,24 +108,27 @@ const Profile = () => {
 			),
 		},
 		{
-			title: "Start date",
+			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
 		},
 		{
-			title: "End date",
+			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
 		},
 		{
-			title: "Status",
+			title: "Trạng thái",
 			dataIndex: "status",
 			key: "status",
 		},
 		{
-			title: "Duration (h)",
+			title: "Khoảng thời gian (giờ)",
 			dataIndex: "duration",
 			key: "duration",
+			render: (text) => (
+				<span className="flex justify-center">{text} (giờ)</span>
+			),
 		},
 	];
 
@@ -147,7 +150,7 @@ const Profile = () => {
 					updatedAt: moment(user?.updatedAt).format(formatDateTime),
 				}}
 			>
-				<Form.Item label="Avatar">
+				<Form.Item label="Hình ảnh đại diện">
 					<Image
 						src={user?.avatar}
 						alt={`${user?.firstName} ${user?.lastName}`}
@@ -174,70 +177,73 @@ const Profile = () => {
 				)}
 
 				<Form.Item
-					label="First name"
+					label="Họ"
 					name="firstName"
 					rules={[
 						{
 							required: true,
-							message: "First name can't be blank",
+							message: "Họ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="First name" />
+					<Input placeholder="Họ" />
 				</Form.Item>
 
 				<Form.Item
-					label="Last name"
+					label="Tên"
 					name="lastName"
 					rules={[
 						{
 							required: true,
-							message: "Last name can't be blank",
+							message: "Tên không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Last name" />
+					<Input placeholder="Tên" />
 				</Form.Item>
 
 				<Form.Item
-					label="Address"
+					label="Địa chỉ"
 					name="address"
 					rules={[
 						{
 							required: true,
-							message: "Address can't be blank",
+							message: "Địa chỉ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Address" />
+					<Input placeholder="Địa chỉ" />
 				</Form.Item>
 
-				<Form.Item label="Bio" name="bio">
-					<TextArea />
+				<Form.Item label="Giới thiệu" name="bio">
+					<TextArea
+						rows={8}
+						placeholder={user?.bio ? user?.bio : "Chưa cập nhật"}
+					/>
 				</Form.Item>
 
-				<Form.Item label="Role" name="role">
+				<Form.Item label="Vai trò" name="role">
 					<Input disabled />
 				</Form.Item>
 
-				<Form.Item label="Logged in at" name="loggedInAt">
+				<Form.Item label="Đăng nhập vào lúc" name="loggedInAt">
 					<Input disabled />
 				</Form.Item>
 
-				<Form.Item label="Logged in ip" name="loggedInIP">
+				<Form.Item label="Đã đăng nhập tại ip" name="loggedInIP">
 					<Input disabled />
 				</Form.Item>
 
-				<Form.Item label="Created at" name="createdAt">
+				<Form.Item label="Tạo vào lúc" name="createdAt">
 					<Input disabled />
 				</Form.Item>
 
-				<Form.Item label="Updated at" name="updatedAt">
+				<Form.Item label="Cập nhật vào lúc" name="updatedAt">
 					<Input disabled />
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -247,7 +253,7 @@ const Profile = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>
@@ -255,7 +261,7 @@ const Profile = () => {
 
 			<div>
 				<h2 className="mt-8 font-bold uppercase text-[20px]">
-					Booked appointments
+					Các cuộc hẹn đã đặt
 				</h2>
 
 				<Table

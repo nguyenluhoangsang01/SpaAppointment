@@ -34,7 +34,7 @@ const SignIn = () => {
 		});
 		const phoneValidate = validate.single(values.emailOrPhone, {
 			presence: { allowEmpty: false },
-			format: { pattern: phoneRegex, message: "must be a valid phone number" },
+			format: { pattern: phoneRegex, message: "phải là số điện thoại hợp lệ" },
 		});
 		if (!emailValidate || !phoneValidate) {
 			if (!emailValidate) {
@@ -103,41 +103,41 @@ const SignIn = () => {
 				initialValues={{ email: "", phone: "", password: "" }}
 			>
 				<Form.Item
-					label="Email / phone"
+					label="Email / số điện thoại"
 					name="emailOrPhone"
 					rules={[
 						{
 							required: true,
-							message: "Email / phone can't be blank",
+							message: "Email / số điện thoại không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Email or phone" />
+					<Input placeholder="Email / số điện thoại" />
 				</Form.Item>
 
 				<Form.Item
-					label="Password"
+					label="Mật khẩu"
 					name="password"
 					rules={[
 						{
 							required: true,
-							message: "Password can't be blank",
+							message: "Mật khẩu không được để trống",
 						},
 					]}
 				>
-					<Input.Password placeholder="Password" />
+					<Input.Password placeholder="Mật khẩu" />
 				</Form.Item>
 
 				<Form.Item className="cursor-pointer">
 					<Link to="/forgot-password">
 						<i>
-							<u>Forgotten your password?</u>
+							<u>Quên mật khẩu của bạn?</u>
 						</i>
 					</Link>
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Sign in">
+					<Tooltip title="Đăng nhập">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -147,7 +147,7 @@ const SignIn = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Sign in</span>
+							<span>Đăng nhập</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

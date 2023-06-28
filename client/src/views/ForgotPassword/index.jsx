@@ -1,10 +1,10 @@
 import { Button, Form, Image, Input, Tooltip } from "antd";
 import axios from "axios";
 import React, { useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { layout } from "../../utils/constants";
-import { toast } from "react-hot-toast";
 
 const ForgotPassword = () => {
 	// State
@@ -63,35 +63,35 @@ const ForgotPassword = () => {
 				initialValues={{ email: "" }}
 			>
 				<Form.Item
-					label="Enter your email to get password reset link."
+					label="Email"
 					name="email"
 					rules={[
 						{
 							required: true,
-							message: "Email can't be blank",
+							message: "Email không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Email address" />
+					<Input placeholder="Email" />
 				</Form.Item>
+
+				<br />
 
 				<Form.Item>
 					<p>
-						Already have an account?{" "}
+						Bạn đã có tài khoản?{" "}
 						<Link to="/sign-in" className="cursor-pointer text-green-700">
-							<u>Login here</u>
-						</Link>
-					</p>
-					<p>
-						New user?{" "}
+							<u>Đăng nhập</u>
+						</Link>{" "}
+						- Người dùng mới?{" "}
 						<Link to="/sign-up" className="cursor-pointer text-green-700">
-							<u>Create an account</u>
+							<u>Tạo tài khoản</u>
 						</Link>
 					</p>
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Send link">
+					<Tooltip title="Gửi mật khẩu mới">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -101,7 +101,7 @@ const ForgotPassword = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Send link</span>
+							<span>Gửi mật khẩu mới</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

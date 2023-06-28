@@ -107,7 +107,7 @@ const Navbar = () => {
 				{navbarRoutes
 					.filter((route) => user && route)
 					.filter((route) =>
-						user?.role !== "Admin" ? route.name !== "Users" : route
+						user?.role !== "Quản trị viên" ? route.name !== "Người dùng" : route
 					)
 					.map((route) => (
 						<NavLink
@@ -162,9 +162,9 @@ const Navbar = () => {
 						>
 							{accountRoutes
 								.filter((route) =>
-									user?.role === "Staff" || user?.role === "Admin"
+									user?.role === "Nhân viên" || user?.role === "Quản trị viên"
 										? route
-										: route.name !== "Schedule" && route.name !== "Notification"
+										: route.name !== "Lịch trình" && route.name !== "Thông báo"
 								)
 								.map((route) =>
 									route.path !== "" ? (

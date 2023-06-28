@@ -31,11 +31,11 @@ export const validateReview = async (req, res, next) => {
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Get appointment by id
 		const appointment = await Appointment.findById(appointmentId);
-		if (!appointment) return sendError(res, "Appointment not found", 404);
+		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Find errors
 		const errors = validate(attributes, constraints);
@@ -77,11 +77,11 @@ export const validateReviewById = async (req, res, next) => {
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
 		// Get appointment id
 		const appointment = await Appointment.findById(appointmentId);
-		if (!appointment) return sendError(res, "Appointment not found", 404);
+		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
 		// Get review by id
 		const review = await Review.findById(id);

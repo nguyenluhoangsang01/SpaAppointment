@@ -35,40 +35,46 @@ export const register = async (req, res, next) => {
 	} = req.body;
 
 	if (!firstName)
-		return sendError(res, "First name can't be blank", 400, "firstName");
+		return sendError(res, "Họ không được để trống", 400, "firstName");
 	if (!lastName)
-		return sendError(res, "Last name can't be blank", 400, "lastName");
-	if (!email) return sendError(res, "Email can't be blank", 400, "email");
+		return sendError(res, "Tên không được để trống", 400, "lastName");
+	if (!email) return sendError(res, "Email không được để trống", 400, "email");
 	if (validate({ email }, emailConstraint))
-		return sendError(res, "Email isn't a valid email", 400, "email");
+		return sendError(res, "Email không phải là một email hợp lệ", 400, "email");
 	if (!phone)
-		return sendError(res, "Phone number can't be blank", 400, "phone");
+		return sendError(res, "Số điện thoại không được để trống", 400, "phone");
 	if (validate({ phone }, phoneConstraint))
-		return sendError(res, "Phone must be a valid phone number", 400, "phone");
+		return sendError(
+			res,
+			"Điện thoại phải là số điện thoại hợp lệ",
+			400,
+			"phone"
+		);
 	if (!password)
-		return sendError(res, "Password can't be blank", 400, "password");
+		return sendError(res, "Mật khẩu không được để trống", 400, "password");
 	if (validate({ password }, passwordConstraint))
 		return sendError(
 			res,
-			"Password should be at least 8 characters long and must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+			"Mật khẩu phải dài ít nhất 8 ký tự và phải chứa ít nhất một chữ thường, một chữ in hoa, một số và một ký tự đặc biệt",
 			400,
 			"password"
 		);
 	if (!confirmPassword)
 		return sendError(
 			res,
-			"Confirm password can't be blank",
+			"Xác nhận mật khẩu không được để trống",
 			400,
 			"confirmPassword"
 		);
 	if (confirmPassword !== password)
 		return sendError(
 			res,
-			"Confirm password isn't equal to password",
+			"Xác nhận mật khẩu không bằng mật khẩu",
 			400,
 			"confirmPassword"
 		);
-	if (!address) return sendError(res, "Address can't be blank", 400, "address");
+	if (!address)
+		return sendError(res, "Địa chỉ không được để trống", 400, "address");
 
 	try {
 		// Check email exists or not in database
@@ -76,7 +82,7 @@ export const register = async (req, res, next) => {
 		if (isEmailExists)
 			return sendError(
 				res,
-				`User with this email (${isEmailExists.email}) already exists`,
+				`Email (${isEmailExists.email}) đã tồn tại`,
 				409,
 				"email"
 			);
@@ -85,7 +91,7 @@ export const register = async (req, res, next) => {
 		if (isPhoneExists)
 			return sendError(
 				res,
-				`User with this phone number (${isPhoneExists.phone}) already exists`,
+				`Số điện thoại (${isPhoneExists.phone}) đã tồn tại`,
 				409,
 				"phone"
 			);
@@ -115,7 +121,7 @@ export const register = async (req, res, next) => {
 		await newUser.save();
 
 		// Send success notification
-		return sendSuccess(res, "User created successfully", null, 201);
+		return sendSuccess(res, "Đăng ký tài khoản thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -129,12 +135,12 @@ export const login = async (req, res, next) => {
 	if (!email && !phone)
 		return sendError(
 			res,
-			"Email or phone number can't be blank",
+			"Email hoặc số điện thoại không được để trống",
 			400,
 			"emailOrPhone"
 		);
 	if (!password)
-		return sendError(res, "Password can't be blank", 400, "password");
+		return sendError(res, "Mật khẩu không được để trống", 400, "password");
 
 	try {
 		// Check email or phone does not exists in database
@@ -144,7 +150,7 @@ export const login = async (req, res, next) => {
 		if (!isEmailOrPhoneExists)
 			return sendError(
 				res,
-				"User does not exist with the provided email or phone number",
+				"Người dùng không tồn tại với email hoặc số điện thoại được cung cấp",
 				400,
 				"emailOrPhone"
 			);
@@ -156,12 +162,7 @@ export const login = async (req, res, next) => {
 		);
 		// Check if the password entered by the user does not match the password in the database
 		if (!isMatchPassword)
-			return sendError(
-				res,
-				"Password you entered is incorrect",
-				400,
-				"password"
-			);
+			return sendError(res, "Mật khẩu bạn đã nhập không đúng", 400, "password");
 
 		// Get token secret from .env file
 		const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -205,7 +206,7 @@ export const login = async (req, res, next) => {
 		);
 
 		// Send success notification
-		return sendSuccess(res, "User logged successfully", {
+		return sendSuccess(res, "Đăng nhập thành công", {
 			accessToken,
 			refreshToken,
 			user: userUpdated,
@@ -224,7 +225,7 @@ export const logout = async (req, res, next) => {
 		res.setHeader("authorization", "");
 
 		// Send success notification
-		return sendSuccess(res, "Logged out successfully");
+		return sendSuccess(res, "Đăng xuất thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -237,15 +238,15 @@ export const forgotPassword = async (req, res, next) => {
 	const newPassword = generateRandomCode();
 
 	// Validate
-	if (!email) return sendError(res, "Email can't be blank", 400, "email");
+	if (!email) return sendError(res, "Email không được để trống", 400, "email");
 	if (validate({ email }, emailConstraint))
-		return sendError(res, "Email isn't a valid email", 400, "email");
+		return sendError(res, "Email không phải là một email hợp lệ", 400, "email");
 
 	try {
 		// Check email exists or not in database
 		const isEmailExists = await User.findOne({ email });
 		if (!isEmailExists)
-			return sendError(res, `Email doesn't exist`, 404, "email");
+			return sendError(res, `Email không tồn tại`, 404, "email");
 
 		// Hash password
 		const hashedNewPassword = await hashPassword(newPassword);
@@ -430,7 +431,7 @@ export const forgotPassword = async (req, res, next) => {
 		// Send success notification
 		return sendSuccess(
 			res,
-			"Recovery email sent. Please check your email inbox."
+			"Đã gửi mật khẩu tới email. Vui lòng kiểm tra hộp thư đến email của bạn."
 		);
 	} catch (error) {
 		next(error);

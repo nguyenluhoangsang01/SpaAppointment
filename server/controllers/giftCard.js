@@ -26,10 +26,10 @@ export const getAll = async (req, res, next) => {
 				],
 			})
 			.select("-__v");
-		if (!giftCards) return sendError(res, "Gift card not found", 404);
+		if (!giftCards) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving gift cards successfully", giftCards);
+		return sendSuccess(res, "Truy xuất thẻ quà tặng thành công", giftCards);
 	} catch (error) {
 		next(error);
 	}
@@ -53,10 +53,10 @@ export const getById = async (req, res, next) => {
 				],
 			})
 			.select("-__v");
-		if (!giftCard) return sendError(res, "Gift card not found", 404);
+		if (!giftCard) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving gift card successfully", giftCard);
+		return sendSuccess(res, "Truy xuất thẻ quà tặng thành công", giftCard);
 	} catch (error) {
 		next(error);
 	}
@@ -69,35 +69,36 @@ export const create = async (req, res, next) => {
 	validateDatetime();
 
 	if (!promotionId)
-		return sendError(res, "Promotion can't be blank", 400, "promotionId");
+		return sendError(res, "Khuyến mãi không được để trống", 400, "promotionId");
 	if (!expirationDate)
 		return sendError(
 			res,
-			"Expiration date can't be blank",
+			"Ngày hết hạn không được để trống",
 			400,
 			"expirationDate"
 		);
 	if (validate({ expirationDate }, expirationDateConstraint))
 		return sendError(
 			res,
-			"Expiration must be a valid date",
+			"Ngày hết hạn phải là một ngày hợp lệ",
 			400,
 			"expirationDate"
 		);
 	if (!value && value !== 0)
-		return sendError(res, "Value can't be blank", 400, "value");
+		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))
 		return sendError(
 			res,
-			"Value must be numeric and greater than or equal to 1",
+			"Giá trị phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"value"
 		);
-	if (!status) return sendError(res, "Status can't be blank", 400, "status");
+	if (!status)
+		return sendError(res, "Trạng thái không được để trống", 400, "status");
 	if (validate({ status }, statusConstraint))
 		return sendError(
 			res,
-			`${status} is not included in the list`,
+			`${status} không được bao gồm trong danh sách`,
 			400,
 			"status"
 		);
@@ -109,8 +110,8 @@ export const create = async (req, res, next) => {
 			return sendError(
 				res,
 				`${
-					promotion ? promotion.name : "Promotion id"
-				} isn't included in the list`,
+					promotion ? promotion.name : "Mã khuyến mãi"
+				} không được bao gồm trong danh sách`,
 				404,
 				"promotionId"
 			);
@@ -123,7 +124,7 @@ export const create = async (req, res, next) => {
 		await newGiftCard.save();
 
 		// Send success notification
-		return sendSuccess(res, "Gift card created successfully", null, 201);
+		return sendSuccess(res, "Tạo thẻ quà tặng thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -138,35 +139,36 @@ export const updateById = async (req, res, next) => {
 	validateDatetime();
 
 	if (!promotionId)
-		return sendError(res, "Promotion can't be blank", 400, "promotionId");
+		return sendError(res, "Khuyến mãi không được để trống", 400, "promotionId");
 	if (!expirationDate)
 		return sendError(
 			res,
-			"Expiration date can't be blank",
+			"Ngày hết hạn không được để trống",
 			400,
 			"expirationDate"
 		);
 	if (validate({ expirationDate }, expirationDateConstraint))
 		return sendError(
 			res,
-			"Expiration must be a valid date",
+			"Ngày hết hạn phải là một ngày hợp lệ",
 			400,
 			"expirationDate"
 		);
 	if (!value && value !== 0)
-		return sendError(res, "Value can't be blank", 400, "value");
+		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))
 		return sendError(
 			res,
-			"Value must be numeric and greater than or equal to 1",
+			"Giá trị phải là số và lớn hơn hoặc bằng 1",
 			400,
 			"value"
 		);
-	if (!status) return sendError(res, "Status can't be blank", 400, "status");
+	if (!status)
+		return sendError(res, "Trạng thái không được để trống", 400, "status");
 	if (validate({ status }, statusConstraint))
 		return sendError(
 			res,
-			`${status} is not included in the list`,
+			`${status} không được bao gồm trong danh sách`,
 			400,
 			"status"
 		);
@@ -174,7 +176,7 @@ export const updateById = async (req, res, next) => {
 	try {
 		// Get gift card by id
 		const giftCard = await GiftCard.findById(id);
-		if (!giftCard) return sendError(res, "Gift card not found", 404);
+		if (!giftCard) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
 
 		// Get promotion by id
 		const promotion = await Promotion.findById(promotionId);
@@ -182,8 +184,8 @@ export const updateById = async (req, res, next) => {
 			return sendError(
 				res,
 				`${
-					promotion ? promotion.name : "Promotion"
-				} isn't included in the list`,
+					promotion ? promotion.name : "Mã khuyến mãi"
+				} không được bao gồm trong danh sách`,
 				404,
 				"promotionId"
 			);
@@ -195,7 +197,7 @@ export const updateById = async (req, res, next) => {
 		);
 
 		// Send success notification
-		return sendSuccess(res, "Edited gift card successfully");
+		return sendSuccess(res, "Chỉnh sửa thẻ quà tặng thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -205,13 +207,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all gift cards
 		const giftCards = await GiftCard.find();
-		if (!giftCards) return sendError(res, "Gift card not found", 404);
+		if (!giftCards) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
 
 		// Delete all gift cards
 		await GiftCard.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all gift cards successfully");
+		return sendSuccess(res, "Xóa tất cả thẻ quà tặng thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -224,10 +226,10 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get gift card by id
 		const giftCard = await GiftCard.findByIdAndDelete(id);
-		if (!giftCard) return sendError(res, "Gift card not found", 404);
+		if (!giftCard) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete gift card successfully");
+		return sendSuccess(res, "Xóa thẻ quà tặng thành công");
 	} catch (error) {
 		next(error);
 	}

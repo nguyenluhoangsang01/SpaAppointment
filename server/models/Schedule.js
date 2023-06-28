@@ -11,7 +11,7 @@ const scheduleSchema = new Schema(
 		type: {
 			type: String,
 			enum: Object.values(SCHEDULE_TYPE),
-			default: SCHEDULE_TYPE.OnVacation,
+			default: SCHEDULE_TYPE["Đang nghỉ việc"],
 		},
 		startDate: {
 			type: String,

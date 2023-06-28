@@ -31,7 +31,7 @@ const ServiceCreate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	const onFinish = async (values) => {
@@ -109,68 +109,71 @@ const ServiceCreate = () => {
 			}}
 		>
 			<Form.Item
-				label="Name"
+				label="Tên"
 				name="name"
 				rules={[
 					{
 						required: true,
-						message: "Name can't be blank",
+						message: "Tên không được để trống",
 					},
 				]}
 			>
-				<Input placeholder="Name" />
+				<Input placeholder="Tên" />
 			</Form.Item>
 
 			<Form.Item
-				label="Price"
+				label="Giá"
 				name="price"
 				rules={[
 					{
 						required: true,
-						message: "Price can't be blank",
+						message: "Giá không được để trống",
 					},
 					{
 						type: "number",
 						min: 0,
-						message: "Price must be greater than or equal to 0",
+						message: "Giá phải lớn hơn hoặc bằng 0",
 					},
 				]}
 			>
-				<InputNumber placeholder="Price" />
+				<InputNumber style={{ width: "100%" }} placeholder="Giá" />
 			</Form.Item>
 
 			<Form.Item
-				label="Duration (h)"
+				label="Khoảng thời gian (giờ)"
 				name="duration"
 				rules={[
 					{
 						required: true,
-						message: "Duration can't be blank",
+						message: "Khoảng thời gian không được để trống",
 					},
 					{
 						type: "number",
 						min: 0,
-						message: "Duration must be greater than or equal to 0",
+						message: "Khoảng thời gian phải lớn hơn hoặc bằng 0",
 					},
 				]}
 			>
-				<InputNumber placeholder="Duration" />
+				<InputNumber
+					style={{ width: "100%" }}
+					placeholder="Khoảng thời gian (giờ)"
+				/>
 			</Form.Item>
 
 			<Form.Item
-				label="Description"
+				label="Mô tả"
 				name="description"
 				rules={[
 					{
 						required: true,
-						message: "Description can't be blank",
+						message: "Mô tả không được để trống",
 					},
 				]}
 			>
-				<TextArea placeholder="Description" />
+				<TextArea placeholder="Mô tả" rows={8} />
 			</Form.Item>
 
-			<Form.Item label="Image">
+			<Form.Item label="Hình ảnh">
 				<Dropzone setAvatar={setService} />
 			</Form.Item>
 			{service && (
@@ -186,7 +189,7 @@ const ServiceCreate = () => {
 			)}
 
 			<Form.Item>
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						type="primary"
 						htmlType="submit"
@@ -196,7 +199,7 @@ const ServiceCreate = () => {
 						{isLoading && (
 							<AiOutlineLoading3Quarters className="animate-spin" />
 						)}
-						<span>Create</span>
+						<span>Tạo</span>
 					</Button>
 				</Tooltip>
 			</Form.Item>

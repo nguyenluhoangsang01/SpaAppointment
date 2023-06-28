@@ -92,58 +92,58 @@ const ChangePassword = () => {
 		>
 			<div>
 				<Form.Item
-					label="Current password"
+					label="Mật khẩu hiện tại"
 					name="currentPassword"
 					rules={[
 						{
 							required: true,
-							message: "Current password can't be blank",
+							message: "Mật khẩu hiện tại không được để trống",
 						},
 					]}
 				>
-					<Input.Password placeholder="Current password" />
+					<Input.Password placeholder="Mật khẩu hiện tại" />
 				</Form.Item>
 			</div>
 
 			<div className="pt-8">
 				<Form.Item
-					label="New password"
+					label="Mật khẩu mới"
 					name="newPassword"
 					rules={[
 						{
 							required: true,
-							message: "New password can't be blank",
+							message: "Mật khẩu mới không được để trống",
 						},
 						{
 							min: 8,
-							message: "New password is too short (minimum is 8 characters)",
+							message: "Mật khẩu mới quá ngắn (tối thiểu 8 ký tự)",
 						},
 						{
 							pattern:
 								/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
 							message:
-								"New password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+								"Mật khẩu mới phải chứa ít nhất một chữ thường, một chữ in hoa, một số và một ký tự đặc biệt",
 						},
 					]}
 				>
-					<Input.Password placeholder="New password" />
+					<Input.Password placeholder="Mật khẩu mới" />
 				</Form.Item>
 
 				<Form.Item
-					label="Confirm new password"
+					label="Xác nhận mật khẩu mới"
 					name="confirmPassword"
 					rules={[
 						{
 							required: true,
-							message: "Confirm new password can't be blank",
+							message: "Xác nhận mật khẩu mới không được để trống",
 						},
 					]}
 				>
-					<Input.Password placeholder="Confirm new password" />
+					<Input.Password placeholder="Xác nhận mật khẩu mới" />
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -153,7 +153,7 @@ const ChangePassword = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

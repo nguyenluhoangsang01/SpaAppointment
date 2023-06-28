@@ -22,7 +22,7 @@ const Notification = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Staff" && user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -71,10 +71,10 @@ const Notification = () => {
 			render: (text) => <span>{text}</span>,
 		},
 		{
-			title: "Khoảng thời gian (h)",
+			title: "Khoảng thời gian (giờ)",
 			dataIndex: "duration",
 			key: "duration",
-			render: (text) => <span>{text}</span>,
+			render: (text) => <span className="flex justify-center">{text} (giờ)</span>,
 		},
 		{
 			title: "Ghi chú",

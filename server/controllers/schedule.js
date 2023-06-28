@@ -19,10 +19,10 @@ export const getAll = async (req, res, next) => {
 				select: "-__v -password",
 			})
 			.select("-__v");
-		if (!schedule) return sendError(res, "Schedule not found", 404);
+		if (!schedule) return sendError(res, "Lịch trình không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving schedule successfully", schedule);
+		return sendSuccess(res, "Truy xuất lịch trình thành công", schedule);
 	} catch (error) {
 		next(error);
 	}
@@ -40,10 +40,10 @@ export const getById = async (req, res, next) => {
 				select: "-__v -password",
 			})
 			.select("-__v");
-		if (!schedule) return sendError(res, "Schedule not found", 404);
+		if (!schedule) return sendError(res, "Lịch trình không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving schedule successfully", schedule);
+		return sendSuccess(res, "Truy xuất lịch trình thành công", schedule);
 	} catch (error) {
 		next(error);
 	}
@@ -57,25 +57,41 @@ export const create = async (req, res, next) => {
 
 	validateDatetime();
 
-	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+	if (!type)
+		return sendError(res, "Loại làm việc không thể để trống", 400, "type");
 	if (validate({ type }, typeConstraint))
-		return sendError(res, `${type} is not included in the list`, 400, "type");
+		return sendError(
+			res,
+			`${type} không được bao gồm trong danh sách`,
+			400,
+			"type"
+		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(
+			res,
+			"Ngày bắt đầu phải là một ngày hợp lệ",
+			400,
+			"startDate"
+		);
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(
+			res,
+			"Ngày kết thúc phải là một ngày hợp lệ",
+			400,
+			"endDate"
+		);
 
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
-		if (user.role !== "Admin" && user.role !== "Staff")
-			return sendError(res, "You don't have permission to do this", 403);
+		if (user.role !== "Quản trị viên" && user.role !== "Nhân viên")
+			return sendError(res, "Bạn không có quyền làm điều này", 403);
 
 		// Create a new schedule
 		const newSchedule = new Schedule({
@@ -85,7 +101,7 @@ export const create = async (req, res, next) => {
 		await newSchedule.save();
 
 		// Sen success notification
-		return sendSuccess(res, "Schedule created successfully", null, 201);
+		return sendSuccess(res, "Tạo lịch trình làm việc thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -101,35 +117,51 @@ export const updateById = async (req, res, next) => {
 
 	validateDatetime();
 
-	if (!type) return sendError(res, "Type can't be blank", 400, "type");
+	if (!type)
+		return sendError(res, "Loại làm việc không thể để trống", 400, "type");
 	if (validate({ type }, typeConstraint))
-		return sendError(res, `${type} is not included in the list`, 400, "type");
+		return sendError(
+			res,
+			`${type} không được bao gồm trong danh sách`,
+			400,
+			"type"
+		);
 	if (!startDate)
-		return sendError(res, "Start date can't be blank", 400, "startDate");
+		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
 	if (validate({ startDate }, startDateConstraint))
-		return sendError(res, "Start date must be a valid date", 400, "startDate");
+		return sendError(
+			res,
+			"Ngày bắt đầu phải là một ngày hợp lệ",
+			400,
+			"startDate"
+		);
 	if (!endDate)
-		return sendError(res, "End date can't be blank", 400, "endDate");
+		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
 	if (validate({ endDate }, endDateConstraint))
-		return sendError(res, "End date must be a valid date", 400, "endDate");
+		return sendError(
+			res,
+			"Ngày kết thúc phải là một ngày hợp lệ",
+			400,
+			"endDate"
+		);
 
 	try {
 		// Get user by id
 		const user = await User.findById(userId);
-		if (!user) return sendError(res, "User not found", 404);
+		if (!user) return sendError(res, "Người dùng không tồn tại", 404);
 
-		if (user.role !== "Admin" && user.role !== "Staff")
-			return sendError(res, "You don't have permission to do this", 403);
+		if (user.role !== "Quản trị viên" && user.role !== "Nhân viên")
+			return sendError(res, "Bạn không có quyền làm điều này", 403);
 
 		// Get schedule by id
 		const schedule = await Schedule.findById(id);
-		if (!schedule) return sendError(res, "Schedule not found", 404);
+		if (!schedule) return sendError(res, "Lịch trình không tồn tại", 404);
 
 		// Update
 		await Schedule.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
 		// Send success notification
-		return sendSuccess(res, "Schedule created successfully", null, 201);
+		return sendSuccess(res, "Chỉnh sửa lịch trình làm việc thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -139,13 +171,13 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all schedule
 		const schedule = await Schedule.find();
-		if (!schedule) return sendError(res, "Schedule not found", 404);
+		if (!schedule) return sendError(res, "Lịch trình không tồn tại", 404);
 
 		// Delete all schedule
 		await Schedule.deleteMany();
 
 		// Send success notification
-		return sendSuccess(res, "Delete all schedule successfully");
+		return sendSuccess(res, "Xóa tất cả lịch trình thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -158,10 +190,10 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get schedule by id
 		const schedule = await Schedule.findByIdAndDelete(id);
-		if (!schedule) return sendError(res, "Schedule not found", 404);
+		if (!schedule) return sendError(res, "Lịch trình không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Delete schedule successfully");
+		return sendSuccess(res, "Xóa tất cả lịch trình thành công");
 	} catch (error) {
 		next(error);
 	}

@@ -90,20 +90,20 @@ const AppointmentViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button
 						className="bg-[yellow]"
 						onClick={handleUpdate}
 						disabled={id === user._id}
 					>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button
 						className="bg-[red] text-white"
 						onClick={() => setOpen(true)}
@@ -114,7 +114,7 @@ const AppointmentViewDetails = () => {
 							)
 						}
 					>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -122,54 +122,54 @@ const AppointmentViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Service</th>
+						<th>Dịch vụ</th>
 						<td>{data?.service?.name}</td>
 					</tr>
 					<tr>
-						<th>Location</th>
+						<th>Vị trí</th>
 						<td>{data?.location?.fullName}</td>
 					</tr>
 					<tr>
-						<th>Staff</th>
+						<th>Nhân viên</th>
 						<td>{`${data?.staff?.firstName} ${data?.staff?.lastName}`}</td>
 					</tr>
 					<tr>
-						<th>Duration</th>
-						<td>{data?.duration}</td>
+						<th>Khoảng thời gian (giờ)</th>
+						<td>{data?.duration} (giờ)</td>
 					</tr>
 					<tr>
-						<th>Status</th>
+						<th>Trạng thái</th>
 						<td>{data?.status}</td>
 					</tr>
 					<tr>
-						<th>Start date</th>
+						<th>Ngày bắt đầu</th>
 						<td>{data?.startDate}</td>
 					</tr>
 					<tr>
-						<th>End date</th>
+						<th>Ngày kết thúc</th>
 						<td>{data?.endDate}</td>
 					</tr>
 					<tr>
-						<th>Note</th>
-						<td>{data?.note ? data?.note : <span>not set</span>}</td>
+						<th>Ghi chú</th>
+						<td>{data?.note ? data?.note : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Created at</th>
+						<th>Tạo vào lúc</th>
 						<td>
 							{data?.createdAt ? (
 								moment(data?.createdAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Updated at</th>
+						<th>Cập nhật vào lúc</th>
 						<td>
 							{data?.updatedAt ? (
 								moment(data?.updatedAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
@@ -177,13 +177,13 @@ const AppointmentViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Delete appointment"
+				title="Xóa cuộc hẹn"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this appointment?
+				Bạn có muốn xóa cuộc hẹn này?
 			</Modals>
 		</>
 	);

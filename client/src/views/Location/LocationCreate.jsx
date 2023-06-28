@@ -27,7 +27,7 @@ const LocationCreate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	const onFinish = async (values) => {
@@ -82,33 +82,33 @@ const LocationCreate = () => {
 			}}
 		>
 			<Form.Item
-				label="Full name"
+				label="Tên đầy đủ"
 				name="fullName"
 				rules={[
 					{
 						required: true,
-						message: "Full name can't be blank",
+						message: "Tên đầy đủ không được để trống",
 					},
 				]}
 			>
-				<Input placeholder="Full name" />
+				<Input placeholder="Tên đầy đủ" />
 			</Form.Item>
 
 			<Form.Item
-				label="Short name"
+				label="Tên viết tắt"
 				name="shortName"
 				rules={[
 					{
 						required: true,
-						message: "Short name can't be blank",
+						message: "Tên viết tắt không được để trống",
 					},
 				]}
 			>
-				<Input placeholder="Short name" />
+				<Input placeholder="Tên viết tắt" />
 			</Form.Item>
 
 			<Form.Item>
-				<Tooltip title="Create">
+				<Tooltip title="Tạo">
 					<Button
 						type="primary"
 						htmlType="submit"
@@ -118,7 +118,7 @@ const LocationCreate = () => {
 						{isLoading && (
 							<AiOutlineLoading3Quarters className="animate-spin" />
 						)}
-						<span>Create</span>
+						<span>Tạo</span>
 					</Button>
 				</Tooltip>
 			</Form.Item>

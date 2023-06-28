@@ -34,7 +34,7 @@ const UserUpdate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -151,7 +151,7 @@ const UserUpdate = () => {
 
 	return (
 		<>
-			<h1 className="font-bold uppercase mb-8 text-2xl">Update: {title}</h1>
+			<h1 className="font-bold uppercase mb-8 text-2xl">Cập nhật: {title}</h1>
 
 			<Form
 				name="sign-up"
@@ -162,29 +162,29 @@ const UserUpdate = () => {
 				initialValues={{ ...data }}
 			>
 				<Form.Item
-					label="First name"
+					label="Họ"
 					name="firstName"
 					rules={[
 						{
 							required: true,
-							message: "First name can't be blank",
+							message: "Họ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="First name" />
+					<Input placeholder="Họ" />
 				</Form.Item>
 
 				<Form.Item
-					label="Last name"
+					label="Tên"
 					name="lastName"
 					rules={[
 						{
 							required: true,
-							message: "Last name can't be blank",
+							message: "Tên không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Last name" />
+					<Input placeholder="Tên" />
 				</Form.Item>
 
 				<Form.Item
@@ -193,11 +193,11 @@ const UserUpdate = () => {
 					rules={[
 						{
 							required: true,
-							message: "Email can't be blank",
+							message: "Email không được để trống",
 						},
 						{
 							type: "email",
-							message: "Email isn't a valid email",
+							message: "Email không phải là một email hợp lệ",
 						},
 					]}
 				>
@@ -205,24 +205,24 @@ const UserUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Phone number"
+					label="Số điện thoại"
 					name="phone"
 					rules={[
 						{
 							required: true,
-							message: "Phone number can't be blank",
+							message: "Số điện thoại không được để trống",
 						},
 						{
 							pattern:
 								/^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/,
-							message: "Phone must be a valid phone number",
+							message: "Điện thoại phải là số điện thoại hợp lệ",
 						},
 					]}
 				>
-					<Input placeholder="Phone number" />
+					<Input placeholder="Số điện thoại" />
 				</Form.Item>
 
-				{user?.role === "Admin" && (
+				{user?.role === "Quản trị viên" && (
 					<Form.Item
 						label="Roles"
 						name="role"
@@ -238,24 +238,24 @@ const UserUpdate = () => {
 				)}
 
 				<Form.Item
-					label="Address"
+					label="Địa chỉ"
 					name="address"
 					rules={[
 						{
 							required: true,
-							message: "Address can't be blank",
+							message: "Địa chỉ không được để trống",
 						},
 					]}
 				>
-					<Input placeholder="Address" />
+					<Input placeholder="Địa chỉ" />
 				</Form.Item>
 
-				<Form.Item label="Bio" name="bio">
-					<TextArea />
+				<Form.Item label="Giới thiệu" name="bio">
+					<TextArea rows={8} />
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Update">
+					<Tooltip title="Cập nhật">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -265,7 +265,7 @@ const UserUpdate = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Update</span>
+							<span>Cập nhật</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

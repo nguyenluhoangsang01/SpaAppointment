@@ -87,18 +87,18 @@ const LocationViewDetails = () => {
 	return (
 		<>
 			<h1 className="font-bold uppercase mb-8 text-2xl">
-				View details: {title}
+				Xem chi tiết: {title}
 			</h1>
 
 			<div className="flex items-center gap-4 mb-6">
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button className="bg-[yellow]" onClick={handleUpdate}>
-						Update
+						Cập nhật
 					</Button>
 				</Tooltip>
-				<Tooltip title="Delete">
+				<Tooltip title="Xóa">
 					<Button className="bg-[red] text-white" onClick={() => setOpen(true)}>
-						Delete
+						Xóa
 					</Button>
 				</Tooltip>
 			</div>
@@ -106,30 +106,30 @@ const LocationViewDetails = () => {
 			<table className="view-details">
 				<tbody>
 					<tr>
-						<th>Full name</th>
-						<td>{data?.fullName ? data?.fullName : <span>not set</span>}</td>
+						<th>Tên đầy đủ</th>
+						<td>{data?.fullName ? data?.fullName : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Short name</th>
-						<td>{data?.shortName ? data?.shortName : <span>not set</span>}</td>
+						<th>Tên viết tắt</th>
+						<td>{data?.shortName ? data?.shortName : <span>Chưa cập nhật</span>}</td>
 					</tr>
 					<tr>
-						<th>Created at</th>
+						<th>Tạo vào lúc</th>
 						<td>
 							{data?.createdAt ? (
 								moment(data?.createdAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
 					<tr>
-						<th>Updated at</th>
+						<th>Cập nhật vào lúc</th>
 						<td>
 							{data?.updatedAt ? (
 								moment(data?.updatedAt).format(formatDateTime)
 							) : (
-								<span>not set</span>
+								<span>Chưa cập nhật</span>
 							)}
 						</td>
 					</tr>
@@ -137,13 +137,13 @@ const LocationViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Delete location"
+				title="Xóa vị trí"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Do you want to delete this location?
+				Bạn có muốn xóa vị trí này?
 			</Modals>
 		</>
 	);

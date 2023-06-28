@@ -37,7 +37,7 @@ const GiftCardUpdate = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Admin") navigate("/");
+		if (user?.role !== "Quản trị viên") navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -148,12 +148,12 @@ const GiftCardUpdate = () => {
 			}}
 		>
 			<Form.Item
-				label="Promotion"
+				label="Tên khuyến mãi"
 				name="promotionId"
 				rules={[
 					{
 						required: true,
-						message: "Promotion can't be blank",
+						message: "Khuyến mãi không được để trống",
 					},
 				]}
 			>
@@ -161,7 +161,7 @@ const GiftCardUpdate = () => {
 			</Form.Item>
 
 			<Form.Item
-				label="Expiration date"
+				label="Ngày hết hạn"
 				name="expirationDate"
 				rules={[
 					{
@@ -170,34 +170,38 @@ const GiftCardUpdate = () => {
 					},
 				]}
 			>
-				<DatePicker showTime format={formatDateTime} />
+				<DatePicker
+					showTime
+					format={formatDateTime}
+					placeholder="Ngày hết hạn"
+				/>
 			</Form.Item>
 
 			<Form.Item
-				label="Value"
+				label="Giá trị (VND)"
 				name="value"
 				rules={[
 					{
 						required: true,
-						message: "Value can't be blank",
+						message: "Giá trị không được để trống",
 					},
 					{
 						type: "number",
 						min: 1,
-						message: "Value must be greater than or equal to 1",
+						message: "Giá trị phải lớn hơn hoặc bằng 1",
 					},
 				]}
 			>
-				<InputNumber placeholder="Value" />
+				<InputNumber style={{ width: "100%" }} placeholder="Giá trị" />
 			</Form.Item>
 
 			<Form.Item
-				label="Status"
+				label="Trạng thái"
 				name="status"
 				rules={[
 					{
 						required: true,
-						message: "Status can't be blank",
+						message: "Trạng thái không được để trống",
 					},
 				]}
 			>
@@ -205,7 +209,7 @@ const GiftCardUpdate = () => {
 			</Form.Item>
 
 			<Form.Item>
-				<Tooltip title="Update">
+				<Tooltip title="Cập nhật">
 					<Button
 						type="primary"
 						htmlType="submit"
@@ -215,7 +219,7 @@ const GiftCardUpdate = () => {
 						{isLoading && (
 							<AiOutlineLoading3Quarters className="animate-spin" />
 						)}
-						<span>Update</span>
+						<span>Cập nhật</span>
 					</Button>
 				</Tooltip>
 			</Form.Item>

@@ -1,3 +1,4 @@
+import allLocales from "@fullcalendar/core/locales-all";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
@@ -183,12 +184,12 @@ const Appointment = () => {
 	return (
 		<>
 			<div className="flex justify-end mb-4">
-				<Tooltip title="View all appointments">
+				<Tooltip title="Xem tất cả cuộc hẹn">
 					<Button
 						onClick={() => navigate("/appointments/view-appointments")}
 						className="bg-[green] text-white"
 					>
-						View all appointments
+						Xem tất cả cuộc hẹn
 					</Button>
 				</Tooltip>
 			</div>
@@ -205,10 +206,12 @@ const Appointment = () => {
 				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 				views={["dayGridMonth", "dayGridWeek", "dayGridDay"]}
 				initialView="dayGridMonth"
+				locales={allLocales}
+				locale={"vi"}
 			/>
 
 			<Modals
-				title="Create new appointment"
+				title="Tạo cuộc hẹn"
 				open={open}
 				confirmLoading={isLoading}
 				onCancel={onCancel}
@@ -228,12 +231,12 @@ const Appointment = () => {
 					}}
 				>
 					<Form.Item
-						label="Service"
+						label="Dịch vụ"
 						name="serviceId"
 						rules={[
 							{
 								required: true,
-								message: "Service can't be blank",
+								message: "Dịch vụ không được để trống",
 							},
 						]}
 					>
@@ -241,12 +244,12 @@ const Appointment = () => {
 					</Form.Item>
 
 					<Form.Item
-						label="Location"
+						label="Vị trí"
 						name="locationId"
 						rules={[
 							{
 								required: true,
-								message: "Location can't be blank",
+								message: "Vị trí không được để trống",
 							},
 						]}
 					>
@@ -254,12 +257,12 @@ const Appointment = () => {
 					</Form.Item>
 
 					<Form.Item
-						label="Staff"
+						label="Nhân viên"
 						name="staffId"
 						rules={[
 							{
 								required: true,
-								message: "Service can't be blank",
+								message: "Nhân viên không được để trống",
 							},
 						]}
 					>
@@ -267,29 +270,32 @@ const Appointment = () => {
 					</Form.Item>
 
 					<Form.Item
-						label="Duration (h)"
+						label="Khoảng thời gian (giờ)"
 						name="duration"
 						rules={[
 							{
 								required: true,
-								message: "Duration can't be blank",
+								message: "Khoảng thời gian không được để trống",
 							},
 							{
 								type: "number",
 								min: 0,
-								message: "Duration must be greater than or equal to 0",
+								message: "Khoảng thời gian phải lớn hơn hoặc bằng 0",
 							},
 						]}
 					>
-						<InputNumber placeholder="Duration" style={{ width: "100%" }} />
+						<InputNumber
+							style={{ width: "100%" }}
+							placeholder="Khoảng thời gian (giờ)"
+						/>
 					</Form.Item>
 
-					<Form.Item label="Note" name="note">
-						<TextArea placeholder="Note" rows={8} />
+					<Form.Item label="Ghi chú" name="note">
+						<TextArea placeholder="Ghi chú" rows={8} />
 					</Form.Item>
 
 					<Form.Item>
-						<Tooltip title="Create">
+						<Tooltip title="Tạo">
 							<Button
 								type="primary"
 								htmlType="submit"
@@ -299,7 +305,7 @@ const Appointment = () => {
 								{isLoading && (
 									<AiOutlineLoading3Quarters className="animate-spin" />
 								)}
-								<span>Create</span>
+								<span>Tạo</span>
 							</Button>
 						</Tooltip>
 					</Form.Item>

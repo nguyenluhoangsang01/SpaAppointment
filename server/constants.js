@@ -1,48 +1,48 @@
 export const ROLES = {
-	Admin: "Admin",
-	Staff: "Staff",
-	Customer: "Customer",
+	"Quản trị viên": "Quản trị viên",
+	"Nhân viên": "Nhân viên",
+	"Khách hàng": "Khách hàng",
 };
 
 export const APPOINTMENT_STATUS = {
-	Booked: "Booked",
-	Cancelled: "Cancelled",
-	Completed: "Completed",
-	Confirmed: "Confirmed",
+	"Đã đặt": "Đã đặt",
+	"Đã hủy": "Đã hủy",
+	"Đã hoàn thành": "Đã hoàn thành",
+	"Đã xác nhận": "Đã xác nhận",
 };
 
-export const PAYMENT_METHOD = {
-	Cash: "Cash",
-	"Credit cards": "Credit cards",
-	"Gift cards": "Gift cards",
-};
+// export const PAYMENT_METHOD = {
+// 	Cash: "Cash",
+// 	"Credit cards": "Credit cards",
+// 	"Gift cards": "Gift cards",
+// };
 
-export const PAYMENT_STATUS = {
-	Approved: "Approved",
-	Created: "Created",
-	Failed: "Failed",
-	Refunded: "Refunded",
-};
+// export const PAYMENT_STATUS = {
+// 	Approved: "Approved",
+// 	Created: "Created",
+// 	Failed: "Failed",
+// 	Refunded: "Refunded",
+// };
 
 export const GiFT_CARD_STATUS = {
-	Active: "Active",
-	Inactive: "Inactive",
+	"Đang hoạt động": "Đang hoạt động",
+	"Chưa hoạt động": "Chưa hoạt động",
 };
 
-export const TRANSACTION_STATUS = {
-	Completed: "Completed",
-	Pending: "Pending",
-	Refunded: "Refunded",
-};
+// export const TRANSACTION_STATUS = {
+// 	Completed: "Completed",
+// 	Pending: "Pending",
+// 	Refunded: "Refunded",
+// };
 
 export const PROMOTION_TYPE = {
-	Percentage: "Percentage",
-	Fixed: "Fixed",
+	"Tỷ lệ phần trăm": "Tỷ lệ phần trăm",
+	"Tỷ lệ cố định": "Tỷ lệ cố định",
 };
 
 export const SCHEDULE_TYPE = {
-	Doing: "Doing",
-	OnVacation: "On vacation",
+	"Đang làm việc": "Đang làm việc",
+	"Đang nghỉ việc": "Đang nghỉ việc",
 };
 
 export const ACCESS_TOKEN_EXPIRES_IN = "7d";

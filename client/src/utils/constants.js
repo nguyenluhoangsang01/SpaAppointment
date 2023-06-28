@@ -58,74 +58,74 @@ const Statistical = lazy(() => import("../views/Statistical"));
 const Notification = lazy(() => import("../views/Notification"));
 
 export const ROLES = {
-	Admin: "Admin",
-	Customer: "Customer",
+	"Quản trị viên": "Quản trị viên",
+	"Khách hàng": "Khách hàng",
 };
 
 export const SELECT_ROLES = [
 	{
-		value: "Admin",
-		label: "Admin",
+		value: "Quản trị viên",
+		label: "Quản trị viên",
 	},
 	{
-		value: "Staff",
-		label: "Staff",
+		value: "Nhân viên",
+		label: "Nhân viên",
 	},
 	{
-		value: "Customer",
-		label: "Customer",
+		value: "Khách hàng",
+		label: "Khách hàng",
 	},
 ];
 
 export const SELECT_TYPES = [
 	{
-		value: "Percentage",
-		label: "Percentage",
+		value: "Tỷ lệ phần trăm",
+		label: "Tỷ lệ phần trăm",
 	},
 	{
-		value: "Fixed",
-		label: "Fixed",
+		value: "Tỷ lệ cố định",
+		label: "Tỷ lệ cố định",
 	},
 ];
 
 export const SELECT_TYPES_SCHEDULE = [
 	{
-		value: "Doing",
-		label: "Doing",
+		value: "Đang làm việc",
+		label: "Đang làm việc",
 	},
 	{
-		value: "On vacation",
-		label: "On vacation",
+		value: "Đang nghỉ việc",
+		label: "Đang nghỉ việc",
 	},
 ];
 
 export const SELECT_STATUS = [
 	{
-		value: "Active",
-		label: "Active",
+		value: "Đang hoạt động",
+		label: "Đang hoạt động",
 	},
 	{
-		value: "Inactive",
-		label: "Inactive",
+		value: "Chưa hoạt động",
+		label: "Chưa hoạt động",
 	},
 ];
 
 export const SELECT_APPOINTMENT_STATUS = [
 	{
-		value: "Booked",
-		label: "Booked",
+		value: "Đã đặt",
+		label: "Đã đặt",
 	},
 	{
-		value: "Cancelled",
-		label: "Cancelled",
+		value: "Đã hủy",
+		label: "Đã hủy",
 	},
 	{
-		value: "Completed",
-		label: "Completed",
+		value: "Đã hoàn thành",
+		label: "Đã hoàn thành",
 	},
 	{
-		value: "Confirmed",
-		label: "Confirmed",
+		value: "Đã xác nhận",
+		label: "Đã xác nhận",
 	},
 ];
 
@@ -287,69 +287,69 @@ export const routes = [
 export const navbarRoutes = [
 	{
 		path: "/",
-		name: "Home",
+		name: "Trang chủ",
 	},
 	{
 		path: "/appointments",
-		name: "Appointments",
+		name: "Cuộc hẹn",
 	},
 	{
 		path: "/services",
-		name: "Services",
+		name: "Dịch vụ",
 	},
 	{
 		path: "/locations",
-		name: "Locations",
+		name: "Vị trí",
 	},
 	{
 		path: "/promotions",
-		name: "Promotions",
+		name: "Khuyến mãi",
 	},
 	{
 		path: "/gift-cards",
-		name: "Gift cards",
+		name: "Thẻ quà tặng",
 	},
 	{
 		path: "/users",
-		name: "Users",
+		name: "Người dùng",
 	},
 ];
 
 export const authRoutes = [
 	{
 		path: "/sign-up",
-		name: "Sign up",
+		name: "Đăng ký",
 	},
 	{
 		path: "/sign-in",
-		name: "Sign in",
+		name: "Đăng nhập",
 	},
 ];
 
 export const accountRoutes = [
 	{
 		path: "/notification",
-		name: "Notification",
+		name: "Thông báo",
 	},
 	{
 		path: "/profile",
-		name: "Profile",
+		name: "Hồ sơ người dùng",
 	},
 	{
 		path: "/schedule",
-		name: "Schedule",
+		name: "Lịch trình",
 	},
 	{
 		path: "/statistical",
-		name: "Statistical",
+		name: "Thống kê",
 	},
 	{
 		path: "/change-password",
-		name: "Change password",
+		name: "Đổi mật khẩu",
 	},
 	{
 		path: "",
-		name: "Sign out",
+		name: "Đăng xuất",
 	},
 ];
 
