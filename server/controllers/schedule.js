@@ -8,7 +8,7 @@ import Schedule from "../models/Schedule.js";
 import User from "../models/User.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
-import validateDatetime from "../utils/validateDateTime.js";
+import validateDatetime from "../utils/validateDatetime.js";
 
 export const getAll = async (req, res, next) => {
 	try {

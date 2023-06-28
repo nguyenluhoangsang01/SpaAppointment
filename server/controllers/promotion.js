@@ -9,7 +9,7 @@ import {
 import Promotion from "../models/Promotion.js";
 import sendError from "../utils/sendError.js";
 import sendSuccess from "../utils/sendSuccess.js";
-import validateDatetime from "../utils/validateDateTime.js";
+import validateDatetime from "../utils/validateDatetime.js";
 
 export const getAll = async (req, res, next) => {
 	try {
