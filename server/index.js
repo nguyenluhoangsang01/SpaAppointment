@@ -20,9 +20,6 @@ import userRoutes from "./routes/user.js";
 dotenv.config();
 
 // Constants
-const HOST = process.env.HOST;
-const API_BASE_ENDPOINT_CLIENT = process.env.API_BASE_ENDPOINT_CLIENT;
-const NODE_ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
@@ -36,15 +33,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-	cors({
-		origin:
-			NODE_ENV === "dev"
-				? API_BASE_ENDPOINT_CLIENT
-				: [`http://${HOST}`, `https://${HOST}`],
-		credentials: true,
-	})
-);
+app.use(cors());
 
 // Config cloudinary
 cloudinary.config({

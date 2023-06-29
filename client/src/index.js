@@ -8,7 +8,7 @@ import App from "./App";
 import "./index.css";
 import { persistor, store } from "./redux/store";
 
-axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.baseURL = "http://localhost:3015/api";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
