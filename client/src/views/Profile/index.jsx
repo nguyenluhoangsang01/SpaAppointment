@@ -98,6 +98,8 @@ const Profile = () => {
 			dataIndex: "service",
 			key: "service",
 			render: (text, record) => <span>{text?.name}</span>,
+			sorter: (a, b) => a.service.length - b.service.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Nhân viên",
@@ -106,21 +108,29 @@ const Profile = () => {
 			render: (text, record) => (
 				<span>{`${text?.firstName} ${text?.lastName}`}</span>
 			),
+			sorter: (a, b) => a.staff.length - b.staff.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
+			sorter: (a, b) => a.startDate.length - b.startDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
+			sorter: (a, b) => a.endDate.length - b.endDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Trạng thái",
 			dataIndex: "status",
 			key: "status",
+			sorter: (a, b) => a.status.length - b.status.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Khoảng thời gian (giờ)",
@@ -129,6 +139,8 @@ const Profile = () => {
 			render: (text) => (
 				<span className="flex justify-center">{text} (giờ)</span>
 			),
+			sorter: (a, b) => a.duration.length - b.duration.length,
+			sortDirections: ["descend", "ascend"],
 		},
 	];
 

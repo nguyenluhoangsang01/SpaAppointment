@@ -34,7 +34,8 @@ const ScheduleView = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên")
+			navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -60,39 +61,53 @@ const ScheduleView = () => {
 			dataIndex: "firstName",
 			key: "firstName",
 			render: (text, record) => <span>{record?.staff?.firstName}</span>,
+			sorter: (a, b) => a.firstName.length - b.firstName.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Tên",
 			dataIndex: "lastName",
 			key: "lastName",
 			render: (text, record) => <span>{record?.staff?.lastName}</span>,
+			sorter: (a, b) => a.lastName.length - b.lastName.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Email",
 			dataIndex: "email",
 			key: "email",
 			render: (text, record) => <span>{record?.staff?.email}</span>,
+			sorter: (a, b) => a.staff.length - b.staff.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Số điện thoại",
 			dataIndex: "phone",
 			key: "phone",
 			render: (text, record) => <span>{record?.staff?.phone}</span>,
+			sorter: (a, b) => a.phone.length - b.phone.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
+			sorter: (a, b) => a.startDate.length - b.startDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
+			sorter: (a, b) => a.endDate.length - b.endDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Loại làm việc",
 			dataIndex: "type",
 			key: "type",
+			sorter: (a, b) => a.type.length - b.type.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "",
@@ -153,7 +168,9 @@ const ScheduleView = () => {
 				columns={columns}
 				dataSource={[...schedule]
 					.filter((item) =>
-						user?.role !== "Quản trị viên" ? item?.staff?._id === user?._id : item
+						user?.role !== "Quản trị viên"
+							? item?.staff?._id === user?._id
+							: item
 					)
 					.reverse()}
 				loading={!schedule}

@@ -16,7 +16,7 @@ const verifyToken = (req, res, next) => {
 
 		// Check if access token and refresh token does not exists
 		if (!accessToken && !refreshToken)
-			return sendError(res, "You are not authenticated, please login", 401);
+			return sendError(res, "Bạn chưa được xác thực, vui lòng đăng nhập", 401);
 
 		// Verify access token
 		jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (error, decoded) => {
@@ -26,7 +26,7 @@ const verifyToken = (req, res, next) => {
 					if (error)
 						return sendError(
 							res,
-							"Refresh token has expired or is otherwise invalid",
+							"Mã thông báo làm mới đã hết hạn hoặc không hợp lệ",
 							498
 						);
 

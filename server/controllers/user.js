@@ -200,7 +200,7 @@ export const updateById = async (req, res, next) => {
 		}
 
 		// Send success notification
-		return sendSuccess(res, "Chỉnh sửa người dùng thành công", 200, null);
+		return sendSuccess(res, "Chỉnh sửa người dùng thành công");
 	} catch (error) {
 		next(error);
 	}

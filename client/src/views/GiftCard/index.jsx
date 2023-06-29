@@ -59,12 +59,16 @@ const GiftCard = () => {
 			dataIndex: "promotion",
 			key: "promotion",
 			render: (text, record) => <span>{record.promotion.name}</span>,
+			sorter: (a, b) => a.promotion.length - b.promotion.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
 			render: (text) => <span>{text} VND</span>,
+			sorter: (a, b) => a.value.length - b.value.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Mã thẻ quà tặng",
@@ -73,16 +77,22 @@ const GiftCard = () => {
 			render: (text) => (
 				<span className="font-bold tracking-wider">{text}</span>
 			),
+			sorter: (a, b) => a.code.length - b.code.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Trạng thái",
 			dataIndex: "status",
 			key: "status",
+			sorter: (a, b) => a.status.length - b.status.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày hết hạn",
 			dataIndex: "expirationDate",
 			key: "expirationDate",
+			sorter: (a, b) => a.expirationDate.length - b.expirationDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "",

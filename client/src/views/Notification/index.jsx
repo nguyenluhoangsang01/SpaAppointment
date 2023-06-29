@@ -22,7 +22,8 @@ const Notification = () => {
 	}, [navigate, user]);
 
 	useEffect(() => {
-		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên") navigate("/");
+		if (user?.role !== "Nhân viên" && user?.role !== "Quản trị viên")
+			navigate("/");
 	}, [navigate, user?.role]);
 
 	useEffect(() => {
@@ -39,48 +40,66 @@ const Notification = () => {
 					{text?.firstName} {text?.lastName}
 				</span>
 			),
+			sorter: (a, b) => a.user.length - b.user.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Số điện thoại",
 			dataIndex: "user",
 			key: "user",
 			render: (text) => <span>{text?.phone}</span>,
+			sorter: (a, b) => a.user.length - b.user.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Email",
 			dataIndex: "user",
 			key: "user",
 			render: (text) => <span>{text?.email}</span>,
+			sorter: (a, b) => a.user.length - b.user.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Dịch vụ",
 			dataIndex: "service",
 			key: "service",
 			render: (text) => <span>{text?.name}</span>,
+			sorter: (a, b) => a.service.length - b.service.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
 			render: (text) => <span>{text}</span>,
+			sorter: (a, b) => a.startDate.length - b.startDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
 			render: (text) => <span>{text}</span>,
+			sorter: (a, b) => a.endDate.length - b.endDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Khoảng thời gian (giờ)",
 			dataIndex: "duration",
 			key: "duration",
-			render: (text) => <span className="flex justify-center">{text} (giờ)</span>,
+			render: (text) => (
+				<span className="flex justify-center">{text} (giờ)</span>
+			),
+			sorter: (a, b) => a.duration.length - b.duration.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ghi chú",
 			dataIndex: "note",
 			key: "note",
 			render: (text) => <span>{text}</span>,
+			sorter: (a, b) => a.note.length - b.note.length,
+			sortDirections: ["descend", "ascend"],
 		},
 	];
 
@@ -90,7 +109,8 @@ const Notification = () => {
 			columns={columns}
 			dataSource={appointments.filter(
 				(appointment) =>
-					appointment?.staff?._id === user?._id && appointment?.status === "Booked"
+					appointment?.staff?._id === user?._id &&
+					appointment?.status === "Booked"
 			)}
 			loading={!appointments}
 		/>

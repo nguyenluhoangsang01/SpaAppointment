@@ -61,32 +61,44 @@ const Promotion = () => {
 			dataIndex: "service",
 			key: "service",
 			render: (text, record) => <span>{record.name}</span>,
+			sorter: (a, b) => a.service.length - b.service.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Tên",
 			dataIndex: "name",
 			key: "name",
+			sorter: (a, b) => a.name.length - b.name.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Loại khuyến mãi",
 			dataIndex: "type",
 			key: "type",
+			sorter: (a, b) => a.type.length - b.type.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày bắt đầu",
 			dataIndex: "startDate",
 			key: "startDate",
+			sorter: (a, b) => a.startDate.length - b.startDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Ngày kết thúc",
 			dataIndex: "endDate",
 			key: "endDate",
+			sorter: (a, b) => a.endDate.length - b.endDate.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
 			render: (text) => <span>{text} VND</span>,
+			sorter: (a, b) => a.value.length - b.value.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Trạng thái",
@@ -95,6 +107,8 @@ const Promotion = () => {
 			render: (text) => (
 				<span>{text ? "Đang hoạt động" : "Chưa hoạt động"}</span>
 			),
+			sorter: (a, b) => a.isActive.length - b.isActive.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "",

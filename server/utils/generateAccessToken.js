@@ -11,7 +11,7 @@ const generateAccessToken = (res, refreshToken) => {
 				reject(
 					sendError(
 						res,
-						"Refresh token has expired or is otherwise invalid",
+						"Mã thông báo làm mới đã hết hạn hoặc không hợp lệ",
 						498
 					)
 				);

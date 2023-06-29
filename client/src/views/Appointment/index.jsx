@@ -63,20 +63,22 @@ const Appointment = () => {
 	}, [accessToken, dispatch, refreshToken]);
 
 	const SELECT_SERVICES = services.map((service) => ({
-		value: service._id,
-		label: service.name,
+		value: service?._id,
+		label: service?.name,
 	}));
 
 	const SELECT_STAFF = schedule
-		?.filter((item) => item?.staff?._id !== user?._id)
+		?.filter(
+			(item) => item?.staff?._id !== user?._id && item?.type === "Đang làm việc"
+		)
 		?.map((user) => ({
-			value: user.staff._id,
-			label: `${user.staff.firstName} ${user.staff.lastName}`,
+			value: user?.staff?._id,
+			label: `${user?.staff?.firstName} ${user?.staff?.lastName}`,
 		}));
 
 	const SELECT_LOCATIONS = locations.map((location) => ({
-		value: location._id,
-		label: location.fullName,
+		value: location?._id,
+		label: location?.fullName,
 	}));
 
 	const onCancel = () => {

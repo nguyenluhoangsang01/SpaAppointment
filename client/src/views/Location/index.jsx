@@ -58,11 +58,15 @@ const Location = () => {
 			title: "Tên đầy đủ",
 			dataIndex: "fullName",
 			key: "fullName",
+			sorter: (a, b) => a.fullName.length - b.fullName.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "Tên viết tắt",
 			dataIndex: "shortName",
 			key: "shortName",
+			sorter: (a, b) => a.shortName.length - b.shortName.length,
+			sortDirections: ["descend", "ascend"],
 		},
 		{
 			title: "",
