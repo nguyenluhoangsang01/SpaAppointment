@@ -98,7 +98,7 @@ export const create = async (req, res, next) => {
 	if (!serviceId)
 		return sendError(res, "Dịch vụ không được để trống", 400, "serviceId");
 	if (!locationId)
-		return sendError(res, "Vị trí không được để trống", 400, "locationId");
+		return sendError(res, "Địa điểm không được để trống", 400, "locationId");
 	if (!staffId)
 		return sendError(res, "Nhân viên không được để trống", 400, "staffId");
 	if (!duration && duration !== 0)
@@ -151,7 +151,7 @@ export const create = async (req, res, next) => {
 		if (!location)
 			return sendError(
 				res,
-				"Vị trí không được bao gồm trong danh sách",
+				"Địa điểm không được bao gồm trong danh sách",
 				404,
 				"location"
 			);
@@ -414,7 +414,7 @@ export const updateById = async (req, res, next) => {
 	if (!serviceId)
 		return sendError(res, "Dịch vụ không được để trống", 400, "serviceId");
 	if (!locationId)
-		return sendError(res, "Vị trí không được để trống", 400, "locationId");
+		return sendError(res, "Địa điểm không được để trống", 400, "locationId");
 	if (!staffId)
 		return sendError(res, "Nhân viên không được để trống", 400, "staffId");
 	if (!duration && duration !== 0)
@@ -491,7 +491,7 @@ export const updateById = async (req, res, next) => {
 		if (!location)
 			return sendError(
 				res,
-				"Vị trí không được bao gồm trong danh sách",
+				"Địa điểm không được bao gồm trong danh sách",
 				404,
 				"location"
 			);
@@ -568,19 +568,79 @@ export const deleteById = async (req, res, next) => {
 
 	try {
 		// Get appointment by id
-		const appointment = await Appointment.findByIdAndDelete(id);
+		const appointment = await Appointment.findById(id);
 		if (!appointment) return sendError(res, "Cuộc hẹn không tồn tại", 404);
 
-		const appointmentStartDate = appointment.startDate.split("- ")[1];
+		const serviceId = appointment.service;
+		// Get service by id
+		const service = await Service.findById(serviceId);
+		if (!service)
+			return sendError(res, "Dịch vụ không có trong danh sách", 404, "service");
+		const staffId = appointment.staff;
+		// Get staff by id
+		const staff = await User.findById(staffId);
+		if (!staff)
+			return sendError(res, "Nhân viên không có trong danh sách", 404, "staff");
+		if (
+			staff.role !== ROLES["Nhân viên"] &&
+			staff.role !== ROLES["Quản trị viên"]
+		)
+			return sendError(
+				res,
+				"Người dùng không phải là nhân viên hoặc quản trị viên"
+			);
+		const locationId = appointment.location;
+		// Get location by id
+		const location = await Location.findById(locationId);
+		if (!location)
+			return sendError(
+				res,
+				"Địa điểm không được bao gồm trong danh sách",
+				404,
+				"location"
+			);
+
+		const day = appointment.startDate.split(" - ")[1].slice(0, 2);
+		const month = appointment.startDate.split(" - ")[1].slice(3, 5);
+		const year = appointment.startDate.split(" - ")[1].slice(6, 10);
+		const appointmentStartDate = moment(`${year}-${month}-${day}`);
+
 		// Three days after
 		const threeDaysAfter = moment(appointmentStartDate).add(3, "days");
 
 		// Check if current time before appointment date about times
 		if (moment().isBefore(threeDaysAfter))
-			return sendError(res, `Không thể hủy cuộc hẹn này`, 400);
+			return sendError(res, `Không thể hủy cuộc hẹn này trước 3 ngày`, 400);
+
+		// Delete
+		await Appointment.findByIdAndDelete(id);
+
+		// await Service.findByIdAndUpdate(
+		// 	serviceId,
+		// 	{
+		// 		countServices: service.countServices + 1,
+		// 	},
+		// 	{ new: true }
+		// );
+
+		// await User.findByIdAndUpdate(
+		// 	staffId,
+		// 	{
+		// 		countStaff: staff.countStaff + 1,
+		// 	},
+		// 	{ new: true }
+		// );
+
+		// await Location.findByIdAndUpdate(
+		// 	locationId,
+		// 	{
+		// 		countLocation: location.countLocation + 1,
+		// 	},
+		// 	{ new: true }
+		// );
 
 		// Send success notification
-		return sendSuccess(res, "Xóa tất cuộc hẹn thành công");
+		return sendSuccess(res, "Xóa cuộc hẹn thành công");
 	} catch (error) {
 		next(error);
 	}

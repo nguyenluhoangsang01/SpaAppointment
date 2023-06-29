@@ -85,7 +85,7 @@ const ScheduleView = () => {
 			dataIndex: "phone",
 			key: "phone",
 			render: (text, record) => <span>{record?.staff?.phone}</span>,
-			sorter: (a, b) => a.phone.length - b.phone.length,
+			sorter: (a, b) => a.phone.toString().localeCompare(b.phone),
 			sortDirections: ["descend", "ascend"],
 		},
 		{

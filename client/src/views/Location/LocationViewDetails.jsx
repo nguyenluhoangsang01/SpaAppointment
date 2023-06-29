@@ -137,13 +137,13 @@ const LocationViewDetails = () => {
 			</table>
 
 			<Modals
-				title="Xóa vị trí"
+				title="Xóa địa điểm"
 				open={open}
 				confirmLoading={confirmLoading}
 				onOk={onOk}
 				onCancel={onCancel}
 			>
-				Bạn có muốn xóa vị trí này?
+				Bạn có muốn xóa địa điểm này?
 			</Modals>
 		</>
 	);

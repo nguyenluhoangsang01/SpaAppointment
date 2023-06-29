@@ -98,7 +98,7 @@ const AppointmentViewDetails = () => {
 					<Button
 						className="bg-[yellow]"
 						onClick={handleUpdate}
-						disabled={id === user._id}
+						disabled={id === user?._id}
 					>
 						Cập nhật
 					</Button>
@@ -108,7 +108,7 @@ const AppointmentViewDetails = () => {
 						className="bg-[red] text-white"
 						onClick={() => setOpen(true)}
 						disabled={
-							id === user._id ||
+							id === user?._id ||
 							moment().isBefore(
 								moment(data?.startDate?.split("- ")[1]).add(3, "days")
 							)
@@ -126,7 +126,7 @@ const AppointmentViewDetails = () => {
 						<td>{data?.service?.name}</td>
 					</tr>
 					<tr>
-						<th>Vị trí</th>
+						<th>Địa điểm</th>
 						<td>{data?.location?.fullName}</td>
 					</tr>
 					<tr>

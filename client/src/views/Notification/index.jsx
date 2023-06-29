@@ -110,7 +110,7 @@ const Notification = () => {
 			dataSource={appointments.filter(
 				(appointment) =>
 					appointment?.staff?._id === user?._id &&
-					appointment?.status === "Booked"
+					appointment?.status === "Đã đặt"
 			)}
 			loading={!appointments}
 		/>

@@ -220,11 +220,11 @@ const Statistical = () => {
 
 		{
 			key: "5",
-			label: `Vị trí`,
+			label: `Địa điểm`,
 			children: (
 				<AccumulationChartComponent
 					id="price5"
-					title="Vị trí"
+					title="Địa điểm"
 					tooltip={{
 						enable: true,
 						shared: false,

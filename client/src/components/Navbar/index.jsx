@@ -75,7 +75,7 @@ const Navbar = () => {
 
 	const lengthOfNotification = appointments?.filter(
 		(appointment) =>
-			appointment?.staff?._id === user?._id && appointment?.status === "Booked"
+			appointment?.staff?._id === user?._id && appointment?.status === "Đã đặt"
 	).length;
 
 	return (

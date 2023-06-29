@@ -97,7 +97,7 @@ const Promotion = () => {
 			dataIndex: "value",
 			key: "value",
 			render: (text) => <span>{text} VND</span>,
-			sorter: (a, b) => a.value.length - b.value.length,
+			sorter: (a, b) => a.value.toString().localeCompare(b.value),
 			sortDirections: ["descend", "ascend"],
 		},
 		{

@@ -299,7 +299,7 @@ export const navbarRoutes = [
 	},
 	{
 		path: "/locations",
-		name: "Vị trí",
+		name: "Địa điểm",
 	},
 	{
 		path: "/promotions",

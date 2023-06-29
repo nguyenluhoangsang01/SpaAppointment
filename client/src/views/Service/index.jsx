@@ -66,7 +66,7 @@ const Service = () => {
 			dataIndex: "price",
 			key: "price",
 			render: (text) => <span>{text} VND</span>,
-			sorter: (a, b) => a.price.length - b.price.length,
+			sorter: (a, b) => a.price.toString().localeCompare(b.price),
 			sortDirections: ["descend", "ascend"],
 		},
 		{
@@ -74,7 +74,7 @@ const Service = () => {
 			dataIndex: "duration",
 			key: "duration",
 			render: (text) => <span>{text} (giờ)</span>,
-			sorter: (a, b) => a.duration.length - b.duration.length,
+			sorter: (a, b) => a.duration.toString().localeCompare(b.duration),
 			sortDirections: ["descend", "ascend"],
 		},
 		{

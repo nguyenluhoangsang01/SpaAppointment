@@ -102,7 +102,7 @@ const ScheduleViewDetails = () => {
 					<Button
 						className="bg-[yellow]"
 						onClick={handleUpdate}
-						disabled={id === user._id}
+						disabled={id === user?._id}
 					>
 						Cập nhật
 					</Button>
@@ -111,7 +111,7 @@ const ScheduleViewDetails = () => {
 					<Button
 						className="bg-[red] text-white"
 						onClick={() => setOpen(true)}
-						disabled={id === user._id}
+						disabled={id === user?._id}
 					>
 						Xóa
 					</Button>

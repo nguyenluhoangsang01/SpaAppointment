@@ -139,7 +139,7 @@ const Profile = () => {
 			render: (text) => (
 				<span className="flex justify-center">{text} (giờ)</span>
 			),
-			sorter: (a, b) => a.duration.length - b.duration.length,
+			sorter: (a, b) => a.duration.toString().localeCompare(b.duration),
 			sortDirections: ["descend", "ascend"],
 		},
 	];

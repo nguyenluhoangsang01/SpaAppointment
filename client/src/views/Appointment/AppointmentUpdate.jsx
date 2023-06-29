@@ -206,12 +206,12 @@ const AppointmentUpdate = () => {
 				</Form.Item>
 
 				<Form.Item
-					label="Vị trí"
+					label="Địa điểm"
 					name="locationId"
 					rules={[
 						{
 							required: true,
-							message: "Vị trí không được để trống",
+							message: "Địa điểm không được để trống",
 						},
 					]}
 				>

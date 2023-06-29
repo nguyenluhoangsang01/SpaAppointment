@@ -60,11 +60,11 @@ const AppointmentView = () => {
 			dataIndex: "service",
 			key: "service",
 			render: (text) => <span>{text?.name}</span>,
-			sorter: (a, b) => a.service.length - b.service.length,
+			sorter: (a, b) => a.name.length - b.name.length,
 			sortDirections: ["descend", "ascend"],
 		},
 		{
-			title: "Vị trí",
+			title: "Địa điểm",
 			dataIndex: "location",
 			key: "location",
 			render: (text) => <span>{text?.fullName}</span>,
@@ -107,7 +107,7 @@ const AppointmentView = () => {
 			render: (text) => (
 				<span className="flex justify-center">{text} (giờ)</span>
 			),
-			sorter: (a, b) => a.duration.length - b.duration.length,
+			sorter: (a, b) => a.duration.toString().localeCompare(b.duration),
 			sortDirections: ["descend", "ascend"],
 		},
 		{
@@ -115,32 +115,39 @@ const AppointmentView = () => {
 			dataIndex: "-",
 			key: "-",
 			width: "200px",
-			render: (text, record) => (
-				<div className="flex items-center justify-between">
-					<Tooltip title="Xem chi tiết">
-						<Button onClick={() => handleViewDetails(record?._id)}>
-							<IoEyeSharp />
-						</Button>
-					</Tooltip>
+			render: (text, record) => {
+				const day = record?.startDate.split(" - ")[1].slice(0, 2);
+				const month = record?.startDate.split(" - ")[1].slice(3, 5);
+				const year = record?.startDate.split(" - ")[1].slice(6, 10);
+				const appointmentStartDate = moment(`${year}-${month}-${day}`);
 
-					<Tooltip title="Cập nhật">
-						<Button onClick={() => handleUpdate(record?._id)}>
-							<BsPencilFill />
-						</Button>
-					</Tooltip>
+				return (
+					<div className="flex items-center justify-between">
+						<Tooltip title="Xem chi tiết">
+							<Button onClick={() => handleViewDetails(record?._id)}>
+								<IoEyeSharp />
+							</Button>
+						</Tooltip>
 
-					<Tooltip title="Xóa">
-						<Button
-							onClick={() => handleDelete(record?._id)}
-							disabled={moment().isBefore(
-								moment(record.startDate.split("- ")[1]).add(3, "days")
-							)}
-						>
-							<BsTrashFill />
-						</Button>
-					</Tooltip>
-				</div>
-			),
+						<Tooltip title="Cập nhật">
+							<Button onClick={() => handleUpdate(record?._id)}>
+								<BsPencilFill />
+							</Button>
+						</Tooltip>
+
+						<Tooltip title="Xóa">
+							<Button
+								onClick={() => handleDelete(record?._id)}
+								disabled={moment().isBefore(
+									moment(appointmentStartDate).add(3, "days")
+								)}
+							>
+								<BsTrashFill />
+							</Button>
+						</Tooltip>
+					</div>
+				);
+			},
 		},
 	];
 
@@ -152,17 +159,19 @@ const AppointmentView = () => {
 				`/appointment/${appointmentId}`,
 				axiosConfig(accessToken, refreshToken)
 			);
+			console.log(data);
 
 			if (data.success) {
-				dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
 				toast.success(data.message);
 				setConfirmLoading(false);
 				setOpen(false);
+				dispatch(getAllAppointmentsReducerAsync(accessToken, refreshToken));
 			}
 		} catch ({ response: { data } }) {
 			if (!data.success) {
 				setConfirmLoading(false);
 				setOpen(false);
+				toast.error(data.message);
 			}
 		}
 	};

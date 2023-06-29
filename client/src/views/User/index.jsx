@@ -80,7 +80,7 @@ const User = () => {
 			title: "Số điện thoại",
 			dataIndex: "phone",
 			key: "phone",
-			sorter: (a, b) => a.phone.length - b.phone.length,
+			sorter: (a, b) => a.phone.toString().localeCompare(b.phone),
 			sortDirections: ["descend", "ascend"],
 		},
 		{
