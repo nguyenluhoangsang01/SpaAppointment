@@ -8,7 +8,7 @@ const promotionSchema = new Schema(
 			required: true,
 		},
 		endDate: {
-			type: String,
+			type: Object,
 			required: true,
 		},
 		isActive: {
@@ -30,7 +30,7 @@ const promotionSchema = new Schema(
 			ref: "Service",
 		},
 		startDate: {
-			type: String,
+			type: Object,
 			required: true,
 		},
 		totalUses: {

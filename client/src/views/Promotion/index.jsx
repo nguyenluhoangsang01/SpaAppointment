@@ -13,7 +13,7 @@ import {
 	getAllPromotionsReducerAsync,
 	selectPromotion,
 } from "../../redux/slice/promotion";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, converDatetime, formatPrice } from "../../utils/helpers";
 
 const { Search } = Input;
 
@@ -84,6 +84,7 @@ const Promotion = () => {
 			key: "startDate",
 			sorter: (a, b) => a.startDate.length - b.startDate.length,
 			sortDirections: ["descend", "ascend"],
+			render: (text) => <span>{converDatetime(text)}</span>,
 		},
 		{
 			title: "Ngày kết thúc",
@@ -91,12 +92,17 @@ const Promotion = () => {
 			key: "endDate",
 			sorter: (a, b) => a.endDate.length - b.endDate.length,
 			sortDirections: ["descend", "ascend"],
+			render: (text) => <span>{converDatetime(text)}</span>,
 		},
 		{
 			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
-			render: (text) => <span>{text} VND</span>,
+			render: (text, record) => (
+				<span>
+					{record.type === "Tỷ lệ cố định" ? formatPrice(text) : `${text}%`}
+				</span>
+			),
 			sorter: (a, b) => a.value.toString().localeCompare(b.value),
 			sortDirections: ["descend", "ascend"],
 		},

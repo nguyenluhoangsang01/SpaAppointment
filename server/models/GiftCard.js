@@ -9,7 +9,7 @@ const giftCardSchema = new Schema(
 			unique: true,
 		},
 		expirationDate: {
-			type: String,
+			type: Object,
 			required: true,
 		},
 		promotion: {

@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, formatPrice } from "../../utils/helpers";
 
 const PromotionViewDetails = () => {
 	// Get id from params
@@ -146,7 +146,15 @@ const PromotionViewDetails = () => {
 					<tr>
 						<th>Giá trị</th>
 						<td>
-							{data?.value ? `${data?.value} VND` : <span>Chưa cập nhật</span>}
+							{data?.value ? (
+								` ${
+									data?.type === "Tỷ lệ cố định"
+										? formatPrice(data?.value)
+										: `${data?.value}%`
+								}`
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
 						</td>
 					</tr>
 					<tr>

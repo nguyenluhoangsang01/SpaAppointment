@@ -1,8 +1,8 @@
+import moment from "moment";
 import validate from "validate.js";
 import {
-	expirationDateConstraint,
 	statusConstraint,
-	valueConstraint,
+	valueConstraint
 } from "../constants.js";
 import GiftCard from "../models/GiftCard.js";
 import Promotion from "../models/Promotion.js";
@@ -27,6 +27,12 @@ export const getAll = async (req, res, next) => {
 			})
 			.select("-__v");
 		if (!giftCards) return sendError(res, "Thẻ quà tặng không tồn tại", 404);
+
+		giftCards.map(
+			async (giftCard) =>
+				moment().isAfter(giftCard.expirationDate) &&
+				(await GiftCard.findByIdAndDelete(giftCard._id))
+		);
 
 		// Send success notification
 		return sendSuccess(res, "Truy xuất thẻ quà tặng thành công", giftCards);
@@ -74,13 +80,6 @@ export const create = async (req, res, next) => {
 		return sendError(
 			res,
 			"Ngày hết hạn không được để trống",
-			400,
-			"expirationDate"
-		);
-	if (validate({ expirationDate }, expirationDateConstraint))
-		return sendError(
-			res,
-			"Ngày hết hạn phải là một ngày hợp lệ",
 			400,
 			"expirationDate"
 		);
@@ -144,13 +143,6 @@ export const updateById = async (req, res, next) => {
 		return sendError(
 			res,
 			"Ngày hết hạn không được để trống",
-			400,
-			"expirationDate"
-		);
-	if (validate({ expirationDate }, expirationDateConstraint))
-		return sendError(
-			res,
-			"Ngày hết hạn phải là một ngày hợp lệ",
 			400,
 			"expirationDate"
 		);

@@ -11,7 +11,6 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import Cookies from "js-cookie";
-import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -62,11 +61,7 @@ const PromotionCreate = () => {
 		try {
 			const { data } = await axios.post(
 				"/promotion",
-				{
-					...values,
-					startDate: moment(values.startDate).format(formatDateTime),
-					endDate: moment(values.endDate).format(formatDateTime),
-				},
+				{ ...values },
 				axiosConfig(accessToken, refreshToken)
 			);
 

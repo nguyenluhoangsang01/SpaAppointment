@@ -13,7 +13,7 @@ import {
 	getAllServicesReducerAsync,
 	selectService,
 } from "../../redux/slice/service";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, formatPrice } from "../../utils/helpers";
 
 const { Search } = Input;
 
@@ -65,7 +65,7 @@ const Service = () => {
 			title: "Giá",
 			dataIndex: "price",
 			key: "price",
-			render: (text) => <span>{text} VND</span>,
+			render: (text) => <span>{formatPrice(text)}</span>,
 			sorter: (a, b) => a.price.toString().localeCompare(b.price),
 			sortDirections: ["descend", "ascend"],
 		},

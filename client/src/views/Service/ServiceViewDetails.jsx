@@ -9,7 +9,7 @@ import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
 import { formatDateTime } from "../../utils/constants";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, formatPrice } from "../../utils/helpers";
 
 const ServiceViewDetails = () => {
 	// Get id from params
@@ -111,16 +111,32 @@ const ServiceViewDetails = () => {
 					</tr>
 					<tr>
 						<th>Giá</th>
-						<td>{data?.price ? `${data?.price} VND` : <span>Chưa cập nhật</span>}</td>
+						<td>
+							{data?.price ? (
+								`${formatPrice(data?.price)}`
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
 					</tr>
 					<tr>
 						<th>Khoảng thời gian (giờ)</th>
-						<td>{data?.duration ? `${data?.duration} (giờ)` : <span>Chưa cập nhật</span>}</td>
+						<td>
+							{data?.duration ? (
+								`${data?.duration} (giờ)`
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
+						</td>
 					</tr>
 					<tr>
 						<th>Mô tả</th>
 						<td>
-							{data?.description ? data?.description : <span>Chưa cập nhật</span>}
+							{data?.description ? (
+								data?.description
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
 						</td>
 					</tr>
 					<tr>

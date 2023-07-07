@@ -1,7 +1,6 @@
 import { Button, DatePicker, Form, InputNumber, Select, Tooltip } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
-import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -52,10 +51,7 @@ const GiftCardCreate = () => {
 		try {
 			const { data } = await axios.post(
 				"/gift-card",
-				{
-					...values,
-					expirationDate: moment(values.expirationDate).format(formatDateTime),
-				},
+				{ ...values },
 				axiosConfig(accessToken, refreshToken)
 			);
 
@@ -141,7 +137,7 @@ const GiftCardCreate = () => {
 				rules={[
 					{
 						required: true,
-						message: "Expiration date can't be blank",
+						message: "Ngày hết hạn không được để trống",
 					},
 				]}
 			>

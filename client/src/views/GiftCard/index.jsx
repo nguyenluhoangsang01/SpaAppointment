@@ -13,7 +13,8 @@ import {
 	getAllGiftCardsReducerAsync,
 	selectGiftCard,
 } from "../../redux/slice/giftCard";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, converDatetime, formatPrice } from "../../utils/helpers";
+import { getAllPromotionsReducerAsync } from "../../redux/slice/promotion";
 
 const { Search } = Input;
 
@@ -38,6 +39,7 @@ const GiftCard = () => {
 
 	useEffect(() => {
 		dispatch(getAllGiftCardsReducerAsync(accessToken, refreshToken));
+		dispatch(getAllPromotionsReducerAsync(accessToken, refreshToken));
 	}, [accessToken, dispatch, refreshToken]);
 
 	const handleViewDetails = (id) => {
@@ -58,7 +60,7 @@ const GiftCard = () => {
 			title: "Tên khuyến mãi",
 			dataIndex: "promotion",
 			key: "promotion",
-			render: (text, record) => <span>{record.promotion.name}</span>,
+			render: (text, record) => <span>{record?.promotion?.name}</span>,
 			sorter: (a, b) => a.promotion.length - b.promotion.length,
 			sortDirections: ["descend", "ascend"],
 		},
@@ -66,7 +68,7 @@ const GiftCard = () => {
 			title: "Giá trị",
 			dataIndex: "value",
 			key: "value",
-			render: (text) => <span>{text} VND</span>,
+			render: (text) => <span>{formatPrice(text)}</span>,
 			sorter: (a, b) => a.value.toString().localeCompare(b.value),
 			sortDirections: ["descend", "ascend"],
 		},
@@ -93,6 +95,7 @@ const GiftCard = () => {
 			key: "expirationDate",
 			sorter: (a, b) => a.expirationDate.length - b.expirationDate.length,
 			sortDirections: ["descend", "ascend"],
+			render: (text) => <span>{converDatetime(text)}</span>,
 		},
 		{
 			title: "",

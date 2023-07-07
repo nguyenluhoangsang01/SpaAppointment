@@ -251,7 +251,10 @@ const UserUpdate = () => {
 				</Form.Item>
 
 				<Form.Item label="Giới thiệu" name="bio">
-					<TextArea rows={8} />
+					<TextArea
+						rows={8}
+						placeholder={user?.bio ? user?.bio : "Chưa cập nhật"}
+					/>
 				</Form.Item>
 
 				<Form.Item>

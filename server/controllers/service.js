@@ -13,10 +13,10 @@ export const getAll = async (req, res, next) => {
 	try {
 		// Get all services
 		const services = await Service.find().select("-__v");
-		if (!services) return sendError(res, "Service not found", 404);
+		if (!services) return sendError(res, "Dịch vụ không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving services successfully", services);
+		return sendSuccess(res, "Truy xuất dịch vụ thành công", services);
 	} catch (error) {
 		next(error);
 	}
@@ -29,10 +29,10 @@ export const getById = async (req, res, next) => {
 	try {
 		// Get service by id
 		const service = await Service.findById(id).select("-__v");
-		if (!service) return sendError(res, "Service not found", 404);
+		if (!service) return sendError(res, "Dịch vụ không tồn tại", 404);
 
 		// Send success notification
-		return sendSuccess(res, "Retrieving service successfully", service);
+		return sendSuccess(res, "Truy xuất dịch vụ thành công", service);
 	} catch (error) {
 		next(error);
 	}
@@ -49,7 +49,7 @@ export const create = async (req, res, next) => {
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
-			"Price must be numeric and greater than 0",
+			"Giá phải là số và lớn hơn 0",
 			400,
 			"price"
 		);
@@ -71,7 +71,7 @@ export const create = async (req, res, next) => {
 		if (isNameExists)
 			return sendError(
 				res,
-				`Service with this name (${isNameExists.name}) already exists`,
+				`Tên dịch vụ (${isNameExists.name}) đã tồn tại`,
 				409,
 				"name"
 			);
@@ -97,7 +97,7 @@ export const create = async (req, res, next) => {
 		await newService.save();
 
 		// Send success notification
-		return sendSuccess(res, "Service created successfully", null, 201);
+		return sendSuccess(res, "Tạo dịch vụ thành công", null, 201);
 	} catch (error) {
 		next(error);
 	}
@@ -116,7 +116,7 @@ export const updateById = async (req, res, next) => {
 	if (validate({ price }, priceConstraint))
 		return sendError(
 			res,
-			"Price must be numeric and greater than 0",
+			"Giá phải là số và lớn hơn 0",
 			400,
 			"price"
 		);
@@ -135,7 +135,7 @@ export const updateById = async (req, res, next) => {
 	try {
 		// Get service by id
 		const service = await Service.findById(id);
-		if (!service) return sendError(res, "Service not found", 404);
+		if (!service) return sendError(res, "Dịch vụ không tồn tại", 404);
 
 		// Check name exists or not in database
 		const isNameExists = await Service.findOne({
@@ -144,7 +144,7 @@ export const updateById = async (req, res, next) => {
 		if (isNameExists)
 			return sendError(
 				res,
-				`Service with this name (${isNameExists.name}) already exists`,
+				`Tên dịch vụ (${isNameExists.name}) đã tồn tại`,
 				409,
 				"name"
 			);
@@ -167,7 +167,7 @@ export const updateById = async (req, res, next) => {
 		}
 
 		// Send success notification
-		return sendSuccess(res, "Successfully edited service");
+		return sendSuccess(res, "Chỉnh sửa dịch vụ thành công");
 	} catch (error) {
 		next(error);
 	}
@@ -177,7 +177,7 @@ export const deleteAll = async (req, res, next) => {
 	try {
 		// Get all services
 		const services = await Service.find();
-		if (!services) return sendError(res, "Service not found", 404);
+		if (!services) return sendError(res, "Dịch vụ không tồn tại", 404);
 
 		// Delete all services
 		await Service.deleteMany();
@@ -196,7 +196,7 @@ export const deleteById = async (req, res, next) => {
 	try {
 		// Get service by id
 		const service = await Service.findByIdAndDelete(id);
-		if (!service) return sendError(res, "Service not found", 404);
+		if (!service) return sendError(res, "Dịch vụ không tồn tại", 404);
 
 		// Send success notification
 		return sendSuccess(res, "Xóa tất cả các dịch vụ thành công");

@@ -1,9 +1,8 @@
+import moment from "moment";
 import validate from "validate.js";
 import {
-	endDateConstraint,
 	maxUsesConstraint,
 	promotionTypesConstraint,
-	startDateConstraint,
 	valueConstraint,
 } from "../constants.js";
 import Promotion from "../models/Promotion.js";
@@ -18,6 +17,12 @@ export const getAll = async (req, res, next) => {
 			.select("-__v")
 			.populate("service", "-__v");
 		if (!promotions) return sendError(res, "Không tìm thấy khuyến mãi", 404);
+
+		promotions.map(
+			async (promotion) =>
+				moment().isAfter(promotion.endDate) &&
+				(await Promotion.findByIdAndDelete(promotion._id))
+		);
 
 		// Send success notification
 		return sendSuccess(res, "Truy xuất khuyến mãi thành công", promotions);
@@ -75,22 +80,8 @@ export const create = async (req, res, next) => {
 		);
 	if (!startDate)
 		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
-	if (validate({ startDate }, startDateConstraint))
-		return sendError(
-			res,
-			"Ngày bắt đầu phải là một ngày hợp lệ",
-			400,
-			"startDate"
-		);
 	if (!endDate)
 		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
-	if (validate({ endDate }, endDateConstraint))
-		return sendError(
-			res,
-			"Ngày kết thúc phải là một ngày hợp lệ",
-			400,
-			"endDate"
-		);
 	if (!value && value !== 0)
 		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))
@@ -169,22 +160,8 @@ export const updateById = async (req, res, next) => {
 		);
 	if (!startDate)
 		return sendError(res, "Ngày bắt đầu không được để trống", 400, "startDate");
-	if (validate({ startDate }, startDateConstraint))
-		return sendError(
-			res,
-			"Ngày bắt đầu phải là một ngày hợp lệ",
-			400,
-			"startDate"
-		);
 	if (!endDate)
 		return sendError(res, "Ngày kết thúc không được để trống", 400, "endDate");
-	if (validate({ endDate }, endDateConstraint))
-		return sendError(
-			res,
-			"Ngày kết thúc phải là một ngày hợp lệ",
-			400,
-			"endDate"
-		);
 	if (!value && value !== 0)
 		return sendError(res, "Giá trị không được để trống", 400, "value");
 	if (validate({ value }, valueConstraint))

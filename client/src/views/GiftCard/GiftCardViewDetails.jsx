@@ -9,7 +9,7 @@ import Loading from "../../components/Loading";
 import Modals from "../../components/Modals";
 import { selectAuth } from "../../redux/slice/auth";
 import { formatDateTime } from "../../utils/constants";
-import { axiosConfig } from "../../utils/helpers";
+import { axiosConfig, formatPrice } from "../../utils/helpers";
 
 const GiftCardViewDetails = () => {
 	// Get id from params
@@ -140,7 +140,11 @@ const GiftCardViewDetails = () => {
 					<tr>
 						<th>Giá trị</th>
 						<td>
-							{data?.value ? `${data?.value} VND` : <span>Chưa cập nhật</span>}
+							{data?.value ? (
+								`${formatPrice(data?.value)}`
+							) : (
+								<span>Chưa cập nhật</span>
+							)}
 						</td>
 					</tr>
 					<tr>

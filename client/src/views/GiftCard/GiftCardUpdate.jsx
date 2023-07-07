@@ -166,7 +166,7 @@ const GiftCardUpdate = () => {
 				rules={[
 					{
 						required: true,
-						message: "Expiration date can't be blank",
+						message: "Ngày hết hạn không được để trống",
 					},
 				]}
 			>
