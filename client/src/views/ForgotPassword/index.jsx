@@ -75,15 +75,15 @@ const ForgotPassword = () => {
 					<Input placeholder="Email" />
 				</Form.Item>
 
-				<br />
-
 				<Form.Item>
 					<p>
 						Bạn đã có tài khoản?{" "}
 						<Link to="/sign-in" className="cursor-pointer text-green-700">
 							<u>Đăng nhập</u>
 						</Link>{" "}
-						- Người dùng mới?{" "}
+					</p>
+					<p>
+						Người dùng mới?{" "}
 						<Link to="/sign-up" className="cursor-pointer text-green-700">
 							<u>Tạo tài khoản</u>
 						</Link>
@@ -91,7 +91,7 @@ const ForgotPassword = () => {
 				</Form.Item>
 
 				<Form.Item>
-					<Tooltip title="Gửi mật khẩu mới">
+					<Tooltip title="Tạo mật khẩu mới">
 						<Button
 							type="primary"
 							htmlType="submit"
@@ -101,7 +101,7 @@ const ForgotPassword = () => {
 							{isLoading && (
 								<AiOutlineLoading3Quarters className="animate-spin" />
 							)}
-							<span>Gửi mật khẩu mới</span>
+							<span>Tạo mật khẩu mới</span>
 						</Button>
 					</Tooltip>
 				</Form.Item>

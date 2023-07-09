@@ -5,6 +5,7 @@ import {
 	login,
 	logout,
 	register,
+	verifyEmail,
 } from "../controllers/auth.js";
 import verifyToken from "../middleware/verifyToken.js";
 
@@ -14,6 +15,11 @@ const upload = multer({ storage });
 
 // Config router
 const router = express.Router();
+
+// @route POST api/auth/verify-email
+// @desc Verify email
+// @access Public
+router.post("/verify-email", verifyEmail);
 
 // @route POST api/auth/register
 // @desc Create a new user

@@ -131,7 +131,7 @@ const SignIn = () => {
 				<Form.Item className="cursor-pointer">
 					<Link to="/forgot-password">
 						<i>
-							<u>Quên mật khẩu của bạn?</u>
+							<u>Quên mật khẩu?</u>
 						</i>
 					</Link>
 				</Form.Item>
